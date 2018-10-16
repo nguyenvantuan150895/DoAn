@@ -64,10 +64,11 @@ module.exports.delete = (id) => {
 module.exports.checkExist = (newUrl) => {
     return new Promise((resolve, reject) => {
         shorten.find({url : newUrl},(err, result) => {
-            if(err) reject(err);
-            else {
-                resolve(result);
-                console.log("result check exist:", result.length);
+            let len = result.length;
+            if(len > 0) {
+                resolve(true);
+            } else {
+                resolve(false);
             }
         })
     })

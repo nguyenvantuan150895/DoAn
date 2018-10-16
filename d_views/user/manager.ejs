@@ -58,7 +58,7 @@
                                     'success'
                                 ).then((result) => {
                                     if(result.value) {
-                                        window.location = "/manager/" + customer.last_page;
+                                        window.location = "/user/manager/" + customer.last_page;
                                     }
                                 })
 
@@ -105,12 +105,14 @@
                     if (result.value) {
                         // call ajax here when click confirm
                         let id = $(this).attr('id_e');
-                        console.log("id click:", $(this).attr('md5_e'));
-                        let random = $(this).attr('random_e');
-                        let md5 = $(this).attr('md5_e');
+                        //console.log("id click:", $(this).attr('md5_e'));
+                        //let random = $(this).attr('random_e');
+                        //let md5 = $(this).attr('md5_e');
                         let oldUrl = $("#oldUrle").val();
                         let newUrl = $("#newUrle").val();
-                        let object_edit = {id:id, random: random, md5: md5, oldUrl : oldUrl, newUrl : newUrl};
+                        let urlPreEdit = $(this).attr('newUrl_e');
+                        let idShortUrl = $(this).attr('idShortUrl');
+                        let object_edit = {id:id, oldUrl : oldUrl, newUrl : newUrl, idShortUrl: idShortUrl, urlPreEdit: urlPreEdit};
                         $.post("/user/editLink", object_edit)
                         .done(function(customer){
                             if(customer.state == "ok"){
@@ -222,7 +224,7 @@
                             <td><a href='<%= url[i].newUrl%>' title ="<%=url[i].newUrl%>" class = "clickUrl" target="_blank"><%= url[i].newUrl%></a></td>
                             <td><%=url[i].totalClick%></td>
                             <td><%=url[i].timeCreate%></td>
-                            <td><a class = "btn idEdit" id_e = "<%=url[i].id%>" random_e = "<%=url[i].random%>" md5_e = "<%=url[i].md5%>" oldUrl_e = "<%=url[i].oldUrl%>" newUrl_e = "<%=url[i].newUrl%>" user = "<%=url[i].user%>"
+                            <td><a class = "btn idEdit" id_e = "<%=url[i].id%>"  oldUrl_e = "<%=url[i].oldUrl%>" newUrl_e = "<%=url[i].newUrl%>" user = "<%=url[i].user%>" idShortUrl = "<%=url[i].idShortUrl%>"
                                 > <img style = "width: 20px; height: 20px"src="/iconUpdateLink.jpeg" alt="" title="Edit"></a></td> 
                             <td><a  class = "my_link" href="/user/delete/<%=url[i].id %>" onclick="return confirm('Are you sure you want to delete?');" title="Delete"><img style = "width: 25px; height: 25px" src="/trash.png" alt=""></a></td> 
                         </tr>     

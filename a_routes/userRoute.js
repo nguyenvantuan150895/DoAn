@@ -14,10 +14,11 @@ router.post('/addLink', userControll.addLink);
 router.get('/manager/:page', userControll.manager);
 router.get('/delete/:id', userControll.delete);
 router.post('/createLink', userControll.userCreateLink);
+router.post('/editLink', userControll.userEditLink);
 // router.post('/manager/add')
 // router.get('/logout', userControll.userLogout);
 // router.post('/createLink', userControll.userCreateLink);
-// router.post('/editLink', userControll.userEditLink);
+
 
 
 //export
