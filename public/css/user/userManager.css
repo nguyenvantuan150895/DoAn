@@ -1,0 +1,52 @@
+h1{
+    margin-left: 20px;
+    font-family: 'Dancing Script';
+    font-size: 50px;
+    }
+
+    .inout{
+        float: right;
+        margin-top: -70px;
+    }
+    .inout > a{
+        text-decoration: none;
+        margin-right: 20px;
+        color: black;
+    }
+    .shorten{
+        margin-top: 20px;
+        width: 80%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .result{
+        padding-top: 50px;
+        width: 80%;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .btn_coppy{
+        margin-left: -36px;
+        padding-top: 8px;
+        margin-top: 24px;
+    }
+    .head1{
+    height: 100px;
+    }
+    .content2{
+    height: 120px;
+    }
+    .table1{
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-bottom: 100px;
+    }
+    th{
+    background-color:#ededed;
+    }
+    td{
+    color: #1f71c5;
+    }
+    #stt{
+    color: black;
+    }

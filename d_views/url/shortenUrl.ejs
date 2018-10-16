@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Gloria+Hallelujah" rel="stylesheet">
+    <title>Shorten Url</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="icon" type="image/png" href="/iconLogo.jpeg"/>
+    <!-- import library click copy -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
+    <!-- end import -->
+    <!-- Call ajax -->
+    <script src="/js/url/ajaxShortenUrl.js"></script>
+    <!-- end call ajax -->
+    <script>
+        $(function(){
+            new Clipboard('.copy-text');
+        });
+    </script>
+   
+    <style>
+        h1{
+            margin-left: 20px;
+            font-family: 'Dancing Script';
+            font-size: 50px;
+        }
+        .inout{
+            float: right;
+            margin-top: -60px;
+        }
+        .inout > a{
+            text-decoration: none;
+            margin-right: 20px;
+            color: black;
+        }
+        .shorten{
+            margin-top: 20px;
+            width: 80%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+        .result{
+            padding-top: 100px;
+            width: 80%;
+            margin-right: auto;
+            margin-left: auto;
+        }
+       .btn_coppy{
+            margin-left: -36px;
+            padding-top: 8px;
+            margin-top: 24px;
+       }
+       .mentor{
+           width:100%;
+           height: 20px;
+       }
+    </style>
+
+</head>
+<body>
+    <div class="content">
+        <div class ="mentor">
+        </div>
+        <div class="head1">
+            <h1>Shorten url</h1>
+            <div class="inout">
+                <a href="user/login"><b>LOGIN</b>  </a>
+                <a href="user/signup"><b>SIGN UP</b></a>
+            </div>
+        </div>
+        <div class="content2">
+            <form id= "inputOldUrl" autocomplete="off"> 
+                <div class="shorten">
+                    <div class="col-md-11">
+                        <input type="text" class="form-control" id="idOldUrl" placeholder="Paste a link to shorten it..." name="url">
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" class="btn btn-default" style = "margin-left: -36px">Go</button>
+                    </div> 
+                </div>
+                
+            </form>  
+            <div class="result">
+                <div class="col-md-9">
+                    <label for="" class = "lable_short">Short link</label>
+                    <input type="text" class="form-control" id="idNewUrl" placeholder="" name="url" readonly>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-default btn_coppy copy-text" data-clipboard-target="#idNewUrl" >Coppy</button>
+                </div> 
+            </div>
+             
+        </div>  
+    </div>   
+        
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Login User</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Gloria+Hallelujah" rel="stylesheet">
+  <!-- <script src="/js/ajaxUserLogin1.js"></script> -->
+  <link rel="icon" type="image/png" href="/iconLogo.jpeg"/>
+ <script>
+	 $( document ).ready(function() {
+	
+	// SUBMIT FORM
+    $("#customerForm").submit(function(event) {
+		// Prevent the form from submitting via the browser.
+		event.preventDefault();
+		ajaxPost();
+	});
+    
+    function ajaxPost(){
+    	
+    	// PREPARE FORM DATA
+    	var formData = {
+    		username : $("#username").val(),
+    		password :  $("#password").val()
+    	}
+    	
+    	// DO POST
+    	$.ajax({
+			type : "POST",
+			contentType : "application/json",
+			url : "/user/login",
+			data : JSON.stringify(formData),
+			dataType : 'json',
+			success : function(customer) {
+				if(customer.state == "ok"){
+					window.location = "/user/manager/1";
+					//alert("success!");
+				} else if (customer.state == "fail") {
+                    $("#postResultDiv").show();
+                    
+                }
+				
+				// $("#input1").val(customer.firstname);
+				// $("#input2").val(customer.lastname);
+			},
+			error : function(e) {
+				alert("Error!")
+				console.log("ERROR: ", e);
+			}
+		});
+    	
+    	// Reset FormData after Posting
+    	resetData();
+
+    }
+    
+    function resetData(){
+    	$("#firstname").val("");
+    	$("#lastname").val("");
+    }
+})
+ </script> 
+</head>
+
+<body> 
+<div class="container" style ="padding-top: 70px; padding-bottom: 40px; background-color: #d2d2d2"> 
+	<div class="col-md-4">
+		<h1 style = "font-family: 'Dancing Script'">Wellcome rutgon.ml</h1>
+		<br>
+		<br>
+		<div>		
+			<form id="customerForm">
+			<div class="form-group">
+				<label for="firstname">UserName:</label>
+				<input type="text" class="form-control" id="username" placeholder="Enter Username"/>
+			</div>
+			<div class="form-group">
+				<label for="lastname">Password:</label>
+				<input type="password" class="form-control" id="password" placeholder="Enter Password"/>
+			</div>
+			
+			<div id="postResultDiv" style ="display: none">
+				<p style ="color:red">Invalid Username or Password. Try again!</p>
+			</div>
+			<br>
+			<button type="submit" class="btn btn-primary">LogIn</button>
+			</form>
+		</div>
+		<br>
+		<div>
+			<span >
+				Don’t have an account?
+			</span>
+
+			<a class="txt2" href="/user/signup">
+				Sign Up
+			</a>
+		</div>
+		<br>
+	</div>
+	<div class ="col-md-1"> </div>
+	<!-- <div class="col-md-7" style ="background-image: url(/ows.png); height: 500px; background-repeat: no-repeat"> -->
+		
+	</div>	
+</div>
+</body>
+</html>

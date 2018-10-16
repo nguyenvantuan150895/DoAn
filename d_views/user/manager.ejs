@@ -1,0 +1,274 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Gloria+Hallelujah" rel="stylesheet">
+    <title>Shorten Url</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="/js/user/ajaxAddLink.js"></script>
+    <link rel="stylesheet" href="/css/user/userManager.css">
+      <!-- import library click copy -->
+      <link rel="icon" type="image/png" href="/iconLogo.jpeg"/>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
+      <!-- end import -->
+
+    <!-- import  sweetalert-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel='stylesheet' href='/css/user/sweetalert2.min.css'>
+    <script src='/js/user/sweetalert2.all.min.js'></script>
+    <!-- end import -->
+
+  
+      <script>
+        $(function(){
+            new Clipboard('.copy-text');
+        });
+    </script>
+<!-- ####################################################################################################### -->
+      <script>
+        $(function(){
+            let call = () => {
+                const {value: formValues} =  swal({
+                title: 'Create your own link',
+                html:
+                    '<label for="">Url Original</label>' +
+                    '<input id="oldUrl" class="swal2-input" placeholder = "Enter Url nedd to shorten" >' +
+                    '<label for="">Url Shorten</label>' +
+                    '<input id="newUrl" class="swal2-input" value="localhost:3000/">' +
+                    '<p style = "display: none; color: red" id="idErr" >Url shorten invalid!</p>',
+                    
+                focusConfirm: false,
+                showCancelButton: true,
+                }).then((result) => {
+                    if (result.value) {
+                        // call ajax here when click confirm
+                        let oldUrl = $("#oldUrl").val();
+                        let newUrl = $("#newUrl").val();
+                        $.post("/user/createLink", {oldUrl: oldUrl, newUrl: newUrl})
+                        .done(function(customer){
+                            if(customer.state == "ok"){
+                                swal(
+                                    'successfully created',
+                                    'success'
+                                ).then((result) => {
+                                    if(result.value) {
+                                        window.location = "/manager/" + customer.last_page;
+                                    }
+                                })
+
+                            } else if(customer.state == "fail"){
+                                swal(
+                                    'Invalid Url Shorten',
+                                    'example: localhost:3000/balabala',
+                                    'error'
+                                ).then((result) => {
+                                    if(result.value) {
+                                        call();
+                                    }
+                                })
+                            }
+                        })
+                    } else if (result.dismiss === swal.DismissReason.cancel ) {
+                        //do sth when cancle
+                    }
+                })
+            }
+
+            $("#btnCreate").click(() => {
+                call();
+            })
+        });     
+      </script>
+<!-- ####################################################################################################### -->
+    <script>
+        $(function() {
+            //handle click edit button
+            
+            $(".idEdit").click( function() {
+                let call = () => {
+                const {value: formValues} =  swal({
+                title: 'Edit your own link',
+                html:
+                    '<label for="">Url Original</label>' +
+                    '<input id="oldUrle" class="swal2-input" readonly >' +
+                    '<label for="">Url Shorten</label>' +
+                    '<input id="newUrle" class="swal2-input">',  
+                focusConfirm: false,
+                showCancelButton: true,
+                }).then((result) => {
+                    if (result.value) {
+                        // call ajax here when click confirm
+                        let id = $(this).attr('id_e');
+                        console.log("id click:", $(this).attr('md5_e'));
+                        let random = $(this).attr('random_e');
+                        let md5 = $(this).attr('md5_e');
+                        let oldUrl = $("#oldUrle").val();
+                        let newUrl = $("#newUrle").val();
+                        let object_edit = {id:id, random: random, md5: md5, oldUrl : oldUrl, newUrl : newUrl};
+                        $.post("/user/editLink", object_edit)
+                        .done(function(customer){
+                            if(customer.state == "ok"){
+                                swal(
+                                    'successfully created',
+                                    'success'
+                                ).then((result) => {
+                                    if(result.value) {
+                                        window.location.reload(true);
+                                    }
+                                })
+
+                            } else if(customer.state == "fail"){
+                                swal(
+                                    'Invalid Url Shorten',
+                                    'url already exists or invalid',
+                                    'error'
+                                ).then((result) => {
+                                    if(result.value) {
+                                        call();
+                                        $("#oldUrle").val(oldUrle);
+                                        $("#newUrle").val(newUrle);
+                                    }
+                                })
+                            }
+                        })
+                    } else if (result.dismiss === swal.DismissReason.cancel ) {
+                        //do sth when cancle
+                    }
+                })
+            }//end call function
+                call();
+                let oldUrle = $(this).attr('oldUrl_e');
+                let newUrle = $(this).attr('newUrl_e');
+                $("#oldUrle").val(oldUrle);
+                $("#newUrle").val(newUrle);
+
+            }) 
+        })
+    </script>
+<!--##################################################################################################### -->
+<script>
+    $(function(){
+        $("#clickUrl").click(function(){
+            window.location.reload(true);
+        })
+    })
+</script>
+
+</head>
+<body>
+    <div class="content">
+        <div class="head1">
+            <h1>Shorten url</h1>
+            <div class="inout">
+                <img style = "width: 50px; height: 50px; margin-top: -7px" src="/user.png" alt="">
+                <h4 style = "font-family: Dancing Script; padding-right: 20px; font-weight: bold"><%=user%></h4>
+                <a href="/user/logout" style="color: blue"><b>LOG OUT</b>  </a>
+            </div>
+        </div>
+        <div class="content2">
+            <form id="inputOldUrl" autocomplete="off"> 
+                <div class="shorten">
+                    <div class="col-md-11">
+                        <input type="text" class="form-control" id="idOldUrl" placeholder="Paste a link to shorten it..." name="url">
+                    </div>
+                    <div class="col-md-1">
+                        <button type="submit" class="btn btn-default" style = "margin-left: -36px">Go</button>
+                    </div> 
+                </div> 
+            </form>  
+            <div class="result">
+                <div class="col-md-8">
+                    <label for="" class = "lable_short">Short link</label>
+                    <input type="text" class="form-control" id="idNewUrl" placeholder="" name="url" readonly>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-default btn_coppy copy-text" data-clipboard-target="#idNewUrl" >Coppy</button>
+                </div> 
+                <div class="col-md-2">
+                    <button type="submit" class="btn" id="btnCreate" style ="margin-left: -55px; background-color: #7490dc; color: white; margin-top: 24px;" >Create your own link </button>
+                </div>
+            </div>  
+        </div>  
+        <h2 style = "font-family: Dancing Script; margin-left: 20px">History</h2>
+        <!-- <p><%=url%></p> -->
+        <!-- TABLE -->
+        <div class="table1">
+                <table id="paging" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th >STT</th>
+                            <th>Url Original </th>
+                            <th>Url Shorten</th>
+                            <th>Total click</th>
+                            <th>Time Create</th>
+                            <th colspan="2">Tool</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% for (var i = 0; i < url.length ;  i++) { %>
+                            <tr>
+                            <td id = "stt"><%= ((i+1) + (page-1)*5) %></td>
+                            <%if((url[i].oldUrl).length > 50){ %>
+                                <td><a href='<%= url[i].oldUrl %>' title="<%= url[i].oldUrl %>"><%= (url[i].oldUrl).slice(0,50) +"..."%></a></td>
+                            <% } else { %>
+                                <td><a href='<%= url[i].oldUrl %>' title="<%= url[i].oldUrl %>"><%= url[i].oldUrl%></a></td>
+                            <% } %>
+                            <td><a href='<%= url[i].newUrl%>' title ="<%=url[i].newUrl%>" class = "clickUrl" target="_blank"><%= url[i].newUrl%></a></td>
+                            <td><%=url[i].totalClick%></td>
+                            <td><%=url[i].timeCreate%></td>
+                            <td><a class = "btn idEdit" id_e = "<%=url[i].id%>" random_e = "<%=url[i].random%>" md5_e = "<%=url[i].md5%>" oldUrl_e = "<%=url[i].oldUrl%>" newUrl_e = "<%=url[i].newUrl%>" user = "<%=url[i].user%>"
+                                > <img style = "width: 20px; height: 20px"src="/iconUpdateLink.jpeg" alt="" title="Edit"></a></td> 
+                            <td><a  class = "my_link" href="/user/delete/<%=url[i].id %>" onclick="return confirm('Are you sure you want to delete?');" title="Delete"><img style = "width: 25px; height: 25px" src="/trash.png" alt=""></a></td> 
+                        </tr>     
+                        <% } %>
+                
+                    </tbody>
+             </table>
+             <div class="container1" style = "float: right">
+                    <% var pages  = Math.ceil(count/5)%>
+                    <% if (pages > 0) { %>
+                      <ul class="pagination text-center">
+                          <% if (page == 1) { %>
+                              <li class="disabled"><a>Previous</a></li>
+                          <% } else { %>
+                              <li><a href="/user/manager/<%=page-1%>">Previous</a></li>
+                          <% } %>
+                          <% var j = (Number(page) > 4 ? Number(page) - 3 : 1) %>
+                          <% if (j !== 1) { %>
+                              <li class="disabled"><a>...</a></li>
+                          <% } %>
+                          <% for (; j <= (Number(page) + 3) && j <= pages; j++) { %>
+                              <% if (j == page) { %>
+                                  <li class="active"><a><%= j %></a></li>
+                              <% } else { %>
+                                  <li><a href="/user/manager/<%= j %>"><%= j %></a></li>
+                              <% } %>
+                              <% if (j == Number(page) + 3 && j < pages) { %>
+                                  <li class="disabled"><a>...</a></li>
+                              <% } %>
+                          <% } %>
+                          <% if (page == pages) { %>
+                              <li class="disabled"><a>Next</a></li>
+                          <% } else { %>
+                            <li><a href="/user/manager/<%=(Number(page)+1)%>">Next</a></li>
+                          <% } %>
+                      </ul>
+                    <% } %>
+                    </div>
+    
+                  <p style = "font-weight: lighter;margin-top: 26px;">Showing <%= (1 + (page-1)*5) %> to <%= (url.length + (page-1)*5) %> of  <%=count%>  entries</p>
+                  <b>Page current: <%=page%></b>
+                </div>
+        </div>
+    </div>           
+
+
+ 
+</body>
+</html>
