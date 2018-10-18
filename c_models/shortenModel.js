@@ -62,8 +62,10 @@ module.exports.delete = (id) => {
 
 //check Exist url shorten
 module.exports.checkExist = (newUrl) => {
+            //console.log("url check Exist:", newUrl);
     return new Promise((resolve, reject) => {
         shorten.find({url : newUrl},(err, result) => {
+                //console.log("Result checkExist model:", result);
             let len = result.length;
             if(len > 0) {
                 resolve(true);

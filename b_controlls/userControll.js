@@ -3,7 +3,7 @@ const Url = require('../c_models/urlModel');
 const Shorten = require('../c_models/shortenModel');
 const Campaign = require('../c_models/campaignModel');
 const seedUrl = require('../public/modul/seedUrl');
-const md5 = require('md5');
+//const md5 = require('md5');
 
 
 let totalRecord = 0;

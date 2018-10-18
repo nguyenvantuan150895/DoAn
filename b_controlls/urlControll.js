@@ -22,19 +22,19 @@ exports.shortUrl_post = async (req, res) => {
         let ob_shortUrl = await shortenModel.save({url: shortUrl});
         let object_url = {url:req.body.urlOrigin , short_urls : [ob_shortUrl.id]};
         let result = await urlModel.save(object_url);
-        if(1) {// if req.session.user , gs : = user1
-            //get id_user by user 
-            let id_user = await userModel.getIdByUser('user1');//req.session.user
-            let checkUser = await campaignModel.checkUserExist(id_user);
-            //console.log("id_user:", id_user);
-            //console.log("checkUser:", checkUser);
-            if(checkUser) {
-                await campaignModel.update(id_user, result.id);// result.id = id_url
-            } else {
-                let ob_campaign = {id_user: id_user, id_urls :[result.id]};
-                await campaignModel.save(ob_campaign);
-            }
-        }
+        // if(req.session.user) {// if req.session.user , gs : = user1
+        //     //get id_user by user 
+        //     let id_user = await userModel.getIdByUser(req.session.user);//req.session.user
+        //     let checkUser = await campaignModel.checkUserExist(id_user);
+        //     //console.log("id_user:", id_user);
+        //     //console.log("checkUser:", checkUser);
+        //     if(checkUser) {
+        //         await campaignModel.update(id_user, result.id);// result.id = id_url
+        //     } else {
+        //         let ob_campaign = {id_user: id_user, id_urls :[result.id]};
+        //         await campaignModel.save(ob_campaign);
+        //     }
+        // }
         if(result) data.urlShort = shortUrl;
         res.send(data);
     }catch(e) {

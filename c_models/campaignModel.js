@@ -5,7 +5,7 @@ mongoose.connect('mongodb://localhost/mydata', { useNewUrlParser: true });
 const campaignSchema = new mongoose.Schema({
     id_user: {type: String, default: null},
     id_urls: {type: Array, default : []},
-    name: {type: String, default: null},
+    name: {type: String, default: null, unique: true},
     start_time:{type: String, default: new Date()},
     end_time: {type: String, default: null}
 })
@@ -58,6 +58,15 @@ module.exports.delete = (id_user, id_url) => {
         campaign.update({}, {$pull:{ id_urls: id_url}},{ multi: true }, (err, result) => {
             if(err) reject(err);
             else resolve(result);
+        })
+    })
+}
+
+module.exports.checkNameExist = (name) => {
+    return new Promise((resolve, reject) => {
+        campaign.find({name: name}, (err, result) => {
+            if (result.length > 0 ) resolve(true);
+            else resolve(false);
         })
     })
 }

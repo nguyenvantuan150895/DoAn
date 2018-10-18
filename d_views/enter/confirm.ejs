@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Confirm Campaign</title>
+  <meta charset="utf-8">
+  <link rel="icon" type="image/png" href="/iconLogo.jpeg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Gloria+Hallelujah" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <!-- import date picker -->
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <!-- end date picker -->
+<!-- js date picker -->
+<script>
+$(document).ready(function() {
+    $(".datepicker").datepicker();
+    $('.fa-calendar').click(function() {
+    $("#datepicker").focus();
+    });
+});
+</script>
+<!-- js date picker -->
+<style>
+.group:focus{
+    outline: none;
+}
+.group {
+    border: none;
+    background:none;
+    border-bottom:1px solid gray;
+    margin-bottom: 10px;
+}
+</style>
+<script>
+$(function() {
+	$("#save").click(() => {
+        let name = $("#idname").val();
+        let oldUrl = $("#idoldUrl").val();
+        let email = $("#idemail").val();
+        let sms = $("#idsms").val();
+        let other = $("#idother").val();
+        let start = $("#idstart").val();
+        let end = $("#idend").val();
+        let fbArr = $('.fb').map(function() {
+            return this.value;
+        }).get();
+        let groupArr = $('.group').map(function() {
+            return this.value;
+        }).get();
+        let ob_fb = {};
+        //for( let j = 0; fbArr.le)
+        let ob_data = {name: name, oldUrl: oldUrl, email: email, sms: sms, other: other, fbArr: fbArr, groupArr: groupArr, start: start, end: end};
+        
+        $.post("/enterprise/confirm", ob_data)
+        .done(function(customer){
+            if(customer.state == "ok"){
+              alert("Success!");
+            } else if(customer.state == "fail"){
+                if(customer.err_campaign)alert("Name campaign already  exists!");
+                else if(customer.err_dup) alert("Url shorten must not be duplicate!");
+                else if(customer.err_format) alert ("Url shorten wrong format!");
+                else if(customer.err_exist)alert("Url shorten already exists!");
+            }
+        })
+	
+    })
+})
+</script>
+
+</head>
+
+<body> 
+<div class="container" style ="padding-top: 70px; padding-bottom: 40px; background-color: #d2d2d2"> 
+	<div class="col-md-4">
+		<h1 style = "font-family: 'Dancing Script'; color: green">Confirm Campaign</h1>
+		<br>
+		<br>
+		<div>
+			
+				<div class="form-group">
+					<label for="firstname">Name Campaign:</label>
+					<input type="text" class="form-control" id="idname" value= "<%=name%>" name = "name"/>
+				</div>
+				<div class="form-group">
+					<label >Url Original:</label>
+					<input type="text" class="form-control" id="idoldUrl" value="<%=oldUrl%>" name ="oldUrl"/>
+				</div>
+				<div class="form-group">
+                    <label>Url for email:</label>
+                    <input type="text" class="form-control" id="idemail" value= "<%=email%>" name = "email"/>
+                </div>
+                <div class="form-group">
+                    <label>Url for sms:</label>
+                    <input type="text" class="form-control" id="idsms" value= "<%=sms%>" name = "sms"/>
+                </div>
+                <div class="form-group">
+                    <label>Url for other:</label>
+                    <input type="text" class="form-control" id="idother" value= "<%=other%>" name = "other"/>
+                </div>
+				<div class="form-group">
+                    <label>Url for facebook:</label>
+                    <% for (let i = 0; i < fb.length ;  i++) { %>
+                        <br>
+                        <input type="text" value = "<%=faGroup[i]%>" class ="group">
+                        <input type="text" class="form-control fb" value= "<%=fb[i]%>" name = "other"/>
+                    <% } %>
+				</div>
+                <!-- date picker -->
+				<div>
+					<label for="datepicker">Start time:</label>
+					<input type="text" name='start' class="form-control col-md-10 datepicker" id="idstart" ng-required="true" value = "<%=start%>" >
+					<br>
+					<label for="datepicker">End time:</label>
+					<input type="text" name='end' class="form-control col-md-10 datepicker" id="idend" ng-required="true" value = "<%=end%>" >
+				</div>
+				<br> <br>
+				<!-- end date picker -->
+                <button type="submit" class="btn btn-primary" id ="save">Save</button>
+                <button type="submit" class="btn btn-primary" id ="submit" style =" margin-left: 30px">Cancel</button>
+			
+		</div>
+	</div>
+	
+</div>
+</body>
+</html>

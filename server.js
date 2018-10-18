@@ -1,6 +1,7 @@
 const userRoute = require('./a_routes/userRoute');
 const adminRoute = require('./a_routes/adminRoute');
 const urlRoute = require('./a_routes/urlRoute');
+const enterRoute = require('./a_routes/enterRoute');
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -54,6 +55,7 @@ app.use(authenSession);
 //path redirections
 
 app.use('/user', userRoute);
+app.use('/enterprise',enterRoute)
 // app.use('/admin', adminRoute);
 app.use('/', urlRoute);
 
@@ -61,7 +63,8 @@ app.use('/', urlRoute);
 // Start server
 app.listen(3000, () => {
     console.log("Server start on port::3000");
-})
+});
+
 
 
  

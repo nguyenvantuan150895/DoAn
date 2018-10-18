@@ -1,4 +1,4 @@
-
+const Shorten = require('../../c_models/shortenModel');
 
 //Algorithm convert base10 to base62
 let convertBase62 = (number) => {
@@ -38,18 +38,58 @@ let createShortUrl = () => {
     return newUrl; 
 }
 
-let createObjectFb = (arr) => {
-    let objectFb = {};
-    for (let i = 0; i < arr.length; i++) {
-        objectFb[arr[i]] = createShortUrl();
-        objectFb[fbClick] = 0;
-        objectFb[timeClick] = [];
+let checkExistForFb = async (arr) => {
+            //console.log("mang nhan duoc:", arr);
+    try{
+        for(let i = 0; i < arr.length ; i++ ) {
+            let check =  await Shorten.checkExist(arr[i]);
+                //console.log("check seed:", check);
+            if(check){
+                return true;
+                break;
+            } 
+        }
+    }catch(e) {
+        console.log(e + "--tuan: checkExistForFb seedUrl");
     }
-    return objectFb;
+    return false;
 }
 
+let checkFormatUrlShort = (url, domain) => {
+    const regex = /^[a-zA-Z0-9]*$/;
+    let len = domain.length; //console.log("LEN:", len);//ex: doamin: rutgon.ml/ => length 10
+    let domainUrl = url.slice(0, len); //console.log("DOMAINUURL:", domainUrl);
+    let path = url.slice(len, url.length);//console.log("PATH:", path);
+    if(domainUrl == domain && path.length > 0 && regex.test(path) ){
+        return true;
+    } else return false;
+}
+
+let checkFormatFbShort = (arrFb, domain) => {
+    for (let j = 0; j < arrFb.length; j++) {
+        if(checkFormatUrlShort(arrFb[j], domain) == false) {
+            return false; break;
+        }
+    }
+    return true;
+}
+let checkDuplicate = (arr) => {
+            //console.log("Mang nhan duoc:", arr);
+    for (let i = 0; i < arr.length -1 ; i++) {
+        for(let j = i+1; j < arr.length; j++ ) {
+            if(arr[i] == arr[j]){
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
 module.exports = {
     createShortUrl,
-    createObjectFb
+    checkExistForFb,
+    checkFormatUrlShort,
+    checkFormatFbShort,
+    checkDuplicate,
+
 }
