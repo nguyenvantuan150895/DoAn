@@ -2,11 +2,17 @@ const urlModel = require('../c_models/urlModel');
 const shortenModel = require('../c_models/shortenModel');
 const userModel = require('../c_models/userModel');
 const seedUrl = require('../public/modul/seedUrl');
+const accessModul = require('../public/modul/accessModul');
 const campaignModel = require('../c_models/campaignModel');
+const Access = require('../c_models/accesslogModel');
 
-const rq = require('request-promise');
-const $ = require('cheerio');
-// const md5 = require('md5');
+const requestIp = require('request-ip');
+const geoip = require('geoip-lite');
+const device = require('express-device');
+const date1 = require('date-and-time');
+const useragent = require('useragent');
+
+
 
 
 //Handle get short URL
@@ -48,6 +54,30 @@ exports.redirectUrlOrigin = async (req, res) => {
     let urlShort =  req.get('host') + req.originalUrl;
     try{
         let urlOrigin = await getUrlOrigin(urlShort);
+        //get device
+        let device = req.device.type;
+        //get ip
+        let ip = req.clientIp; //console.log("Ip:", ip);
+        //get location
+        let geo = geoip.lookup(ip);
+        let location = accessModul.location(geo); //console.log("Location:", location);
+        //get timeClick
+        let time_click = accessModul.date(); //console.log("Time click:", time_click);
+        // get browser
+        const agent = useragent.parse(req.headers['user-agent']);
+        let browser = agent.family; //console.log("Browser:", browser);
+        //get OS
+        let info = agent.toString();
+        if( device == "phone" || device == "table") {
+            let os = accessModul.get0s(info); //console.log("OS:", os);
+        }
+        //get idShorten
+        let id_shorten1 = await shortenModel.getId(urlShort);
+        let id_shorten = id_shorten.id;
+
+        //Save accesslog
+        let ob_access = {ip: ip, time_click: time_click,location: location, device: device, id_shorten:id_shorten, browser:browser, os:os }
+        await Access.save(ob_access);
         res.redirect(urlOrigin);
         
     }catch(e){
@@ -57,31 +87,26 @@ exports.redirectUrlOrigin = async (req, res) => {
 }
 // Get Url_original from shortUrl ( then update total Click urlShort)
 let getUrlOrigin = async (shortUrl) => {
-    let result = await shortenModel.getId(shortUrl);
-    let urlOrigin = await urlModel.getUrlOriginByIdShortUrl(result.id);
-    result.totalClick += 1;
-    let result2 = await shortenModel.update(result.id, result);
-    return new Promise((resolve, reject) => {
-        if(urlOrigin.length != 0) {
-            resolve(urlOrigin);
-        } else {
-            reject("Error getUrlOrigin");
-        }
-    })
+    try{
+        let result = await shortenModel.getId(shortUrl);
+        let urlOrigin = await urlModel.getUrlOriginByIdShortUrl(result.id);
+        // increase totalClick
+        result.totalClick += 1;
+        let result2 = await shortenModel.update(result.id, result);
+
+        return new Promise((resolve, reject) => {
+            if(urlOrigin.length != 0) resolve(urlOrigin); 
+            else  reject("Error getUrlOrigin"); 
+        })
+    }catch(e) {
+        //console.log(e + "--tuan: getUrlOrigin");
+    }
 }
 
 //test
 exports.test = (req, res) => {
-    //res.send("hello");
-    const url = 'https://app.bitly.com/Bia42YWSG9F/bitlinks/2PvUaov';
-
-    rq(url).then(function(html){
-        console.log($('big > a', html).length);
-        console.log($('big > a', html));
-    })
-    .catch(function(err){
-        //handle error
-    });
+    
+    res.render("../d_views/enter/chartjs.ejs");
 }
 
 

@@ -6,12 +6,22 @@ const enterRoute = require('./a_routes/enterRoute');
 const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
+const requestIp = require('request-ip');
+const geoip = require('geoip-lite');
+const device = require('express-device');
+const date1 = require('date-and-time');
+const useragent = require('useragent');
+
 
 
 const app = express();
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.use(requestIp.mw());
+app.use(device.capture());
+
 //set session 
 app.use(session({
     secret: 'keyboard cat',
@@ -19,13 +29,14 @@ app.use(session({
     saveUninitialized: true,
     cookie: { maxAge: 1000*60*60}
 }))
+
 //import file css 
 // app.use(express.static(__dirname + '/public/library/bower_components'));
 // app.use(express.static(__dirname + '/public/library'));
 // app.use(express.static(__dirname + '/public/library/plugins'));
 // app.use(express.static(__dirname + '/public/library/dist'));
-// app.use(express.static(__dirname + '/public/image'));
-// app.use(express.static(__dirname + '/public/library'));
+// app.use(express.static(__dirname + '/public/layout'));
+app.use(express.static(__dirname + '/public/library'));
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/public/images'));
 

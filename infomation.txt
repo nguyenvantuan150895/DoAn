@@ -1,0 +1,235 @@
+Source access: { connection: 'upgrade',
+  host: 'rutgon.ml',
+  'x-real-ip': '123.16.13.228',
+  'x-forwarded-for': '123.16.13.228',
+  'cache-control': 'max-age=0',
+  'upgrade-insecure-requests': '1',
+  'user-agent': 'Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36',
+  accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'accept-encoding': 'gzip, deflate',
+  'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5' }
+Source access: { connection: 'upgrade',
+  host: 'rutgon.ml',
+  'x-real-ip': '64.233.173.161',
+  'x-forwarded-for': '118.70.13.46, 64.233.173.161',
+  accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+  'accept-encoding': 'gzip,deflate',
+  'accept-language': 'vi-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5',
+  forwarded: 'for=118.70.13.46',
+  'save-data': 'on',
+  scheme: 'http',
+  'upgrade-insecure-requests': '1',
+  via: '1.1 Chrome-Compression-Proxy',
+  'user-agent': 'Mozilla/5.0 (Linux; Android 5.1.1; Lenovo A6020a46 Build/LMY47V) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.158 Mobile Safari/537.36' }
+Source access: { connection: 'upgrade',
+  host: 'rutgon.ml',
+  'x-real-ip': '123.16.13.228',
+  'x-forwarded-for': '123.16.13.228',
+  'upgrade-insecure-requests': '1',
+  accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+  'user-agent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1',
+  'accept-language': 'en-us',
+  'cache-control': 'max-age=0',
+  'accept-encoding': 'gzip, deflate' }
+
+
+
+/////////////////////////////////
+su dung: agent.toString(); // Info: Chrome 69.0.3497 / Linux 0.0.0
+
+
+
+
+/// truy cap link qua tin nhan fb : mimax2
+Ip: 171.224.151.175
+Geo:
+ {"range":[2883616768,2883624959],"country":"VN","region":"AS","eu":"0","timezone":"Asia/Ho_Chi_Minh","city":"Hanoi","ll":[21.0333,105.85],"metro":0,"area":100}
+Device: phone
+Info: Facebook 184.0.0 / Android 7.1.1
+Agent1: Facebook
+Agent2: Agent {
+  family: 'Facebook',
+  major: '184',
+  minor: '0',
+  patch: '0',
+  source: 'Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/58.0.3029.21 Mobile Safari/537.36 [FB_IAB/Orca-Android;FBAV/184.0.0.30.93;]' }
+
+// truy cap link qua tin nhan fb: trinh duyet Chrome
+
+
+
+Ip: 123.16.13.228
+Geo:
+ {"range":[2064646144,2064654335],"country":"VN","region":"AS","eu":"0","timezone":"Asia/Ho_Chi_Minh","city":"Hanoi","ll":[21.0333,105.85],"metro":0,"area":1}
+Device: desktop
+Info: Chrome 69.0.3497 / Linux 0.0.0
+Agent1: Chrome
+Agent2: Agent {
+  family: 'Chrome',
+  major: '69',
+  minor: '0',
+  patch: '3497',
+  source: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' }
+
+
+
+
+Ip: 123.16.13.228
+Geo:
+ {"range":[2064646144,2064654335],"country":"VN","region":"AS","eu":"0","timezone":"Asia/Ho_Chi_Minh","city":"Hanoi","ll":[21.0333,105.85],"metro":0,"area":1}
+Device: desktop
+Info: Chrome 69.0.3497 / Windows 10.0.0
+Agent1: Chrome
+Agent2: Agent {
+  family: 'Chrome',
+  major: '69',
+  minor: '0',
+  patch: '3497',
+  source: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' }
+
+
+
+Ip: 123.16.13.228
+Geo:
+ {"range":[2064646144,2064654335],"country":"VN","region":"AS","eu":"0","timezone":"Asia/Ho_Chi_Minh","city":"Hanoi","ll":[21.0333,105.85],"metro":0,"area":1}
+Device: phone
+Info: Chrome Mobile 69.0.3497 / Android 7.1.1
+Agent1: Chrome Mobile
+Agent2: Agent {
+  family: 'Chrome Mobile',
+  major: '69',
+  minor: '0',
+  patch: '3497',
+  source: 'Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36' }
+
+
+
+Ip: 123.16.13.228
+Geo:
+ {"range":[2064646144,2064654335],"country":"VN","region":"AS","eu":"0","timezone":"Asia/Ho_Chi_Minh","city":"Hanoi","ll":[21.0333,105.85],"metro":0,"area":1}
+Device: phone
+Info: UC Browser 12.9.3 / Android 7.1.1
+Agent1: UC Browser
+Agent2: Agent {
+  family: 'UC Browser',
+  major: '12',
+  minor: '9',
+  patch: '3',
+  source: 'Mozilla/5.0 (Linux; U; Android 7.1.1; en-US; MI MAX 2 Build/NMF26F) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/57.0.2987.108 UCBrowser/12.9.3.1144 Mobile Safari/537.36' }
+
+
+
+Ip: 123.16.13.228
+Geo:
+ {"range":[2064646144,2064654335],"country":"VN","region":"AS","eu":"0","timezone":"Asia/Ho_Chi_Minh","city":"Hanoi","ll":[21.0333,105.85],"metro":0,"area":1}
+Device: phone
+Info: Facebook 184.0.0 / Android 7.1.1
+Agent1: Facebook
+Agent2: Agent {
+  family: 'Facebook',
+  major: '184',
+  minor: '0',
+  patch: '0',
+  source: 'Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/58.0.3029.21 Mobile Safari/537.36 [FB_IAB/Orca-Android;FBAV/184.0.0.30.93;]' }
+
+
+
+Ip: 123.16.13.228
+Geo:
+ {"range":[2064646144,2064654335],"country":"VN","region":"AS","eu":"0","timezone":"Asia/Ho_Chi_Minh","city":"Hanoi","ll":[21.0333,105.85],"metro":0,"area":1}
+Device: phone
+Info: Chrome Mobile 69.0.3497 / Android 7.1.1
+Agent1: Chrome Mobile
+Agent2: Agent {
+  family: 'Chrome Mobile',
+  major: '69',
+  minor: '0',
+  patch: '3497',
+  source: 'Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Mobile Safari/537.36' }
+
+
+
+Ip: 123.16.13.228
+Geo:
+ {"range":[2064646144,2064654335],"country":"VN","region":"AS","eu":"0","timezone":"Asia/Ho_Chi_Minh","city":"Hanoi","ll":[21.0333,105.85],"metro":0,"area":1}
+Device: phone
+Info: Facebook 190.0.0 / Android 7.1.1
+Agent1: Facebook
+Agent2: Agent {
+  family: 'Facebook',
+  major: '190',
+  minor: '0',
+  patch: '0',
+  source: 'Mozilla/5.0 (Linux; Android 7.1.1; MI MAX 2 Build/NMF26F; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/58.0.3029.21 Mobile Safari/537.36 [FB_IAB/FB4A;FBAV/190.0.0.34.94;]' }
+Ip: 123.16.13.228
+Geo:
+ {"range":[2064646144,2064654335],"country":"VN","region":"AS","eu":"0","timezone":"Asia/Ho_Chi_Minh","city":"Hanoi","ll":[21.0333,105.85],"metro":0,"area":1}
+Device: phone
+Info: Mobile Safari 11.0.0 / iOS 11.4.1
+Agent1: Mobile Safari
+Agent2: Agent {
+  family: 'Mobile Safari',
+  major: '11',
+  minor: '0',
+  patch: '0',
+  source: 'Mozilla/5.0 (iPhone; CPU iPhone OS 11_4_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1' }
+
+
+
+Ip: 123.16.13.228
+Geo:
+ {"range":[2064646144,2064654335],"country":"VN","region":"AS","eu":"0","timezone":"Asia/Ho_Chi_Minh","city":"Hanoi","ll":[21.0333,105.85],"metro":0,"area":1}
+Device: desktop
+Info: Chrome 69.0.3497 / Mac OS X 10.13.5
+Agent1: Chrome
+Agent2: Agent {
+  family: 'Chrome',
+  major: '69',
+  minor: '0',
+  patch: '3497',
+  source: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36' }
+
+
+Ip: 123.16.13.228
+Geo:
+ {"range":[2064646144,2064654335],"country":"VN","region":"AS","eu":"0","timezone":"Asia/Ho_Chi_Minh","city":"Hanoi","ll":[21.0333,105.85],"metro":0,"area":1}
+Device: desktop
+Info: Safari 11.1.1 / Mac OS X 10.13.5
+Agent1: Safari
+Agent2: Agent {
+  family: 'Safari',
+  major: '11',
+  minor: '1',
+  patch: '1',
+  source: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.1.1 Safari/605.1.15' }
+
+
+
+Ip: 123.16.13.228
+Geo:
+ {"range":[2064646144,2064654335],"country":"VN","region":"AS","eu":"0","timezone":"Asia/Ho_Chi_Minh","city":"Hanoi","ll":[21.0333,105.85],"metro":0,"area":1}
+Device: phone
+Info: Mobile Safari 12.0.0 / iOS 12.0.1
+Agent1: Mobile Safari
+Agent2: Agent {
+  family: 'Mobile Safari',
+  major: '12',
+  minor: '0',
+  patch: '0',
+  source: 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1' }
+
+
+Ip: 123.16.13.228
+Geo:
+ {"range":[2064646144,2064654335],"country":"VN","region":"AS","eu":"0","timezone":"Asia/Ho_Chi_Minh","city":"Hanoi","ll":[21.0333,105.85],"metro":0,"area":1}
+Device: phone
+Info: Facebook 188.0.0 / iOS 12.0.1
+Agent1: Facebook
+Agent2: Agent {
+  family: 'Facebook',
+  major: '188',
+  minor: '0',
+  patch: '0',
+  source: 'Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16A404 [FBAN/MessengerForiOS;FBAV/188.0.0.38.99;FBBV/127861730;FBDV/iPhone9,4;FBMD/iPhone;FBSN/iOS;FBSV/12.0.1;FBSS/3;FBCR/Viettel;FBID/phone;FBLC/vi_VN;FBOP/5]' }
+
+
