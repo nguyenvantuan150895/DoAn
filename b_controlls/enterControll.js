@@ -10,27 +10,32 @@ exports.createCampaign_get = (req, res) => {
     //res.send("Giao dien createCampaign");
     res.render("../d_views/enter/createCampaign.ejs");
 }
+// Create seed Capaign
 exports.createCampaign_post = (req, res) => {
     // console.log("req.body:", req.body['group[]']);
-    //console.log("Req.body:", req.body);
+    console.log("Req.body:", req.body);
     let data = req.body;
     let sms = seedUrl.createShortUrl();
     let email = seedUrl.createShortUrl();
     let other = seedUrl.createShortUrl();
     let fb = [];
             //console.log("dataata length:", data.faceGroup.length);
-    for( let i = 0; i < data.faceGroup.length; i ++) {
+    for( let i = 0; i < data['faGroup[]'].length; i ++) {
        fb.push(seedUrl.createShortUrl());
     }
-    res.render("../d_views/enter/confirm.ejs", {name: data.name, oldUrl: data.oldUrl, faGroup: data.faceGroup,
-    sms: sms, email: email, other: other, fb: fb, start: data.start, end: data.end});
+    let customer = {name: data.name, oldUrl: data.oldUrl, faGroup: data['faGroup[]'],
+    sms: sms, email: email, other: other, fb: fb, start: data.start, end: data.end}
+    res.send(customer);
+    // res.render("../d_views/enter/confirm.ejs", {name: data.name, oldUrl: data.oldUrl, faGroup: data['faGroup[]'],
+    // sms: sms, email: email, other: other, fb: fb, start: data.start, end: data.end});
 }
 
+// Confirm campaign
 exports.confirm_post = async (req, res) => {
     //res.send("Giao dien createCampaign");
     //console.log("Req.body ::::", req.body);
     let customer = {};
-    let domain = "localhost:3000/"
+    let domain = "localhost:3000/";
     let rq = req.body;
     let flagExist = true; //default
     let flagFormat = false; //default
@@ -100,6 +105,48 @@ exports.confirm_post = async (req, res) => {
     return res.send(customer);
 }
 
+// Manager campaign
+exports.manager = (req, res) => {
+    // console.log("user session:", req.session.user);
+    res.render("../d_views/enter/managerCampaign.ejs");
+}
+
+// get Short Link
+exports.getShortLink = (req, res) => {
+    let newUrl = seedUrl.createShortUrl();
+    res.send(newUrl);
+}
+
+//Short Link
+exports.shortLink = async (req, res) => {
+    let customer = {};
+    let domain = "localhost:3000/";
+    // console.log("req.body:", req.body);
+    try{
+        let checkFormat = seedUrl.checkFormatUrlShort(req.body.newUrl, domain);
+        // console.log("Checkfomat:", checkFormat);
+        let checkExist = await Shorten.checkExist(req.body.newUrl);
+        // console.log("CheckExist:", checkExist);
+        if(checkFormat == true && checkExist == false) {
+            await addLink1(req.body.oldUrl, req.body.newUrl, req.session.user);
+            customer.state = "ok";
+        } else {
+            customer.state = "fail";
+            if(checkFormat == false) customer.err_format == true;
+            else customer.err_format == false;
+            if(checkExist == true) customer.err_exist = true;
+            else customer.err_exist = false;
+        } 
+    }catch (e) {
+        console.log(e + "--tuan: shortLink in enterControll");
+    }
+    res.send(customer);
+    
+}
+
+
+
+
 const saveShortUrlCampaign = async (data) => {
         //console.log("Data in saveCampaign:", data);
     try{
@@ -143,3 +190,32 @@ const saveESO = async (shortUrl, resource, group) => {
     }
     
 }
+let addLink1 = async (oldUrl, newUrl, user) => { 
+    // let data = {};
+    // data.urlOrigin = req.body.urlOrigin;
+    // let shortUrl = seedUrl.createShortUrl();
+    try{
+        let ob_shortUrl = await Shorten.save({url: newUrl}); 
+        let object_url = {url:oldUrl , short_urls : [ob_shortUrl.id]};
+        let result = await Url.save(object_url);
+        
+        //get id_user by user 
+        let id_user = await User.getIdByUser(user);//req.session.user
+        /* check campaign: if user already exist then choose campaign with campaign = null, 
+            else create new campaign with campaign = null */ 
+        let checkUser = await Campaign.checkUserExist(id_user);
+        //console.log("id_user:", id_user);
+        //console.log("checkUser:", checkUser);
+        
+        if(checkUser) {
+            let temp = await Campaign.update(id_user, result.id);// result.id = id_url
+            //console.log("updateCampaign:", temp);
+        } else {
+            let ob_campaign = {id_user: id_user, id_urls :[result.id]};
+            await Campaign.save(ob_campaign);
+        }
+        return true;
+    }catch(e) {
+        console.log(e +"--- Tuan: Error addLink1 in EnterControll" );
+    }
+};

@@ -104,10 +104,10 @@ let getUrlOrigin = async (shortUrl) => {
 }
 
 //test
-exports.test = (req, res) => {
+// exports.test = (req, res) => {
     
-    res.render("../d_views/enter/chartjs.ejs");
-}
+//     res.render("../d_views/enter/chartjs.ejs");
+// }
 
 
 

@@ -43,8 +43,6 @@ app.use(express.static(__dirname + '/public/images'));
 
 
 
-
-
 var authenSession = function (req, res, next) {
     url = req.url;
     if(url == "/admin/login" || url == "/user/login" || url == "/user/signup" || url == "/user/logout" || url == "/shortUrl") {
@@ -53,6 +51,9 @@ var authenSession = function (req, res, next) {
         if(req.session.admin) next();
         else res.render("adminEOS.ejs");
     } else if ( url.search("user") == 1) {
+        if(req.session.user) next();
+        else res.render("../d_views/user/userEOS.ejs");
+    } else if ( url.search("enterprise") == 1) {
         if(req.session.user) next();
         else res.render("../d_views/user/userEOS.ejs");
     } else if(url.search("manager") == 1 || url.search("delete") == 1){

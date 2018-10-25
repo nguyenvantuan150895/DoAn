@@ -5,7 +5,7 @@ mongoose.connect('mongodb://localhost/mydata', { useNewUrlParser: true });
 const campaignSchema = new mongoose.Schema({
     id_user: {type: String, default: null},
     id_urls: {type: Array, default : []},
-    name: {type: String, default: null, unique: true},
+    name: {type: String, default: null},
     start_time:{type: String, default: new Date()},
     end_time: {type: String, default: null}
 })
@@ -23,15 +23,15 @@ module.exports.save = (object) => {
 //check id already exists?
 module.exports.checkUserExist = (id_user) => {
     return new Promise ((resolve, reject) => {
-        campaign.find({id_user: id_user}, (err,result) => {
+        campaign.find({id_user: id_user, name: null}, (err,result) => {
             let len = result.length;
-            //console.log("csdl:", result);
+            // console.log("csdl:", result);
             if(len == 0) resolve(false);
             else resolve(true);
         })
-    })
-    
+    }) 
 }
+
 //update
 module.exports.update = (id_user, id_url) => {
     return new Promise((resolve, reject) => {

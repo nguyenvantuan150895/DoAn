@@ -15,11 +15,13 @@ exports.login_post = async (req, res) => {
     let customer ={};
     try {
         let result = await User.authentication(req.body.username, req.body.password);
-        //console.log("result:", result);
+        // console.log("result:", result);
         if(result) {
             customer.state = "ok";
+            customer.role = result.role;
             req.session.user = req.body.username;
             res.send(customer);
+            // console.log("customer:", customer);
         }
     } catch(e) {
         customer.state = "fail";
@@ -36,8 +38,10 @@ exports.signup_post = async (req, res) => {
     let customer = {};
     try{
         let rs = await User.add(req.body);
+        // console.log("Req.body:", req.body);
         if(rs.id) {
             customer.state = "ok";
+            customer.role = req.body.role;
             req.session.user = req.body.username;
         }
         return res.send(customer);
@@ -165,7 +169,7 @@ exports.delete = async (req, res) => {
     res.redirect(path);
 }
 
-//Create Link
+//Create Link custom
 exports.userCreateLink = async (req, res) => {
     const regex = /^[a-zA-Z0-9]*$/;
     let customer = {};
@@ -186,7 +190,7 @@ exports.userCreateLink = async (req, res) => {
                 if(checkExist){
                     customer.state = "fail";
                 } else {
-                    addLink1(oldUrl, newUrl, req.session.user);
+                    await addLink1(oldUrl, newUrl, req.session.user);
                     customer.state = "ok";
                             //console.log("totalRecord:", totalRecord);
                     let last_page = lastPaste((totalRecord + 1), 5);

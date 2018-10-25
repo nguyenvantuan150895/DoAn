@@ -1,3 +1,4 @@
+
 $( document ).ready(function() {
 	
 	// SUBMIT FORM
@@ -6,7 +7,6 @@ $( document ).ready(function() {
 		event.preventDefault();
 		ajaxPost();
 	});
-    
     
     function ajaxPost(){
     	
@@ -25,7 +25,10 @@ $( document ).ready(function() {
 			dataType : 'json',
 			success : function(customer) {
 				if(customer.state == "ok"){
-					window.location = "/manager/1";
+					if(customer.role == "personal") window.location = "/user/manager/1";
+					else if(customer.role == "enterprise") window.location = "/enterprise/manager";
+					
+					//alert("success!");
 				} else if (customer.state == "fail") {
                     $("#postResultDiv").show();
                     

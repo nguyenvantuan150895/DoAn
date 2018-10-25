@@ -1,3 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 
+  <title>Document</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="public/library/jquery.slidereveal.min.js"></script>
+    
+   
+</head>
+<script>
+    $(document).ready(function() {
+      var slider = $('#slider').slideReveal({
+          trigger: $("#trigger"),
+          position: "right",
+          push: false,
+          width: 300,
+          overlay: true
+      });
+    })
+  </script>
+<body>
+    
+    <button id="trigger">Click me</button>
+    <div id='slider' class="slider" style = "height: 300px; background-color: mediumturquoise">
+       hello
+    </div>
+</body>
+</html>
+
+
+
+
+
 <!-- <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,6 +76,10 @@
 </body>
 </html> -->
 
+
+
+
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,32 +128,8 @@
 });
     })
   </script>
-
-<script>
-  $(function(){
-    new Chart(document.getElementById("doughnut-chart"), {
-    type: 'doughnut',
-    data: {
-      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-      datasets: [
-        {
-          label: "Population (millions)",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
-          data: [2478,5267,734,784,433]
-        }
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Predicted world population (millions) in 2050'
-      }
-    }
-});
-  })
-</script>
 </head>
 <body>
     <canvas id="bar-chart-grouped"  height="80vh" width="300vw"></canvas>
 </body>
-</html>
+</html> -->
