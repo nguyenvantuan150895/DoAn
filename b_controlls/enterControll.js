@@ -13,21 +13,30 @@ exports.createCampaign_get = (req, res) => {
 // Create seed Capaign
 exports.createCampaign_post = (req, res) => {
     // console.log("req.body:", req.body['group[]']);
-    console.log("Req.body:", req.body);
+    // console.log("Req.body:", req.body);
     let data = req.body;
     let sms = seedUrl.createShortUrl();
     let email = seedUrl.createShortUrl();
     let other = seedUrl.createShortUrl();
     let fb = [];
+    let len = data.faceGroup.length;
+            // console.log("typeof DATA.FACEGROUP:",typeof data.faceGroup);
+            // console.log("LEN:",len);
             //console.log("dataata length:", data.faceGroup.length);
-    for( let i = 0; i < data['faGroup[]'].length; i ++) {
-       fb.push(seedUrl.createShortUrl());
+    if(typeof data.faceGroup == "object" ){
+        for( let i = 0; i < (data.faceGroup).length; i ++) {
+            fb.push(seedUrl.createShortUrl());
+         }
+    } else if (typeof data.faceGroup == "string"){
+        data.faceGroup = [data.faceGroup];
+        fb.push(seedUrl.createShortUrl());
     }
-    let customer = {name: data.name, oldUrl: data.oldUrl, faGroup: data['faGroup[]'],
+    
+    let customer = {name: data.name, oldUrl: data.oldUrl, faGroup: data.faceGroup,
     sms: sms, email: email, other: other, fb: fb, start: data.start, end: data.end}
-    res.send(customer);
-    // res.render("../d_views/enter/confirm.ejs", {name: data.name, oldUrl: data.oldUrl, faGroup: data['faGroup[]'],
-    // sms: sms, email: email, other: other, fb: fb, start: data.start, end: data.end});
+    // res.send(customer);
+    // console.log("customer:",customer );
+    res.render("../d_views/enter/confirm.ejs", customer);
 }
 
 // Confirm campaign
@@ -46,21 +55,21 @@ exports.confirm_post = async (req, res) => {
      
     try {
         //check exist url
-        let checkEmail = await Shorten.checkExist(rq.email); //console.log("checkEmail:", checkEmail);
-        let checkSms = await Shorten.checkExist(rq.sms);  //console.log("checkSms:", checkSms);
-        let checkOther = await Shorten.checkExist(rq.other);  //console.log("checkother:", checkOther);
-        let checkFb = await seedUrl.checkExistForFb(rq['fbArr[]']);//console.log("checkFb:", checkFb);
+        let checkEmail = await Shorten.checkExist(rq.email); console.log("checkEmail:", checkEmail);
+        let checkSms = await Shorten.checkExist(rq.sms);  console.log("checkSms:", checkSms);
+        let checkOther = await Shorten.checkExist(rq.other);  console.log("checkother:", checkOther);
+        let checkFb = await seedUrl.checkExistForFb(rq['fbArr[]']); console.log("checkFb:", checkFb);
         //check Format
         let eFormat = seedUrl.checkFormatUrlShort(rq.email, domain); //console.log("eFormat:", eFormat);
-        let sFormat = seedUrl.checkFormatUrlShort(rq.sms,domain);
-        let oFormat = seedUrl.checkFormatUrlShort(rq.other,domain);
-        let fbFormat = seedUrl.checkFormatFbShort(rq['fbArr[]'],domain);//console.log("fbFormat:", fbFormat);
+        let sFormat = seedUrl.checkFormatUrlShort(rq.sms,domain); //console.log("sFormat:", sFormat);
+        let oFormat = seedUrl.checkFormatUrlShort(rq.other,domain); //console.log("oFormat:", oFormat);
+        let fbFormat = seedUrl.checkFormatFbShort(rq['fbArr[]'],domain); console.log("fbFormat:", fbFormat);
         
         if(checkEmail == false && checkSms == false && checkOther == false && checkFb == false) flagExist = false;//"ok"
         console.log("flagExist:", flagExist);
-        if(eFormat && sFormat && oFormat && fbFormat ) flagFormat = true; console.log("flagFormat:", flagFormat);
-        flagDup = seedUrl.checkDuplicate(arrCheckDup);  console.log("flagDup:", flagDup);
-        let flagCampaign = await Campaign.checkNameExist(rq.name); console.log("flagCampaign:", flagCampaign);
+        if(eFormat && sFormat && oFormat && fbFormat ) flagFormat = true; //console.log("flagFormat:", flagFormat);
+        flagDup = seedUrl.checkDuplicate(arrCheckDup); // console.log("flagDup:", flagDup);
+        let flagCampaign = await checkNameCamp(rq.name, req.session.user);
                 // console.log("CheckDup:", flagDup);
                 // console.log("CheckExist:", flagExist);
                 // console.log("CheckFormat:",flagFormat);
@@ -146,7 +155,13 @@ exports.shortLink = async (req, res) => {
 
 
 
-
+//check name campaign
+const checkNameCamp = async (nameCampaign, user) => {
+    // console.log("name:", req.body);
+    let id_user = await User.getIdByUser(user);
+    let rs = await Campaign.checkNameCamp(nameCampaign,id_user);
+    return rs;
+}
 const saveShortUrlCampaign = async (data) => {
         //console.log("Data in saveCampaign:", data);
     try{
@@ -168,12 +183,20 @@ const saveShortUrlCampaign = async (data) => {
     
 }
 const saveFb = async (groupArr, fbArr) => {
+    console.log("GROUPARR:",groupArr);
+    console.log("FBARR:",fbArr);
     let arrId = [];
     try{
-        for (let i = 0; i < groupArr.length; i++) {
-            // let ob_fb = {ulr: fbArr[i], group: groupArr[i], resource:"fb"};
-            let id_fb = await saveESO(fbArr[i], "fb", groupArr[i]);
-            arrId.push(id_fb);
+        if(typeof groupArr == "string"){
+            console.log("da vao string");
+            let id_fb = await saveESO(fbArr, "fb", groupArr);
+            arrId.push(id_fb); 
+        } else {
+            for (let i = 0; i < groupArr.length; i++) {
+                // let ob_fb = {ulr: fbArr[i], group: groupArr[i], resource:"fb"};
+                let id_fb = await saveESO(fbArr[i], "fb", groupArr[i]);
+                arrId.push(id_fb);
+            }
         }
         return arrId;
     }catch(e) {
@@ -184,6 +207,7 @@ const saveESO = async (shortUrl, resource, group) => {
     try{
         let result = await Shorten.save({url: shortUrl, resource: resource, group:group});
         //console.log("saveESO:", result);
+        console.log("ketqua saveESO:", result);
         return result.id;
     } catch(e) {
         console.log(e + "--tuan: saveESO")

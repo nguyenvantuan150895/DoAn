@@ -41,18 +41,22 @@ let createShortUrl = () => {
 let checkExistForFb = async (arr) => {
             //console.log("mang nhan duoc:", arr);
     try{
-        for(let i = 0; i < arr.length ; i++ ) {
-            let check =  await Shorten.checkExist(arr[i]);
-                //console.log("check seed:", check);
-            if(check){
-                return true;
-                break;
-            } 
+        if(typeof arr == "string") {
+            return (await Shorten.checkExist(arr));
         }
+        else{
+            for(let i = 0; i < arr.length ; i++ ) {
+                let check =  await Shorten.checkExist(arr[i]);
+                    //console.log("check seed:", check);
+                if(check == false) return false; 
+            }
+            return true;
+        }
+        
     }catch(e) {
         console.log(e + "--tuan: checkExistForFb seedUrl");
     }
-    return false;
+    
 }
 
 let checkFormatUrlShort = (url, domain) => {
@@ -66,12 +70,22 @@ let checkFormatUrlShort = (url, domain) => {
 }
 
 let checkFormatFbShort = (arrFb, domain) => {
-    for (let j = 0; j < arrFb.length; j++) {
-        if(checkFormatUrlShort(arrFb[j], domain) == false) {
-            return false; break;
-        }
+    // console.log("mang nhan duoc:", arrFb);
+    // console.log('TYPEOF:', typeof arrFb);
+    if(typeof arrFb == "string") {
+       return checkFormatUrlShort(arrFb, domain);
     }
-    return true;
+    else {
+        for (let j = 0; j < arrFb.length; j++) {
+            if(checkFormatUrlShort(arrFb[j], domain) == false) {
+                return false;
+            } 
+            // return checkFormatUrlShort(arrFb[j], domain); sai, phai kiem tra het mang moi ket luan
+        }
+        return true;
+    }
+    
+    
 }
 let checkDuplicate = (arr) => {
             //console.log("Mang nhan duoc:", arr);

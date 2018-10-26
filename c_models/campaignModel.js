@@ -62,11 +62,26 @@ module.exports.delete = (id_user, id_url) => {
     })
 }
 
-module.exports.checkNameExist = (name) => {
+// module.exports.checkNameExist = (name) => {
+//     return new Promise((resolve, reject) => {
+//         campaign.find({name: name}, (err, result) => {
+//             if (result.length > 0 ) resolve(true);
+//             else resolve(false);
+//         })
+//     })
+// }
+
+//check unique nameCampaign corresponding username
+module.exports.checkNameCamp = (name, id_user) => {
     return new Promise((resolve, reject) => {
-        campaign.find({name: name}, (err, result) => {
-            if (result.length > 0 ) resolve(true);
-            else resolve(false);
+        campaign.find({name: name,id_user: id_user}, (err, result) => {
+            if(err) reject(err);
+            else{
+                // console.log("id_user:", id_user);
+                // console.log("ketqua:", result);
+                if(result.length > 0) resolve(true);
+                else resolve(false);
+            } 
         })
     })
 }

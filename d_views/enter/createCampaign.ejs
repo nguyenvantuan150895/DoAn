@@ -34,10 +34,44 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- import ajax & js createCampaign -->
   <script src = "/js/enter/ajaxCreateCampaign.js"></script>
+  <!-- import ajaxShort -->
+  <script src= "/js/enter/ajaxShort.js"></script>
   <!-- improt css reateCampaign -->
-  <script src = "/css/enter/createCampaign.css"></script>     
+  <!-- <script src = "/a/css/enter/createCampaign.css "></script>      -->
 </head>
 
+<style>
+    .group:focus{
+        outline: none;
+    }
+    .group {
+        border: none;
+        background:none;
+        border-bottom:1px solid gray;
+        margin-bottom: 10px;
+    }
+</style>
+<style>
+    .slider{
+      height: 300px; 
+      background-color: #222d32; 
+      padding-top: 80px;
+      padding-left: 20px;
+      padding-right: 40px;
+    }
+    #oldUrlShortLink{
+      color: blue;
+      margin-left: -15px;
+      padding-right: 20px;
+    }
+    #newUrlShortLink{
+      color: blue;
+      height: 30px;
+      font-weight: bold;
+      font-style: italic;
+
+    }
+</style>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
 
@@ -181,8 +215,6 @@
             </span>
           </a>
         </li>
-     
-     
         <li><a href="https://adminlte.io/docs"><i class="fa fa-book"></i> <span>Export file excel</span></a></li>
         <li class="header"> <b>SHORTEN LINK</b> </li>
         <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>History</span></a></li>
@@ -197,12 +229,12 @@
      <div id='slider' class="slider" >
         <label for="" style = "color: white">PASTE LONG URL</label>
         <br>
-        <div class="col-md-10"><textarea rows="3" cols="19" id = "textarea"></textarea></div>
-        <div class="col-md-2"> <button style ="height: 68px" class = "btn btn-primary">Go</button></div>
+        <div class="col-md-10"><textarea rows="3" cols="19" id = "oldUrlShortLink"></textarea></div>
+        <div class="col-md-2"> <button style ="height: 68px" class = "btn btn-primary" id = "btnGo">Go</button></div>
         <br> <br><br> <br> <br>
         <label for="" style = "color: white">CUSTOMER SHORT LINK</label> <br> 
-        <input type="text" id = "newUrl" style ="height: 30px;"> <br> <br>
-        <button class = "btn btn-primary">Save</button>
+        <input type="text" id = "newUrlShortLink" autocomplete="off">  <br> <br>
+        <button class = "btn btn-primary" id = "btnSave">Save</button>
     </div>
    
     
@@ -216,13 +248,14 @@
       <!-- Main content -->
     <section class="content">
         <div class="row">
+    
             <div class="col-md-4">
                 <h1 style = "font-family: 'Dancing Script'">Create Campaign</h1>
                 <br>
                 <br>
                 <div>
-                    <!-- <form action="/enterprise/create" method="post" autocomplete="off"> -->
-                    <form>
+                    <form action="/enterprise/create" method="post" autocomplete="off" id = "formSubmit">
+                    <!-- <form> -->
                         <div class="form-group">
                             <label for="firstname">Name Campaign:</label>
                             <input type="text" class="form-control" id="name" placeholder="Enter name campaign" name = "name"/>
@@ -234,10 +267,10 @@
                         <!-- date picker -->
                         <div>
                             <label for="datepicker">Start time:</label>
-                            <input type="text" name='start' class="form-control col-md-10 datepicker" id="datepicker1" ng-required="true" placeholder="MM/DD/YYYY" >
+                            <input type="text" id = "start" name='start' class="form-control col-md-10 datepicker" id="datepicker1" ng-required="true" placeholder="MM/DD/YYYY" >
                             <br>
                             <label for="datepicker">End time:</label>
-                            <input type="text" name='end' class="form-control col-md-10 datepicker" id="datepicker2" ng-required="true" placeholder="MM/DD/YYYY" >
+                            <input type="text" id = "end" name='end' class="form-control col-md-10 datepicker" id="datepicker2" ng-required="true" placeholder="MM/DD/YYYY" >
                         </div>
                         <br> <br>
                         <!-- end date picker -->
