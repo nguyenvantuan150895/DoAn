@@ -1,13 +1,4 @@
 $(function(){
-    //slider (short link)
-    $('#slider').slideReveal({
-        trigger: $("#btnShort"),
-        position: "right",
-        push: false,
-        // width: 300,
-        overlay: true,
-        autoEscape: false,
-    });
 
     //apend group facebook
     $("#btn2").click(function(){
@@ -29,28 +20,28 @@ $(function(){
 
     //compare Date
     let compareDate = (start, end) => {
-        //format : 10/08/2018 => 08/october/2018
-        let day_start = start.slice(3,5);
-        let month_start = start.slice(0,2);
-        let year_start = start.slice(6,10);
+    //format : 10/08/2018 => 08/october/2018
+    let day_start = start.slice(3,5);
+    let month_start = start.slice(0,2);
+    let year_start = start.slice(6,10);
 
-        let day_end = end.slice(3,5);
-        let month_end = end.slice(0,2);
-        let year_end = end.slice(6,10);
-
-        if(year_start <= year_end){
-            if(month_start <= month_end){
-                if(year_start == year_end && month_start == month_end){
-                    if(day_start < day_end){
-                        return true;
-                    } else return false;
-                }
-                else if(day_start <= day_end){
-                    return true;
-                } else return false;
-            } else return false;
-        } else return false;
+    let day_end = end.slice(3,5);
+    let month_end = end.slice(0,2);
+    let year_end = end.slice(6,10);
+    if(year_start == year_end && month_start == month_end && day_start == day_end){
+        return false;
     }
+    if(year_start < year_end) return true;
+    else if(year_start > year_end) return false;
+    else if(year_start == year_end){
+        if(month_start < month_end) return true;
+        else if(month_start > month_end) return false;
+        else if(month_start == month_end){
+            if(day_start < day_end) return true;
+            else if(day_start > day_end) return false;
+        }
+    }
+}
 
     // validate form;
     $("#formSubmit").submit(function(){

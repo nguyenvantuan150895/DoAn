@@ -98,6 +98,58 @@ let checkDuplicate = (arr) => {
     }
     return false;
 }
+let converArrShort = (arrShortUrl) => {
+    let arr_fb = [];
+    let convertShort = {};
+    for(let t = 0; t < arrShortUrl.length; t++) {
+        if(arrShortUrl[t].resource == "email") convertShort.email = arrShortUrl[t];
+        else if(arrShortUrl[t].resource == "sms") convertShort.sms = arrShortUrl[t];
+        else if(arrShortUrl[t].resource == "other") convertShort.other = arrShortUrl[t];
+        else if(arrShortUrl[t].resource == "fb") arr_fb.push(arrShortUrl[t]);
+        // console.log("arrFb:",arr_fb );
+    }
+    let ob_group = uniqueArr(arr_fb);
+    // console.log("ob_group:", ob_group);
+    //console.log("convertShort.email:",convertShort.email );
+
+    convertShort.fb = arr_fb;
+    convertShort.ob_group = ob_group;
+    return convertShort;
+}
+let removeCampaignNull = (arrCampaign) => {
+    let arr = [];
+    for(let i = 0; i < arrCampaign.length; i++){
+        if(arrCampaign[i].name != null){
+            arr.push(arrCampaign[i]);
+        }
+    }
+    return arr;
+}
+//get array shorten url by arrary id shorten from URL
+let getArrShortUrl = async (arr_idShort) => {
+    // console.log("arr nhan duoc :", arr_idShort);
+    let arrShortUrl = [];
+    for(let i = 0; i < arr_idShort.length; i++){
+        let temp = await Shorten.getObUrlShorten(arr_idShort[i]);
+        arrShortUrl.push(temp);
+    }
+    // console.log("arr tra ve:", arrShortUrl);
+    return arrShortUrl;
+}
+// unique Array
+let uniqueArr = (arr) => {
+    let ob_group = {};
+    let arr_unique = [];
+    for (let i = 0; i < arr.length; i++) {
+        if(!arr_unique.includes(arr[i].group)){
+            if(arr[i].group != null){
+                arr_unique.push(arr[i].group);
+                ob_group[arr[i].group] = arr[i];
+            } 
+        }
+    }
+    return ob_group;
+}
 
 module.exports = {
     createShortUrl,
@@ -105,5 +157,7 @@ module.exports = {
     checkFormatUrlShort,
     checkFormatFbShort,
     checkDuplicate,
-
+    converArrShort,
+    removeCampaignNull,
+    getArrShortUrl,
 }

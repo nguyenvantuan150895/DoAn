@@ -8,14 +8,16 @@
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
-<!-- Ionicons -->
-<link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
-<!-- Google Font -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
+  <!-- Google Font -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
+   <!-- Morris charts -->
+   <link rel="stylesheet" href="/bower_components/morris.js/morris.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
@@ -25,79 +27,23 @@
   <!-- Import chart.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Import Morris -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+  <!-- Import Fusion Charts -->
+  <script src = "https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+  <script src = "https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+
+
+
   <!-- import slidereveal -->
   <script src = "/jquery.slidereveal.min.js"></script>
-  <!-- import ajax shortlink -->
+  <!-- import ajax shortlink va js  -->
   <script src = "/js/enter/ajaxShort.js"></script>
+  <!-- import ajax & js managercampaign -->
+  <script src = "/js/enter/managerCampaign.js"></script>
 
- <!-- script slidereveal -->
-<script>
-    $(document).ready(function() {
-      $('#slider').slideReveal({
-        trigger: $("#btnShort"),
-        position: "right",
-        push: false,
-        // width: 300,
-        overlay: true,
-        autoEscape: false,
-      });
-    })
-</script>
-<!-- end script slidereveal -->
-
-<script>
-    $(function(){
-      new Chart(document.getElementById("bar-chart-grouped"), {
-    type: 'bar',
-    data: {
-      labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'],
-      datasets: [
-        {
-          label: "FACEBOOK",
-          backgroundColor: "#3e95cd",
-          data: [28, 48, 40, 19, 86, 27, 90, 28, 48, 40, 19, 86, 27, 90,40, 19, 86, 27, 90, 28, 48,40, 19, 86, 27, 90, 28, 48,31,45]
-        },
-        {
-          label: "EMAIL",
-          backgroundColor: "#8e5ea2",
-          data:  [65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 19, 30]
-        },
-        {
-          label: "SMS ",
-          backgroundColor: "green",
-          data:  [30, 78, 60, 51, 32, 57, 10, 30, 78, 60, 51, 32, 57, 10, 30, 78, 60, 51, 32, 57, 10, 30, 78, 60, 51, 32, 57, 10, 34, 54]
-        },
-        {
-          label: "OTHER",
-          backgroundColor: "red",
-          data:  [10, 30, 12, 40, 10,11, 32, 41, 3, 5, 10, 30, 12, 40, 10,11, 32, 41, 3, 5, 10, 30, 12, 40, 10,11, 32, 41, 3, 5]
-        }
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Time Click(date)'
-      }
-    }
-      });
-  })
-</script>
-
-<!-- script detail -->
-<script> 
-  $(document).ready(function(){
-    $("#mybtn").click(function(){
-      $("#detail").slideToggle("slow");
-      if($("#fa").attr('class') == 'fa fa-angle-double-down') {
-        $("#fa").removeClass("fa fa-angle-double-down").addClass('fa fa-angle-double-up');
-      } else {
-        $("#fa").removeClass("fa fa-angle-double-up").addClass('fa fa-angle-double-down');
-      }
-  });
-});
-</script> 
-<!-- end script detail -->
 
 <style>
     #sticky {
@@ -123,6 +69,7 @@
       outline: 0 !important;
     }
     #detail{
+      padding-top:20px;
       border-top: 1px solid #74c0ec;
       width: 100%;
       height:350px;
@@ -146,8 +93,66 @@
       height: 30px;
       font-weight: bold;
       font-style: italic;
-
     }
+    #listCampaign{
+      /* background-color: red; */
+      /* width: 200px; */
+      /* height: 180px; */
+      border: 1px dotted black;
+      overflow: auto;
+      /* padding-bottom: 20px; */
+      padding-left: 15px;
+    }
+
+    /* width */
+    ::-webkit-scrollbar {
+        width:10px;
+        height: 1px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #2c3b41; 
+    }
+    
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888; 
+        border-radius: 5px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555; 
+    }
+    .infoDetail:focus{
+    outline: none;
+    }
+    .infoDetail{
+      width: 76%; 
+      background: none;
+      border: none;
+      color: yellow;
+      border-bottom: 1px solid #74c0ec;
+      font-weight: bold;
+    }
+    .block{
+      margin-bottom: 15px;
+    }
+    .btn_list:focus{
+      outline: none;
+    }
+    .btn_list{
+      background: none;
+      color: #6595a7;
+      border: none;
+    }
+    .active, .btn_list:hover{
+      color:white;
+    }
+  
+   
+   
 </style>
 
     
@@ -254,10 +259,10 @@
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
+        <li class="header" arrCampaign = "<%= JSON.stringify(campaign) %>" id = "arr_campaign">MAIN NAVIGATION</li>
         
      
-       
+        
         <li class="treeview active">
           <a href="#">
             <i class="fa fa-pie-chart"></i>
@@ -267,13 +272,20 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="chartjs.html"><i class="fa fa-circle-o text-yellow"></i> Campaign 1</a></li>
-            <li><a href="morris.html"><i class="fa fa-circle-o text-green"></i> Campaign 2</a></li>
-            <li><a href="flot.html"><i class="fa fa-circle-o text-green"></i> Campaign 3</a></li>
-            <li><a href="inline.html"><i class="fa fa-circle-o text-green"></i> Campaign 4</a></li>
+            <div id = "listCampaign">
+            <% for (var i = 0; i < campaign.length ;  i++) { %>
+              <% if(i == 0) { %>
+                <li> <button class ="btn_list active" id="id_list<%=i+1%>"><i class="fa fa-circle-o text-orange"></i> <%= campaign[i].name %></button></li>
+                <br>
+              <% } else { %>
+                <li> <button class ="btn_list" id="id_list<%=i+1%>"><i class="fa fa-circle-o text-orange"></i> <%= campaign[i].name %></button></li>
+                <br>
+              <% } %>
+            <% } %>
+            </div>
           </ul>
         </li>
-      
+       
         <li>
           <a href="layout/calendar.html">
             <i class="fa fa-calendar"></i> <span>Calendar</span>
@@ -296,7 +308,54 @@
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
      <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
-     <div id="detail"></div> 
+     <div id="detail">
+      <div class="col-md-6">
+        <div class = block>
+          <label for="" style ="color: white; width:20%" >Name:</label>
+          <input type="text" class = "infoDetail" value= "Campaign Demo" readonly id = "idname">
+        </div>
+        <div class = "block">
+          <label for="" style ="color: white; width:20%">Url Origin:</label>
+          <input type="text" class = "infoDetail" value= "Url Origin" readonly id="idOldUrl"> 
+        </div>
+        <div class = "block">
+          <label for="" style ="color: white; width:20%">Start Time:</label>
+          <input type="text" class = "infoDetail" value= "01/01/2018" readonly id="start"> 
+        </div>
+        <div class = "block">
+          <label for="" style ="color: white; width:20%">End Time:</label>
+          <input type="text" class = "infoDetail" value= "12/31/2018" readonly id ="end"> 
+        </div>
+        <div class = "block">
+          <label for="" style ="color: white; width:20%">Time Create:</label>
+          <input type="text" class = "infoDetail" value= "01/01/2018" readonly id="create"> 
+        </div>     
+    
+      </div>
+      <div class="col-md-6" >
+          <div class = "block">
+            <label for="" style ="color: white; width:20%">Url Email:</label>
+            <input type="text" class = "infoDetail" readonly value= "localhost:3000/email" id="email" >
+          </div>
+          <div class = "block">
+            <label for="" style ="color: white; width:20%">Url SMS:</label>
+            <input type="text" class = "infoDetail" readonly value= "localhost:3000/sms" id="sms">
+          </div>
+          <div class ="block">
+            <label for="" style ="color: white; width:20%">Url Other:</label>
+            <input type="text" class = "infoDetail" readonly value= "localhost:3000/other" id="other">
+          </div>
+          <label for="" style ="color: white">Url Facebook:</label> <br>
+          <% for (let x = 0; x < 1 ;  x++) { %>
+            <div class ="block block1" >
+              <label for="" style ="color: white; width:20%">1. Nhom1: </label>
+              <input type="text" class = "infoDetail" readonly value= "localhost:3000/nhom1">
+            </div>
+           
+          <% } %>
+         
+      </div>
+     </div> 
      <div id ="sticky"> <button id = "mybtn"> <i id ="fa" class = "fa fa-angle-double-down"></i> Campaign detail</button> </div>
      <div id='slider' class="slider" >
         <label for="" style = "color: white">PASTE LONG URL</label>
@@ -326,11 +385,11 @@
     <section class="content">
         <div class="row">
           <!--Tong quan time click, detail timeclick-->
-          <div class="col-md-6">
-              <!-- fdsfdsfsf -->
+            <div class="col-md-6">
+              <!-- Over view total click -->
               <div class="box box-primary">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Over view time click</h3>
+                  <h3 class="box-title">Over view total click</h3>
     
                   <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -339,7 +398,7 @@
                   </div>
                 </div>
                 <div class="box-body">
-                  <div class="chart">
+                  <div class="chart tongquan">
                     <canvas id="doughnut-chart-tongquan" height="40vh" width="100vw"></canvas>  
                   </div>
                 </div>
@@ -348,11 +407,11 @@
               <!-- /.box -->
             </div>
 
-            <div class="col-md-6">
+              <div class="col-md-6">
                 <!-- detail time click -->
-                <div class="box box-primary" style = "height: 250px; font-weight: bold; font-size: 15px">
+                <div class="box box-primary" style = "height: 260px; font-size: 15px">
                   <div class="box-header with-border">
-                    <h3 class="box-title">Detail infomation time click</h3>
+                    <h3 class="box-title">Detail infomation total click</h3>
                     <div class="box-tools pull-right">
                       <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                       </button>
@@ -360,12 +419,13 @@
                     </div>
                   </div>
                   <div class="box-body">
-                    <div class="chart" style="color:#3e95cd;">
+                    <div class="chart" style="color:#00090e;">
+                      <label for="" style = "font-size: 20px;padding-left:22px">Total:<span id ="total"></span> click</label>
                       <ol>
-                        <li size = "11px">Facebook: 300 click</li>
-                        <li>Email:203 click</li>
-                        <li>Sms: 390 click</li>
-                        <li>Other:100 click</li>
+                        <li>Facebook: <span id= "totalF"></span>  click</li>
+                        <li>Email:<span id = "totalE"></span> click</li>
+                        <li>Sms: <span id = "totalS"></span>  click</li>
+                        <li>Other:<span id ="totalO"></span> click</li>
                       </ol>    
                     </div>
                   </div>
@@ -373,8 +433,6 @@
                 </div>
                 <!-- /.box -->
               </div>
-
-
           <!-- end tong quan time click -->
 
           <!-- time date -->
@@ -391,7 +449,7 @@
                 </div>
               </div>
               <div class="box-body">
-                <div class="chart">
+                <div class="chart averageMonth">
                     <canvas id="bar-chart-grouped"  height="90vh" width="300vw"></canvas>
                 </div>
               </div>
@@ -416,7 +474,7 @@
                   </div>
                 </div>
                 <div class="box-body">
-                  <div class="chart">
+                  <div class="chart groupface">
                       <canvas id="line-chart" height="90vh" width="300vw"></canvas>
                   </div>
                 </div>
@@ -442,8 +500,9 @@
                   </div>
                 </div>
                 <div class="box-body">
-                  <div class="chart">
-                      <canvas id="bar-chart" height="90vh" width="300vw"></canvas>
+                  <div class="chart location">
+                      <!-- <canvas id="location" height="90vh" width="300vw"></canvas> -->
+                      <div id="location"></div>
                   </div>
                 </div>
                 <!-- /.box-body -->
@@ -452,8 +511,8 @@
             </div>
           <!-- end bieu do location -->
 
-          <!-- Thiet bi va trinh duyet -->
-          <div class="col-md-6">
+          <!-- Browser -->
+            <div class="col-md-6">
               <!-- AREA CHART -->
               <div class="box box-primary">
                 <div class="box-header with-border">
@@ -466,15 +525,50 @@
                   </div>
                 </div>
                 <div class="box-body">
-                  <div class="chart">
-                      <canvas id="doughnut-chart" height="90vh" width="200vw"></canvas>
+                  <div class="chart browser">
+                      <canvas id="myBrowser" height="110vh" width="200vw"></canvas>
                   </div>
                 </div>
                 <!-- /.box-body -->
               </div>
               <!-- /.box -->
             </div>
+            <!-- end Browser -->
 
+            <!-- Detail Browser -->
+            <div class="col-md-6">
+                <!-- AREA CHART -->
+                <div class="box box-primary">
+                  <div class="box-header with-border">
+                    <h3 class="box-title">Detail Browser</h3>
+                    <div class="box-tools pull-right">
+                      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                      </button>
+                      <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                  </div>
+                  <div class="box-body" style = "height: 300px">
+                    <div class="chart" style="color:#00090e;">
+                      <label for="" style = "font-size: 20px;padding-left:22px;">Total:<span id ="totalBrowser"></span> browser</label>
+                      <ol style = "font-size:15px; font-weight: 300">
+                        <li>Chrome: <span id= "totalChrome"></span>  unit </li>
+                        <li>IE:<span id = "totalIE"></span>  unit </li>
+                        <li>Opera: <span id = "totalOpera"></span>  unit </li>
+                        <li>Firefox:<span id ="totalFire"></span>  unit </li>
+                        <li>Safari:<span id ="totalSafa"></span>  unit</li>
+                        <li>CocCoc:<span id ="totalCoc"></span>  unit</li>
+                        <li>Facebook:<span id ="totalFb"></span>  unit </li>
+                        <li>Other:<span id ="totalOth"></span> unit</li>
+                      </ol>    
+                    </div>
+                  </div>
+                  <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- end detail browser -->
+
+            <!-- Device -->
             <div class="col-md-6">
                 <!-- AREA CHART -->
                 <div class="box box-primary">
@@ -487,18 +581,45 @@
                       <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                     </div>
                   </div>
-                  <div class="box-body">
-                    <div class="chart">
-                        <canvas id="doughnut-chart1" height="90vh" width="200vw"></canvas>
-                    </div>
+                  <div class="box-body device ">
+                    <div id="device" style="height: 250px;"></div> 
                   </div>
                   <!-- /.box-body -->
                 </div>
                 <!-- /.box -->
               </div>
-          <!-- end Thiet bi va trinh duyet -->
+            <!-- end Device -->
 
-          <!-- He dieu hanh -->
+               <!-- Detail Device -->
+               <div class="col-md-6">
+                  <!-- AREA CHART -->
+                  <div class="box box-primary">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Detail Device</h3>
+                      <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                      </div>
+                    </div>
+                    <div class="box-body" style = "height: 270px">
+                      <div class="chart" style="color:#00090e;">
+                        <label for="" style = "font-size: 20px;padding-left:22px;">Total:<span id ="totalDevice"></span> device</label>
+                        <ol style = "font-size:15px; font-weight: 300">
+                          <li>Desktop: <span id= "totalDes"></span>  device </li>
+                          <li>Phone:<span id = "totalPhone"></span>  device </li>
+                          <li>Tablet: <span id = "totalTab"></span>  device </li>
+                          <li>Other:<span id ="totalOthDevice"></span>  device </li>
+                        </ol>    
+                      </div>
+                    </div>
+                    <!-- /.box-body -->
+                  </div>
+                  <!-- /.box -->
+              </div>
+              <!-- end detail device -->
+
+          <!-- OS desktop -->
           <div class="col-md-6">
               <!-- AREA CHART -->
               <div class="box box-primary">
@@ -511,40 +632,94 @@
                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                   </div>
                 </div>
-                <div class="box-body">
-                  <div class="chart">
-                      <canvas id="doughnut-chart3" height="90vh" width="200vw"></canvas>
-                  </div>
+                <div class="box-body osDesktop">
+                  <div id="osDesktop" style="height: 250px;"></div> 
                 </div>
                 <!-- /.box-body -->
               </div>
               <!-- /.box -->
             </div>
+          <!--end os desktop -->
 
-            <div class="col-md-6">
-                <!-- AREA CHART -->
-                <div class="box box-primary">
-                  <div class="box-header with-border">
-                    <h3 class="box-title">OS Phone, Tablet</h3>
-      
-                    <div class="box-tools pull-right">
-                      <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                      </button>
-                      <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                    </div>
+
+          <!-- Detail osDesktop -->
+          <div class="col-md-6">
+              <!-- AREA CHART -->
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">Detail OS Desktop</h3>
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
                   </div>
-                  <div class="box-body">
-                    <div class="chart">
-                        <canvas id="doughnut-chart4" height="90vh" width="200vw"></canvas>
-                    </div>
-                  </div>
-                  <!-- /.box-body -->
                 </div>
-                <!-- /.box -->
+                <div class="box-body" style = "height: 270px">
+                  <div class="chart" style="color:#00090e;">
+                    <label for="" style = "font-size: 20px;padding-left:22px;">Total:<span id ="totalOsDesk"></span> OS</label>
+                    <ol style = "font-size:15px; font-weight: 300">
+                      <li>Windows: <span id= "totalWin"></span>  unit </li>
+                      <li>Mac OS:<span id = "totalMac"></span>  unit </li>
+                      <li>Linux: <span id = "totalLinux"></span>  unit </li>
+                      <li>Other:<span id ="totalOthOsDesk"></span>  unit </li>
+                    </ol>    
+                  </div>
+                </div>
+                <!-- /.box-body -->
               </div>
-          <!-- end He dieu hanh -->
+              <!-- /.box -->
+          </div>
+          <!-- end detail osdesktop -->
 
-         
+          <!-- OS Phone & tablet -->
+          <div class="col-md-6">
+              <!-- AREA CHART -->
+              <div class="box box-primary">
+                <div class="box-header with-border">
+                  <h3 class="box-title">OS Phone, Tablet</h3>
+    
+                  <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                  </div>
+                </div>
+                <div class="box-body osPhone">
+                    <div id="osPhone" style="height: 250px;"></div> 
+                </div>
+                <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+          <!-- end os phone & tablet -->
+
+          <!-- Detail Phone & Tablet -->
+          <div class="col-md-6">
+            <!-- AREA CHART -->
+            <div class="box box-primary">
+              <div class="box-header with-border">
+                <h3 class="box-title">Detail Phone & Tablet</h3>
+                <div class="box-tools pull-right">
+                  <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                  </button>
+                  <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>
+              </div>
+              <div class="box-body" style = "height: 270px">
+                <div class="chart" style="color:#00090e;">
+                  <label for="" style = "font-size: 20px;padding-left:22px;">Total:<span id ="total0SPhone"></span> OS</label>
+                  <ol style = "font-size:15px; font-weight: 300">
+                    <li>Android: <span id= "totalAn"></span>  unit </li>
+                    <li>iOs:<span id = "totaliOS"></span>  unit </li>
+                    <li>Other:<span id ="totalOthPhone"></span>  unit </li>
+                  </ol>    
+                </div>
+              </div>
+              <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <!-- end detail os phone & tablet -->
         </div>
         <!-- /.row -->
   
@@ -770,209 +945,6 @@
 <!-- AdminLTE for demo purposes -->
 <script src="/dist/js/demo.js"></script>
 <!-- page script -->
-<script>
-$(function(){
-  new Chart(document.getElementById("line-chart"), {
-  type: 'line',
-  data: {
-    labels: ["1h","2h","3h","4h","5h","6h","7h","8h","9h","10h","11h","12h","13h","14h","15h","16h","17h","18h","19h","20h","21h","21h","23h","24h"],
-    datasets: [{ 
-        data: [10, 5, 9, 13, 23, 54, 61, 21, 23, 12, 19, 46, 10, 5, 9, 13, 23, 54, 61, 21, 23, 12, 19, 46],
-        label: "Group 1",
-        borderColor: "#3e95cd",
-        fill: false
-      }, { 
-        data: [12, 43, 3, 2, 14, 34, 54, 1, 13, 61, 23, 25,12, 43, 3, 2, 14, 34, 54, 1, 13, 61, 23, 25],
-        label: "Group2",
-        borderColor: "#8e5ea2",
-        fill: false
-      }
-    ]
-  },
-  options: {
-    title: {
-      display: true,
-      text: 'Time click on group facebook(in hour)'
-    }
-  }
-});
-})
-</script>
 
-<script>
-$(function(){
-  // Bar chart
-new Chart(document.getElementById("bar-chart"), {
-    type: 'bar',
-    data: {
-      labels: ["Hà Nội", "Bắc Ninh", "Hồ Chí Minh", "Đà Nẵng", "Lạng Sơn","Bắc Giang", "Thanh Hóa", "Cà Mau", "Nước Ngoài"],
-      datasets: [
-        {
-          label: "Total",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850", "green", "yellow", "red","gray" ],
-          data: [100,45,123,56,23, 82, 65, 98, 19]
-        }
-      ]
-    },
-    options: {
-      legend: { display: false },
-      title: {
-        display: true,
-        text: 'Location'
-      }
-    }
-});
-})
-</script>
-
-<script>
-  $(function(){
-    new Chart(document.getElementById("doughnut-chart"), {
-    type: 'doughnut',
-    data: {
-      labels: ["Chorme", "Firefox", "Opera", "CocCoc", "Safari", "Facebook", "Other"],
-      datasets: [
-        {
-          label: "Population (millions)",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850", "green", "gray"],
-          data: [200,130,134,60,90, 159, 30]
-        }
-      ]
-    },
-    options: {
-      
-    }
-});
-  })
-</script>
-
-<script>
-    $(function(){
-      new Chart(document.getElementById("doughnut-chart1"), {
-      type: 'doughnut',
-      data: {
-        labels: ["Desktop", "Phone", "Tablet", "Other"],
-        datasets: [
-          {
-            label: "Total",
-            backgroundColor: ["#3e95cd", "yellow","red","#e8c3b9"],
-            data: [200,130,134,60]
-          }
-        ]
-      },
-      options: {
-        
-      }
-  });
-  })
-</script>
-
-<script>
-    $(function(){
-      new Chart(document.getElementById("doughnut-chart3"), {
-      type: 'doughnut',
-      data: {
-        labels: ["Window", "Linux", "Other"],
-        datasets: [
-          {
-            label: "Total",
-            backgroundColor: ["#3e95cd", "yellow","gray"],
-            data: [200,130,134,60]
-          }
-        ]
-      },
-      options: {
-        
-      }
-  });
-  })
-</script>
-
-<script>
-    $(function(){
-      new Chart(document.getElementById("doughnut-chart3"), {
-      type: 'doughnut',
-      data: {
-        labels: ["Window", "Linux", "Other"],
-        datasets: [
-          {
-            label: "Total",
-            backgroundColor: ["#3e95cd", "#8e5ea2","gray"],
-            data: [200,150,20]
-          }
-        ]
-      },
-      options: {
-        
-      }
-  });
-  })
-</script>
-
-<script>
-    $(function(){
-      new Chart(document.getElementById("doughnut-chart4"), {
-      type: 'doughnut',
-      data: {
-        labels: ["iOS", "Android", "Other"],
-        datasets: [
-          {
-            label: "Total",
-            backgroundColor: ["#3e95cd", "#8e5ea2","gray"],
-            data: [140,350,40]
-          }
-        ]
-      },
-      options: {
-        
-      }
-  });
-  })
-</script>
-
-<script>
-  $(function(){
-    new Chart(document.getElementById("doughnut-chart-tongquan"), {
-    type: 'doughnut',
-    data: {
-      labels: ["% Facebook", " % Email", "% SMS", "% Other"],
-      datasets: [
-        {
-          label: "Overview tiem click",
-          backgroundColor: [randomColor(1), randomColor(1),randomColor(1),randomColor(1)],
-          data: [30,20,40,10]
-        }
-      ]
-    },
-    options: {
-      tooltips: {
-      callbacks: {
-        label: function(tooltipItem, data) {
-        	var dataset = data.datasets[tooltipItem.datasetIndex];
-          var total = dataset.data.reduce(function(previousValue, currentValue, currentIndex, array) {
-            return previousValue + currentValue;
-          });
-          var currentValue = dataset.data[tooltipItem.index];
-          var percentage = Math.floor(((currentValue/total) * 100)+0.5);     
-          return percentage + "%";
-        }
-      }
-    }
-      }
-    });
-  })
-
-    var randomScalingFactor = function() {
-    return Math.round(Math.random() * 100);
-  };
-var randomColorFactor = function() {
-  return Math.round(Math.random() * 255);
-};
-var randomColor = function(opacity) {
-  return 'rgba(' + randomColorFactor() + ',' + randomColorFactor() + ',' + randomColorFactor() + ',' + (opacity || '.3') + ')';
-};
-
-
-</script>
 </body>
 </html>

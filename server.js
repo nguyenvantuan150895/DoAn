@@ -19,6 +19,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// info client
 app.use(requestIp.mw());
 app.use(device.capture());
 
@@ -31,11 +32,6 @@ app.use(session({
 }))
 
 //import file css 
-// app.use(express.static(__dirname + '/public/library/bower_components'));
-// app.use(express.static(__dirname + '/public/library'));
-// app.use(express.static(__dirname + '/public/library/plugins'));
-// app.use(express.static(__dirname + '/public/library/dist'));
-// app.use(express.static(__dirname + '/public/layout'));
 app.use(express.static(__dirname + '/public/library'));
 app.use(express.static(__dirname + '/public'));
 app.use(express.static(__dirname + '/public/images'));

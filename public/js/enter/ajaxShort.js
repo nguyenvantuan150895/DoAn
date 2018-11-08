@@ -1,5 +1,27 @@
 // Button Go
 $(function() {
+	// slide detail
+	
+	$("#mybtn").click(function(){
+		$("#detail").slideToggle("slow");
+		if($("#fa").attr('class') == 'fa fa-angle-double-down') {
+			$("#fa").removeClass("fa fa-angle-double-down").addClass('fa fa-angle-double-up');
+		} else {
+			$("#fa").removeClass("fa fa-angle-double-up").addClass('fa fa-angle-double-down');
+		}
+	});
+	
+
+	//slide reveal
+	$('#slider').slideReveal({
+        trigger: $("#btnShort"),
+        position: "right",
+        push: false,
+        // width: 300,
+        overlay: true,
+        autoEscape: false,
+      });
+	// Button Go
 	$("#btnGo").click(() => {
 		let oldUrl1 = $("#oldUrlShortLink").val(); oldUrl1 = oldUrl1.trim();
 		if(oldUrl1.length != 0){
@@ -29,6 +51,7 @@ $(function() {
 					$("#slider").slideReveal("hide");
 				} 
 			   	else if(customer.state =="fail") {
+					//alert("that bai");
 				   if(customer.err_format) alert("Invalid UrlShorten format!!!");
 				   if(customer.err_exist) alert("UrlShorten already exists !!!");
 			   	}

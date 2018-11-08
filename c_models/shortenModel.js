@@ -25,7 +25,7 @@ module.exports.getId = (url) => {
     return new Promise((resolve, reject) => {
         shorten.findOne({url: url}, (err, result) => {
             if(err) reject(err);
-            else resolve(result);
+            else  resolve(result);
         })
     })
 }
@@ -38,8 +38,6 @@ module.exports.getObUrlShorten = (id) => {
         })
     })
 }
-
-
 //update
 module.exports.update = (id, object) => {
     return new Promise((resolve, reject) => {
@@ -49,7 +47,6 @@ module.exports.update = (id, object) => {
         })
     })  
 }
-
 //delete 
 module.exports.delete = (id) => {
     return new Promise((resolve, reject) => {
@@ -59,7 +56,6 @@ module.exports.delete = (id) => {
         })
     }) 
 }
-
 //check Exist url shorten
 module.exports.checkExist = (newUrl) => {
             //console.log("url check Exist:", newUrl);
@@ -72,6 +68,36 @@ module.exports.checkExist = (newUrl) => {
             } else {
                 resolve(false);
             }
+        })
+    })
+}
+//get all shorten url
+module.exports.getAllShortUrl = () => {
+    return new Promise((resolve, reject) => {
+        shorten.find((err, result)=> {
+            if(err) reject(err);
+            else resolve(result);
+        })
+    })
+}
+//get total click by id shorten
+module.exports.getTotalClick = (id_shorten) => {
+    return new Promise((resolve, reject) => {
+        //console.log("IDshorten receive:", id_shorten);
+        shorten.find({_id:id_shorten},(err, result) => {
+            //console.log("result getTotalClick:", result);
+            if(err) reject(err);
+            else resolve(result[0].totalClick);
+        })
+    })
+}
+
+// get all ( for purpose test)
+module.exports.getAll = () => {
+    return new Promise((resolve, reject)=> {
+        shorten.find({},(err, result) => {
+            if(err)reject(err);
+            else resolve(result);
         })
     })
 }

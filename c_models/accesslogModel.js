@@ -8,7 +8,7 @@ const accesslogSchema = new mongoose.Schema({
     location: { type: String, required:true },
     id_shorten: {type: String, required: true},
     browser: {type: String, require: true},
-    os :{type: String, default: null}
+    os :{type: String,require: true}
 })
 const accesslog = mongoose.model ('accesslog', accesslogSchema);
 
@@ -21,3 +21,13 @@ module.exports.save = (object) => {
         }) 
     })
 }
+//get record by id_shorten
+module.exports.getRecordByIdShorten = (id_short) => {
+    return new Promise((resolve, reject) => {
+        accesslog.find({id_shorten: id_short}, (err, result) => {
+            if(err) reject(err);
+            else resolve(result);
+        })
+    })
+}
+

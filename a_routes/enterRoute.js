@@ -9,6 +9,7 @@ router.post('/confirm', enterControll.confirm_post);
 router.get('/manager', enterControll.manager);
 router.post('/getShortLink', enterControll.getShortLink);
 router.post('/shortLink',enterControll.shortLink);
+router.post('/getCampaignByName', enterControll.getCampaignByName);
 
 
 
