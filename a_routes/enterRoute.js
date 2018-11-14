@@ -10,6 +10,7 @@ router.get('/manager', enterControll.manager);
 router.post('/getShortLink', enterControll.getShortLink);
 router.post('/shortLink',enterControll.shortLink);
 router.post('/getCampaignByName', enterControll.getCampaignByName);
+router.get('/export', enterControll.exportExcel);
 
 
 

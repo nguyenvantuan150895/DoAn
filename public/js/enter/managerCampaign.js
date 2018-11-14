@@ -8,7 +8,9 @@ $(function(){
     // console.log("LENGTH:", arrCampaign.length)
     for(let i = 0; i < arrCampaign.length; i++ ){
         let id = "id_list" + (i+1);
+          
         $('#'+id).click((function(){
+          $("#export").show();
           $(".btn_list").removeClass("active");
           $(this).addClass("active");
           let name = arrCampaign[i].name;
@@ -16,20 +18,7 @@ $(function(){
           $.post("/enterprise/getCampaignByName",{name:name})
 			.done(function(data){
         // Set detail campaign
-        let arr_shortUrl = data.arr_shortUrl;
-        $("#idname").val(arrCampaign[i].name);
-        $("#idOldUrl").val(data.ob_url.url);
-        $("#start").val(arrCampaign[i].start_time);
-        $("#end").val(arrCampaign[i].end_time);
-        $("#create").val(arrCampaign[i].time_create);
-        $("#email").val(arr_shortUrl.email.url);
-        $("#sms").val(arr_shortUrl.sms.url);
-        $("#other").val(arr_shortUrl.other.url);
-        $(".block1").empty();
-        for(let j = 0; j < arr_shortUrl.fb.length; j++){
-            $(".block1").append('<label for="" style ="color: white; width:20%"> ' + (j+1)+ '. ' + arr_shortUrl.fb[j].group + ':</label>');
-            $(".block1").append('<input type="text" class = "infoDetail" readonly value= "'+arr_shortUrl.fb[j].url+'"></input>')
-        }
+        detailCampaign(data, arrCampaign[i]);
         // Set detail information total click
         chartTotalDetail(data);
         timeClickMonth(data);
@@ -45,7 +34,22 @@ $(function(){
     }));
   }
 })// end function ready
-
+let detailCampaign = (data, elementCampaign ) => {
+  let arr_shortUrl = data.arr_shortUrl;
+        $("#idname").val(elementCampaign.name);
+        $("#idOldUrl").val(data.ob_url.url);
+        $("#start").val(elementCampaign.start_time);
+        $("#end").val(elementCampaign.end_time);
+        $("#create").val(elementCampaign.time_create);
+        $("#email").val(arr_shortUrl.email.url);
+        $("#sms").val(arr_shortUrl.sms.url);
+        $("#other").val(arr_shortUrl.other.url);
+        $(".block1").empty();
+        for(let j = 0; j < arr_shortUrl.fb.length; j++){
+            $(".block1").append('<label for="" style ="color: white; width:20%"> ' + (j+1)+ '. ' + arr_shortUrl.fb[j].group + ':</label>');
+            $(".block1").append('<input type="text" class = "infoDetail" readonly value= "'+arr_shortUrl.fb[j].url+'"></input>')
+        }
+}
 let mylocation = (objLocation) => {
   let arr_label = [];
   let arr_data = [];
@@ -86,7 +90,7 @@ let mylocation = (objLocation) => {
 }
 
 let osPhone = (osPhone) => {
-  console.log("osPhone:", osPhone);
+  // console.log("osPhone:", osPhone);
   let total = osPhone.android + osPhone.ios + osPhone.otherphone;
   let android_per = Math.round(((osPhone.android)/total)* 100);
   let ios_per = Math.round(((osPhone.ios)/total)* 100);
@@ -147,7 +151,7 @@ let osDesktop = (osDesktop) => {
   });
 }
 let device = (device) => {
-  console.log("device:", JSON.stringify(device));
+  // console.log("device:", JSON.stringify(device));
   let total = device.desktop + device.phone + device.tablet + device.other;
   let desktop_per = Math.round(((device.desktop)/total)* 100);
   let phone_per = Math.round(((device.phone)/total)* 100);
@@ -226,7 +230,6 @@ let browser = (browser) => {
     }
   });
 }
-
 // Group face
 let groupFace = (averageGr) => {
     let arr = [];

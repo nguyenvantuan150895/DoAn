@@ -120,7 +120,7 @@ let randomLocation = () => {
     'Thừa Thiên Huế ','Tiền Giang','Trà Vinh','Tuyên Quang','Vĩnh Long','Vĩnh Phúc','Yên Bái','Phú Yên',
     'Cần Thơ','Đà Nẵng','Hải Phòng','Hà Nội','TP HCM','Nước Ngoài'];
     let location = randomArray(arr);
-    // let location = randomArray["HaNoi", "HoChiMinh", "DaNang", "CanTho"];
+    // let location = randomArray["Hà Nội", "TP HCM", "Đà Nẵng", "Cần Thơ","Hải Phòng", "Bình Dương","Bắc Ninh","Khánh Hòa"];
     return location;
 }
 let randomShortUrl = async () => {

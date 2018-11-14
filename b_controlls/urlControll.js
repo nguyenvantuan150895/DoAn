@@ -95,7 +95,7 @@ let getUrlOrigin = async (shortUrl) => {
 //test
 exports.test = async (req, res) => {
     try{
-        let result = await accessModul.dummyData(10);
+        let result = await accessModul.dummyData(3000);
         // console.log("result:", result);
         res.send("Dummy done!");
     }catch(e){
