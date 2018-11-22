@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Gloria+Hallelujah" rel="stylesheet">
-    <title>Shorten Url</title>
+    <title domain = "<%=domain%>" id = "domain">Shorten Url</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -34,13 +34,14 @@
       <script>
         $(function(){
             let call = () => {
+                const domain = $("#domain").attr("domain");
                 const {value: formValues} =  swal({
                 title: 'Create your own link',
                 html:
                     '<label for="">Url Original</label>' +
                     '<input id="oldUrl" class="swal2-input" placeholder = "Enter Url nedd to shorten" >' +
                     '<label for="">Url Shorten</label>' +
-                    '<input id="newUrl" class="swal2-input" value="localhost:3000/">' +
+                    '<input id="newUrl" class="swal2-input" value=' +domain+ '>' +
                     '<p style = "display: none; color: red" id="idErr" >Url shorten invalid!</p>',
                     
                 focusConfirm: false,
@@ -65,7 +66,7 @@
                             } else if(customer.state == "fail"){
                                 swal(
                                     'Invalid Url Shorten',
-                                    'example: localhost:3000/balabala',
+                                    'example: yourdomain/balabala',
                                     'error'
                                 ).then((result) => {
                                     if(result.value) {

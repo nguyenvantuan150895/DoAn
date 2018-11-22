@@ -1,3 +1,4 @@
+const fs = require('fs');
 const userRoute = require('./a_routes/userRoute');
 const adminRoute = require('./a_routes/adminRoute');
 const urlRoute = require('./a_routes/urlRoute');
@@ -7,10 +8,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const requestIp = require('request-ip');
-const geoip = require('geoip-lite');
+// const geoip = require('geoip-lite');
 const device = require('express-device');
-const date1 = require('date-and-time');
-const useragent = require('useragent');
+// const date1 = require('date-and-time');
+// const useragent = require('useragent');
 
 
 
@@ -38,7 +39,6 @@ app.use(express.static(__dirname + '/public/images'));
 
 
 
-
 var authenSession = function (req, res, next) {
     url = req.url;
     if(url == "/admin/login" || url == "/user/login" || url == "/user/signup" || url == "/user/logout" || url == "/shortUrl") {
@@ -63,14 +63,15 @@ app.use(authenSession);
 //path redirections
 
 app.use('/user', userRoute);
-app.use('/enterprise',enterRoute)
-// app.use('/admin', adminRoute);
+app.use('/enterprise',enterRoute);
+app.use('/admin', adminRoute);
 app.use('/', urlRoute);
 
 
 // Start server
-app.listen(3000, () => {
-    console.log("Server start on port::3000");
+let port = fs.readFileSync('port.txt', 'utf8');
+app.listen(port, () => {
+    console.log("Server start on port::" + port.toString());
 });
 
 

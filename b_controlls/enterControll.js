@@ -312,13 +312,15 @@ exports.createCampaign_get = async (req, res) => {
     res.render("../d_views/enter/createCampaign.ejs");
 }
 // Create seed Capaign
-exports.createCampaign_post = (req, res) => {
+exports.createCampaign_post = async (req, res) => {
     // console.log("req.body:", req.body['group[]']);
     // console.log("Req.body:", req.body);
     let data = req.body;
-    let sms = seedUrl.createShortUrl();
-    let email = seedUrl.createShortUrl();
-    let other = seedUrl.createShortUrl();
+    let domain = 'dontcare.com';
+    // console.log("domain:", domain);
+    let sms = seedUrl.createShortUrl(domain);
+    let email = seedUrl.createShortUrl(domain);
+    let other = seedUrl.createShortUrl(domain);
     let fb = [];
     let len = data.faceGroup.length;
     // console.log("typeof DATA.FACEGROUP:",typeof data.faceGroup);
@@ -326,11 +328,11 @@ exports.createCampaign_post = (req, res) => {
     //console.log("dataata length:", data.faceGroup.length);
     if (typeof data.faceGroup == "object") {
         for (let i = 0; i < (data.faceGroup).length; i++) {
-            fb.push(seedUrl.createShortUrl());
+            fb.push(seedUrl.createShortUrl(domain));
         }
     } else if (typeof data.faceGroup == "string") {
         data.faceGroup = [data.faceGroup];
-        fb.push(seedUrl.createShortUrl());
+        fb.push(seedUrl.createShortUrl(domain));
     }
 
     let customer = {
@@ -347,7 +349,7 @@ exports.confirm_post = async (req, res) => {
     //res.send("Giao dien createCampaign");
     //console.log("Req.body ::::", req.body);
     let customer = {};
-    let domain = "localhost:3000/";
+    let domain = "dontcare.com";
     let rq = req.body;
     let flagExist = true; //default
     let flagFormat = false; //default
@@ -418,15 +420,16 @@ exports.confirm_post = async (req, res) => {
 }
 
 // get Short Link
-exports.getShortLink = (req, res) => {
-    let newUrl = seedUrl.createShortUrl();
+exports.getShortLink = async (req, res) => {
+    let domain = "dontcare.com";
+    let newUrl = seedUrl.createShortUrl(domain);
     res.send(newUrl);
 }
 
 //Short Link
 exports.shortLink = async (req, res) => {
     let customer = {};
-    let domain = "localhost:3000/";
+    let domain = "dontcare.com";
     // console.log("req.body:", req.body);
     try {
         let checkFormat = seedUrl.checkFormatUrlShort(req.body.newUrl, domain);

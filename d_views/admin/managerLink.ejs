@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        th {
+    background-color: rgb(236, 240, 245);
+    }
+  </style>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>User Manager</title>
+    <link rel="icon" type="image/png" href="/icons/shortLink.jpeg" />
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
+    <!-- import fusionchart.js -->
+    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+    <!-- import file js overviewManager -->
+    <script src="/js/admin/overviewManager.js"></script>
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="/admin/manager" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>A</b>LT</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Shorten</b></span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button"></a>
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </a>
+
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Messages: style can be found in dropdown.less-->
+
+
+                        <!-- Tasks: style can be found in dropdown.less -->
+
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="/admin.png" class="user-image" alt="User Image">
+                                <span class="hidden-xs">ADMIN</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img src="/admin.png" class="img-circle" alt="User Image">
+
+                                    <p>
+                                        ADMIN>
+                                        <small>administrator account</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+
+                                <!-- Menu Footer-->
+                                <li class="user-footer" style="border: 1px solid #bdbbbb;">
+
+                                    <!-- Tim thay roi !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+                                    <div class="pull-right">
+                                        <a href="/admin/logout" class="btn  "><b>Log out</b> </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Control Sidebar Toggle Button -->
+
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="/admin.png" class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        <p>ADMIN INFO</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    </div>
+                </div>
+                <br>
+                <ul>
+                    <li style="color : white; ">User name: ADMIN</li>
+                    <li style="color : white; ">Email: admin@gmail.com</li>
+                    <li style="color : white; ">Phone : 02413 884 999</li>
+                    <li style="color : white; ">Address: Hà Nội - Việt Nam</li>
+                </ul>
+
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-wrench"></i> <span>Tool</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="/admin/manager/user/1"><i class="fa fa-circle-o"></i> User Manager</a></li>
+                            <li><a href="/admin/manager/link/1"><i class="fa fa-circle-o"></i> Campaign Manager</a></li>
+                            <li><a href="/admin/manager/link/1"><i class="fa fa-circle-o"></i> Link Manager</a></li>
+                            <li><a href="/admin/manager/user/1"><i class="fa fa-circle-o"></i> Export Accesslog</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1 style="font-weight: bold">
+                    User Manager
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+                                <a class="btn" href="/admin/manager/user/add">
+                                    <img src="/addUser.png" alt="" style="width:30px; height: 30px" title="Add user">
+                                </a>
+                            </div>
+                            <!-- /.box-header -->
+
+                            <!-- *************************************** -->
+
+                            <div class="box-body">
+                                <table id="paging" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>STT</th>
+                                            <th>Url Original</th>
+                                            <th>Url shorten</th>
+                                            <th>Total click</th>
+                                            <th>Time create</th>
+                                            <th>User</th>
+                                            <th colspan="3">Function</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <% for (var i = 0; i < urls.length ;  i++) { %>
+                                        <tr>
+                                            <%  var uid1 = urls[i]._id; %>
+                                            <td>
+                                                <%= ((i+1) + (page-1)*10) %>
+                                            </td>
+                                            <%if((urls[i].oldUrl).length > 50){ %>
+                                            <td>
+                                                < a href='<%= urls[i].oldUrl %>' title="<%= urls[i].oldUrl %>">
+                                                    <%= (urls[i].oldUrl).slice(0,50) +"..."%></a>
+                                            </td>
+                                            <% } else { %>
+                                            <td>
+                                                <a href='<%= urls[i].oldUrl %>' title="<%= urls[i].oldUrl %>">
+                                                    <%= urls[i].oldUrl%></a>
+                                            </td>
+                                            <% } %>
+                                            <td>
+                                                <a href='<%= urls[i].newUrl%>'>
+                                                    <%= urls[i].newUrl%></a>
+                                            </td>
+                                            <td>
+                                                <%= urls[i].totalClick %>
+                                            </td>
+                                            <td>
+                                                <%= urls[i].timeCreate %>
+                                            </td>
+                                            <td>
+                                                <%= urls[i].user %>
+                                            </td>
+                                            <td><a href="/admin/manager/link/update/<%=urls[i].id %>"><img style="width: 20px; height: 20px"
+                                                        src="/iconUpdateLink.jpeg" alt="" title="Update"></a></td>
+                                            <td><a class="my_link" href="/admin/manager/link/delete/<%=urls[i].id %>"
+                                                    onclick="return confirm('Are you sure you want to delete?');"><img
+                                                        style="width: 20px; height: 20px" src="/trash.png" alt="" title=" Delete"></a></td>
+                                            <td><a class="my_link" href="/admin/manager/link/detail/<%=urls[i].id %>"><img
+                                                        style="width: 23px; height: 23px" src="/iconDetailLink.png" alt=""
+                                                        title=" Detail"></a> </td>
+                                        </tr>
+                                        <% } %>
+
+                                    </tbody>
+                                </table>
+                                <!-- ** -->
+
+                                <div class="container1" style="float: right">
+                                    <% var pages  = Math.ceil(totalLink/10)%>
+                                    <% if (pages > 0) { %>
+                                    <ul class="pagination text-center">
+                                        <% if (page == 1) { %>
+                                        <li class="disabled"><a>Previous</a></li>
+                                        <% } else { %>
+                                        <li><a href="/admin/manager/link/<%=page-1%>">Previous</a></li>
+                                        <% } %>
+                                        <% var j = (Number(page) > 4 ? Number(page) - 3 : 1) %>
+                                        <% if (j !== 1) { %>
+                                        <li class="disabled"><a>...</a></li>
+                                        <% } %>
+                                        <% for (; j <= (Number(page) + 3) && j <= pages; j++) { %>
+                                        <% if (j == page) { %>
+                                        <li class="active"><a>
+                                                <%= j %></a></li>
+                                        <% } else { %>
+                                        <li><a href="/admin/manager/link/<%= j %>">
+                                                <%= j %></a></li>
+                                        <% } %>
+                                        <% if (j == Number(page) + 3 && j < pages) { %>
+                                        <li class="disabled"><a>...</a></li>
+                                        <% } %>
+                                        <% } %>
+                                        <% if (page == pages) { %>
+                                        <li class="disabled"><a>Next</a></li>
+                                        <% } else { %>
+                                        <li><a href="/admin/manager/link/<%=(Number(page)+1)%>">Next</a></li>
+                                        <% } %>
+                                    </ul>
+                                    <% } %>
+                                </div>
+
+                                <p style="font-weight: lighter;margin-top: 26px;">Showing
+                                    <%= (1 + (page-1)*10) %> to
+                                    <%= (urls.length + (page-1)*10) %> of
+                                    <%=totalLink%> entries</p>
+                                <b>Page current:
+                                    <%=page%></b>
+                            </div>
+                            <!-- **********************************88 -->
+                            <!-- /.box-body -->
+                        </div>
+                        <!-- /.box -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 2.4.0
+            </div>
+            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Nguyen Van Tuan</a>.</strong> All rights
+            reserved.
+        </footer>
+
+
+        <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery 3 -->
+    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- DataTables -->
+    <script src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="/bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="/dist/js/demo.js"></script>
+    <!-- page script -->
+
+</body>
+
+</html>

@@ -99,11 +99,12 @@ module.exports.getCampaignByName = (nameCampaign) => {
     })
 }
 
-// module.exports.checkNameExist = (name) => {
-//     return new Promise((resolve, reject) => {
-//         campaign.find({name: name}, (err, result) => {
-//             if (result.length > 0 ) resolve(true);
-//             else resolve(false);
-//         })
-//     })
-// }
+//get Total campaign
+module.exports.getTotalRecord = () => {
+    return new Promise((resolve, reject) => {
+        campaign.countDocuments((err, result) => {
+            if(err) reject(err);
+            else resolve(result);
+        })
+    })
+}

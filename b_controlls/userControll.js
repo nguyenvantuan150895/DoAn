@@ -3,6 +3,7 @@ const Url = require('../c_models/urlModel');
 const Shorten = require('../c_models/shortenModel');
 const Campaign = require('../c_models/campaignModel');
 const seedUrl = require('../public/modul/seedUrl');
+const fs = require('fs');
 //const md5 = require('md5');
 
 
@@ -76,8 +77,9 @@ exports.userLogout = (req, res) => {
 // user add link
 exports.addLink = async (req, res) => { 
     let data = {};
+    let domain = "dontcare.com";
     data.urlOrigin = req.body.urlOrigin;
-    let shortUrl = seedUrl.createShortUrl();
+    let shortUrl = seedUrl.createShortUrl(domain);
     try{
         let ob_shortUrl = await Shorten.save({url: shortUrl});
         let object_url = {url:req.body.urlOrigin , short_urls : [ob_shortUrl.id]};
@@ -107,25 +109,23 @@ exports.manager = async (req, res) => {
     //res.render("../d_views/user/manager.ejs", {user: "user1"});
     let page_size = 5;
     page_current = req.params.page;
+    // console.log("page_current:", page_current);
     let i = (page_current - 1) * page_size;
     let limit1 = (page_current - 1) * page_size + page_size;
     let arr_url = [];
     let count = 0;
     try {
+        let domain = fs.readFileSync('domain.txt', 'utf8');
+        domain = domain + '/';
         let id_user = await User.getIdByUser(req.session.user);
         let ob_campaign = await Campaign.getArrObUrl(id_user);
-                //console.log("ob_campaign:",ob_campaign);
         if (ob_campaign != undefined) {
             let arr_idUrl = ob_campaign.id_urls; // get array oldUrl
-                       //console.log("arr_idUrl:", arr_idUrl);
             // get total url created by user
             if(arr_idUrl != undefined) {
                 count = arr_idUrl.length;
                 totalRecord = count; // don't care 
-                        //console.log("count:", count);
-                        //console.log("tong ban ghi:", totalRecord);
                 let limit = (limit1 > count) ? count : limit1;
-                            //console.log("LIMIT:", limit);
                 //Get 5 records(url & urlshort) per page
                 for(i ; i < limit ; i ++ ) {
                     let result1 = await Url.getObUrlById(arr_idUrl[i]);
@@ -141,7 +141,9 @@ exports.manager = async (req, res) => {
             }
                     //console.log("arr_url:", arr_url[0]);
         }
-        res.render("../d_views/user/manager.ejs", {url:arr_url, page:page_current, count: count, user: req.session.user, });
+        let data3 = {url:arr_url, page:page_current, count: count, user: req.session.user,domain:domain }
+        // console.log("data3:",data3);
+        res.render("../d_views/user/manager.ejs",data3 );
        //res.send("acc");
     } catch (e) {
         console.log(e + "--tuan: error Manager");
@@ -171,37 +173,20 @@ exports.delete = async (req, res) => {
 
 //Create Link custom
 exports.userCreateLink = async (req, res) => {
-    const regex = /^[a-zA-Z0-9]*$/;
     let customer = {};
-            //console.log("req from client:", req.body);
+    let domain = "dontcare.com";
     try {
         //check new url invalid
-        let domain = "localhost:3000/";
         let newUrl = req.body.newUrl;
         let oldUrl = req.body.oldUrl;
-        let hostname = newUrl.slice(0, 15); 
-        let path1 = newUrl.slice(15,newUrl.length );
-                //console.log("length oldUrl:", oldUrl.length);
-        
-        if(hostname == domain && oldUrl.length != 0){
-            if(path1.length > 0 && regex.test(path1)){
-                let checkExist = await Shorten.checkExist(newUrl);
-                        //console.log("checkExit:", checkExist);
-                if(checkExist){
-                    customer.state = "fail";
-                } else {
-                    await addLink1(oldUrl, newUrl, req.session.user);
-                    customer.state = "ok";
-                            //console.log("totalRecord:", totalRecord);
-                    let last_page = lastPaste((totalRecord + 1), 5);
-                            //console.log("last_page:", last_page);
-                    customer.last_page = last_page;
-                }
-            }else{
-                customer.state = "fail";
-            }
-        } else{
-            customer.state = "fail";
+        let checkShort = seedUrl.checkFormatUrlShort(newUrl, domain);
+        if(checkShort) {
+            let tuan = await addLink1(oldUrl, newUrl, req.session.user);
+            let last_page = lastPaste((totalRecord + 1), 5);
+            customer.last_page = last_page;
+            customer.state = 'ok';
+        } else {
+            customer.state = 'fail';
         }
         return res.send(customer); 
     } catch (e) {
@@ -211,31 +196,22 @@ exports.userCreateLink = async (req, res) => {
 
 //User Edit Link
 exports.userEditLink = async (req, res) => {
-    //console.log("data from client:", req.body);
-    const regex = /^[a-zA-Z0-9]*$/;
     let customer = {};
     try {
         //check new url invalid
+        let domain = "dontcare.com";
         let newUrl = req.body.newUrl;
-        let hostname = newUrl.slice(0, 15);//let hostname = newUrl.slice(0, 10);
-        let path1 = newUrl.slice(15,newUrl.length );//let path1 = newUrl.slice(10,newUrl.length );
-        if(hostname == "localhost:3000/"){
-            if(path1.length > 0 && regex.test(path1)){
-                let checkExist = await Shorten.checkExist(newUrl);
-                if(checkExist && (req.body.newUrl != req.body.urlPreEdit)) {
-                    customer.state = "fail";
-                } else {
-                    await Shorten.update(req.body.idShortUrl, {url: req.body.newUrl});
-                    customer.state = "ok";
-                }
-            }else{
+        let check_format = seedUrl.checkFormatUrlShort(newUrl, domain);
+        let checkExist = await Shorten.checkExist(newUrl);
+        if(check_format){
+            if(checkExist && (req.body.newUrl != req.body.urlPreEdit)) {
                 customer.state = "fail";
+            } else {
+                await Shorten.update(req.body.idShortUrl, {url: req.body.newUrl});
+                customer.state = "ok";
             }
-        } else{
-            customer.state = "fail";
-        }
-        return res.send(customer);
-        
+        }else customer.state = 'fail';
+        return res.send(customer); 
     } catch (e) {
         console.log(e +"--tuan: Error userEditLink");
     }

@@ -1,4 +1,5 @@
 const Shorten = require('../../c_models/shortenModel');
+const fs = require('fs');
 
 //Algorithm convert base10 to base62
 let convertBase62 = (number) => {
@@ -10,7 +11,6 @@ let convertBase62 = (number) => {
     }
     return digits.reverse();
 }
-
 // mapping a->z,A->Z,0->9 with 0->61
 let mapping = (arr) => {
     let url ="";
@@ -29,12 +29,15 @@ let mapping = (arr) => {
 }
 
 // Create short Url
-let createShortUrl = () => {
-    let hostname = "localhost:3000/";
+let createShortUrl = (domain1) => {
+    let domain = fs.readFileSync('domain.txt', 'utf8');
+    // console.log("DOMAIN read:", domain);
+    //let domain = "localhost:3000/";
+    domain = domain + '/';
     let random = Math.floor(100000000000 +  Math.random() * 900000000000); //12 numbers
     let base62 = convertBase62(random);
     let url = mapping(base62);
-    let newUrl = hostname + url;
+    let newUrl = domain + url;
     return newUrl; 
 }
 
@@ -59,7 +62,10 @@ let checkExistForFb = async (arr) => {
     
 }
 
-let checkFormatUrlShort = (url, domain) => {
+let checkFormatUrlShort = (url, domain1) => {
+    // let domain = "localhost:3000/";
+    let domain = fs.readFileSync('domain.txt', 'utf8');
+    domain = domain + '/';
     const regex = /^[a-zA-Z0-9]*$/;
     let len = domain.length; //console.log("LEN:", len);//ex: doamin: rutgon.ml/ => length 10
     let domainUrl = url.slice(0, len); //console.log("DOMAINUURL:", domainUrl);
@@ -70,8 +76,6 @@ let checkFormatUrlShort = (url, domain) => {
 }
 
 let checkFormatFbShort = (arrFb, domain) => {
-    // console.log("mang nhan duoc:", arrFb);
-    // console.log('TYPEOF:', typeof arrFb);
     if(typeof arrFb == "string") {
        return checkFormatUrlShort(arrFb, domain);
     }
@@ -84,8 +88,6 @@ let checkFormatFbShort = (arrFb, domain) => {
         }
         return true;
     }
-    
-    
 }
 let checkDuplicate = (arr) => {
             //console.log("Mang nhan duoc:", arr);

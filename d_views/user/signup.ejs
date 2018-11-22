@@ -1,69 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>Sign Up User</title>
-  <meta charset="utf-8">
-  <link rel="icon" type="image/png" href="/iconLogo.jpeg"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Gloria+Hallelujah" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="/js/user/ajaxSignup.js"></script>
+	<title>Sign Up User</title>
+	<meta charset="utf-8">
+	<link rel="icon" type="image/png" href="/iconLogo.jpeg" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Gloria+Hallelujah" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="/js/user/ajaxSignup.js"></script>
 </head>
 
-<body> 
-<div class="container" style ="padding-top: 70px; padding-bottom: 40px; background-color: #d2d2d2"> 
-	<div class="col-md-4">
-		<h1 style = "font-family: 'Dancing Script'">Wellcome rutgon.ml</h1>
-		<br>
-		<br>
-		<div>		
-			<form  id = "customerForm">
-			<div class="form-group">
-				<label for="firstname">UserName:</label>
-				<input type="text" class="form-control" id="username" placeholder="Enter Username" name = "username"/>
-			</div>
-			<p style ="color:red; display: none"  id ="errUser">Username already exists.</p>
-			<p style ="color:red; display: none"  id ="errUserBlank">Username can not be left blank.</p>
-			<div class="form-group">
-				<label for="password">Password:</label>
-				<input type="password" class="form-control" id="password" placeholder="Enter Password" name ="password"/>
-			</div>
-			<p style ="color:red; display: none"  id ="errPassBlank">Password can not be left blank.</p>
-            <div class="form-group">
-                    <label for="email">Email:</label>
-                    <input type="email" class="form-control" id="email" placeholder="Enter Email" name ="email"/>
-			</div>
-			<p style ="color:red; display: none" id ="errEmail">The Email was registered!</p>
-			<p style ="color:red; display: none"  id ="errEmailBlank">Email can not be left blank.</p>
-			
-			<p> <b>Mục đích sử dụng:</b> </p>	
-			<div class="radio">
-				<label><input type="radio" name="optradio" value="personal" id ="idPersonal" checked >Personal</label>
-			</div>
-			<div class="radio">
-				<label><input type="radio" name="optradio" value="enterprise" id ="idEnterprise">Enterprise</label>
-			</div>
-			<button type="submit" class="btn btn-primary">Sign Up</button>
-			</form>
-		</div>
-		<br>
-		<div>
-            <span >
-                I already have an account?
-            </span>
+<body>
+	<div class="container" style="padding-top: 70px; padding-bottom: 40px; background-color: #d2d2d2">
+		<div class="col-md-4">
+			<h1 style="font-family: 'Dancing Script'">Wellcome rutgon.ml</h1>
+			<br>
+			<br>
+			<div>
+				<form id="customerForm">
+					<div class="form-group">
+						<label for="firstname">UserName:</label>
+						<input type="text" class="form-control" id="username" placeholder="Enter Username" name="username" />
+					</div>
+					<p style="color:red; display: none" id="errUser">Username already exists.</p>
+					<p style="color:red; display: none" id="errUserBlank">Username can not be left blank.</p>
+					<div class="form-group">
+						<label for="password">Password:</label>
+						<input type="password" class="form-control" id="password" placeholder="Enter Password" name="password" />
+					</div>
+					<p style="color:red; display: none" id="errPassBlank">Password can not be left blank.</p>
+					<div class="form-group">
+						<label for="email">Email:</label>
+						<input type="email" class="form-control" id="email" placeholder="Enter Email" name="email" />
+					</div>
+					<p style="color:red; display: none" id="errEmail">The Email was registered!</p>
+					<p style="color:red; display: none" id="errEmailBlank">Email can not be left blank.</p>
 
-            <a class="txt2" href="/user/login">
-                Log In
-            </a>
-        </div>
-		<br>
+					<p> <b>Mục đích sử dụng:</b> </p>
+					<div class="radio">
+						<label><input type="radio" name="optradio" value="personal" id="idPersonal" checked>Personal</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="optradio" value="enterprise" id="idEnterprise">Enterprise</label>
+					</div>
+					<button type="submit" class="btn btn-primary">Sign Up</button>
+				</form>
+			</div>
+			<br>
+			<div>
+				<span>
+					I already have an account?
+				</span>
+
+				<a class="txt2" href="/user/login">
+					Log In
+				</a>
+			</div>
+			<br>
+		</div>
+		<div class="col-md-1"> </div>
+		<!-- <div class="col-md-7" style ="background-image: url(/ows.png); height: 500px; background-repeat: no-repeat"> -->
 	</div>
-	<div class ="col-md-1"> </div>
-	<!-- <div class="col-md-7" style ="background-image: url(/ows.png); height: 500px; background-repeat: no-repeat"> -->
-	</div>	
-</div>
+	</div>
 </body>
+
 </html>

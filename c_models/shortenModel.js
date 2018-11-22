@@ -101,3 +101,23 @@ module.exports.getAll = () => {
         })
     })
 }
+// get total record
+module.exports.getTotalRecord = () => {
+    return new Promise((resolve, reject) => {
+        shorten.countDocuments((err, result) => {
+            if(err) reject(err);
+            else resolve(result);
+        })
+    })
+}
+
+//get 10 records 
+module.exports.getAllShort= (page) => {
+    return new Promise((resolve, reject) => {
+        const pagesize = 10;
+        shorten.find({resource: null}).skip(pagesize*(page-1)).limit(pagesize).exec((err, users) =>{
+            if(err) reject(err);
+            else resolve(users);
+        }); 
+    })  
+};

@@ -30,4 +30,12 @@ module.exports.getRecordByIdShorten = (id_short) => {
         })
     })
 }
-
+//get total accesslog record
+module.exports.getTotalRecord = () => {
+    return new Promise((resolve, reject) => {
+        accesslog.countDocuments((err, result) => {
+            if(err) reject(err);
+            else resolve(result);
+        })
+    })
+}

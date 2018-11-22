@@ -23,8 +23,10 @@ exports.shortUrl_get = (req, res) => {
 exports.shortUrl_post = async (req, res) => { 
     let data = {};
     data.urlOrigin = req.body.urlOrigin;
-    let shortUrl = seedUrl.createShortUrl();
     try{
+        //let domain = await userModel.getDomain(req.session.user);
+        let domain = 's.ows.com';
+        let shortUrl = seedUrl.createShortUrl(domain);
         let ob_shortUrl = await shortenModel.save({url: shortUrl});
         let object_url = {url:req.body.urlOrigin , short_urls : [ob_shortUrl.id]};
         let result = await urlModel.save(object_url);
