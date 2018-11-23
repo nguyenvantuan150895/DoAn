@@ -18,13 +18,23 @@ router.get('/manager/user/detail/:id',adminControll.detailUser);
 router.get('/manager/user/:page', adminControll.managerUser);
 
 
+router.get('/manager/link/add', adminControll.addLink_get);
+router.post('/manager/link/add', adminControll.addLink_post);
+router.get('/manager/link/update/:id', adminControll.updateLink_get);
+router.post('/manager/link/update', adminControll.updateLink_post);
+router.get('/manager/link/detail/:id', adminControll.detailLink);
+router.get('/manager/link/delete/:id', adminControll.deleteLink);
+router.get('/manager/link/:page', adminControll.managerLink);
+
 // router.get('/manager/link/add', adminControll.addLink_get);
 // router.post('/manager/link/add', adminControll.addLink_post);
 // router.get('/manager/link/update/:id', adminControll.updateLink_get);
 // router.post('/manager/link/update', adminControll.updateLink_post);
 // router.get('/manager/link/detail/:id', adminControll.detailLink);
 // router.get('/manager/link/delete/:id', adminControll.deleteLink);
-// router.get('/manager/link/:page', adminControll.managerLink);
+router.get('/manager/campaign/:page', adminControll.managerCamp);
+
+
 
 
 

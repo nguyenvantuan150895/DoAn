@@ -26,10 +26,18 @@ module.exports.getUrlOriginByIdShortUrl = (id) => {
             if(err) reject(err);
             else resolve(result[0].url);
         })
+    })
+}
+// get obj url by id SHORTEN
+module.exports.getObjUrlByIdShort = (idshort) => {
+    return new Promise((resolve, reject) => {
+        url.find({ short_urls: idshort }, (err, result) => {
+            if(err) reject(err);
+            else resolve(result[0]);
+        })
 
     })
 }
-
 //get object url by id
 module.exports.getObUrlById = (id) => { 
     return new Promise ((resolve, reject) => {
@@ -50,6 +58,14 @@ module.exports.delete = (id) => {
         })
     })
 }
-
+//update urlOrigin ( admin controll)
+module.exports.updateUrlOrigin = (idUrl, urlOrigin) => {
+    return new Promise((resolve, reject) => {
+        url.updateOne({_id:idUrl},{url:urlOrigin}, (err, result) => {
+            if(err)reject(err)
+            else resolve(result);
+        })
+    })
+}
 
 

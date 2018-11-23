@@ -32,6 +32,8 @@
     <!-- import fusionchart.js -->
     <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
     <script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+    <!-- import file js addLink -->
+    <script src="/js/admin/addLink.js"></script>
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
@@ -108,7 +110,7 @@
                         <img src="/admin.png" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p user="<%=JSON.stringify(user)%>" id="idAdminInfo">ADMIN INFO</p>
+                        <p>ADMIN INFO</p>
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
@@ -155,57 +157,47 @@
                     <div class="col-xs-12">
                         <div class="box">
                             <div class="box-header">
-                               
+                                
                             </div>
                             <!-- /.box-header -->
 
                             <!-- *************************************** -->
                             <div class="box-body">
-                                <div style="border: 1px solid #d2d6dd;border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 480px; margin-left: auto; margin-right: auto; padding-bottom: 10px"
+                                <div style="border: 1px solid #d2d6dd; border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 420px; margin-left: auto; margin-right: auto"
                                     class="register-box-body">
-                                    <img src="/detailUser.png" alt="" style="width:30px; height: 30px" title="Detail user">
-                                    <h3 class="login-box-msg">Detail User</h3>
-                                    <form>
-                                        <b>ID</b>
-                                        <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idId" name="id"
-                                                value="<%=user.id%>" readonly>
-                                            <span class="glyphicon glyphicon-tag form-control-feedback"></span>
-                                        </div>
-                                        <b>Username</b>
-                                        <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idUsername" name="username"
-                                                value="<%=user.username%>" readonly>
-                                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                                        </div>
-                                        <b>Password</b>
-                                        <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idPassword" name="password"
-                                                value="<%=user.password%>" readonly>
-                                            <span class="fa fa-lock form-control-feedback"></span>
-                                        </div>
-                                        <b>Email</b>
-                                        <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idEmail" name="email" value="<%=user.email%>"
-                                                readonly>
-                                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                                        </div>
-                                        <b>Role</b>
-                                        <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idRole" name="role" value="<%=user.role%>"
-                                                readonly>
-                                            <span class="glyphicon glyphicon-flag form-control-feedback"></span>
-                                        </div>
-                                        <!-- /.col -->
-                                        <div class="col-xs-3"></div>
-                                        <div class="col-xs-6">
-                                            <a style="float: right" class="btn btn-primary btn-md btn-block" href="/admin/manager/user/<%=page%>">Back</a>
-                                        </div>
-                                        <div class="col-xs-3"></div>
+                                    <img src="/addLink.png" alt="" style="width:30px; height: 30px" title="Add link">
+                                    <h3 class="login-box-msg">Create short link</h3>
 
-                                        <!-- /.col -->
+                                    <!-- <form action="/admin/manager/link/add" method="post"> -->
+                                    <b>Original Url</b>
+                                    <div class="form-group has-feedback">
+                                        <input type="text" class="form-control" placeholder="Enter..." id="idUrlOrigin"
+                                            name="oldUrl">
+                                        <span class="fa fa-link form-control-feedback"></span>
+                                    </div>
+                                    <b>User</b>
+                                    <div class="form-group has-feedback">
+                                        <input type="text" class="form-control" placeholder="Enter..." id="idUserName"
+                                            name="user">
+                                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                                    </div>
+
+                                    <!-- /.col -->
+                                    <br> <br>
+                                    <div>
+                                        <div class="col-xs-1"></div>
+                                        <div class="col-xs-5">
+                                            <button id="idCreate" class="btn btn-primary btn-md btn-block btn-md">Create</button>
+                                        </div>
+                                        <div class="col-xs-5">
+                                            <button type="reset" class="btn btn-primary btn-md btn-block  btn-md">Reset</button>
+                                        </div>
+                                        <div class="col-xs-1"></div>
+                                    </div>
+
+                                    <!-- /.col -->
                                 </div>
-                                </form>
+                                <!-- </form> -->
                             </div>
                             <!-- /.form-box -->
                         </div>

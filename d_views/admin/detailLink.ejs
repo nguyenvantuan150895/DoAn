@@ -32,6 +32,8 @@
     <!-- import fusionchart.js -->
     <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
     <script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+    <!-- import file js update Link -->
+    <script src="/js/admin/updateLink.js"></script>
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
@@ -108,7 +110,7 @@
                         <img src="/admin.png" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p user="<%=JSON.stringify(user)%>" id="idAdminInfo">ADMIN INFO</p>
+                        <p>ADMIN INFO</p>
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
@@ -155,57 +157,75 @@
                     <div class="col-xs-12">
                         <div class="box">
                             <div class="box-header">
-                               
+
                             </div>
                             <!-- /.box-header -->
 
                             <!-- *************************************** -->
                             <div class="box-body">
-                                <div style="border: 1px solid #d2d6dd;border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 480px; margin-left: auto; margin-right: auto; padding-bottom: 10px"
+                                <div style="border: 1px solid #d2d6dd; border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 450px; margin-left: auto; margin-right: auto"
                                     class="register-box-body">
-                                    <img src="/detailUser.png" alt="" style="width:30px; height: 30px" title="Detail user">
-                                    <h3 class="login-box-msg">Detail User</h3>
-                                    <form>
-                                        <b>ID</b>
+                                    <img src="/detailLink.png" alt="" style="width:30px; height: 30px" title="Detail link">
+                                    <h3 class="login-box-msg">Detail link</h3>
+                                    <!-- <form id="customerForm"> -->
+                                    <div class="col-md-6">
+                                        <b>ID Url Origin</b>
                                         <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idId" name="id"
-                                                value="<%=user.id%>" readonly>
+                                            <input readonly type="text" class="form-control" id="idOrigin" value="<%=ob_urlShort.idUrlOrigin%>">
                                             <span class="glyphicon glyphicon-tag form-control-feedback"></span>
                                         </div>
-                                        <b>Username</b>
+                                        <b>Url Original</b>
                                         <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idUsername" name="username"
-                                                value="<%=user.username%>" readonly>
+                                            <input readonly type="text" class="form-control" id="idUrlOrigin" value="<%=ob_urlShort.urlOrigin%>">
+                                            <span class="fa fa-link form-control-feedback"></span>
+                                        </div>
+                                        <b>ID Url Shorten</b>
+                                        <div class="form-group has-feedback">
+                                            <input readonly type="text" class="form-control" id="idShorten" value="<%=ob_urlShort.id%>">
+                                            <span class="glyphicon glyphicon-tag form-control-feedback"></span>
+                                        </div>
+                                        <b>Url shorten</b>
+                                        <div class="form-group has-feedback">
+                                            <input readonly type="text" class="form-control" id="idUrlShort" value="<%=ob_urlShort.urlShort%>">
+                                            <span class="fa fa-link form-control-feedback"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>Total Click</b>
+                                        <div class="form-group has-feedback">
+                                            <input readonly type="text" class="form-control" id="idTotalClick" value="<%=ob_urlShort.totalClick%>">
+                                            <span class="fa fa-hand-pointer-o form-control-feedback"></span>
+                                        </div>
+                                        <b>User</b>
+                                        <div class="form-group has-feedback">
+                                            <input readonly type="text" class="form-control" id="idUserName" value="<%=ob_urlShort.username%>">
                                             <span class="glyphicon glyphicon-user form-control-feedback"></span>
                                         </div>
-                                        <b>Password</b>
+                                        <b>Time Create</b>
                                         <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idPassword" name="password"
-                                                value="<%=user.password%>" readonly>
-                                            <span class="fa fa-lock form-control-feedback"></span>
+                                            <input readonly type="text" class="form-control" id="idCreate" value="<%=ob_urlShort.timeCreate%>">
+                                            <span class="glyphicon glyphicon-calendar form-control-feedback"></span>
                                         </div>
-                                        <b>Email</b>
+                                        <b>ID Campaign</b>
                                         <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idEmail" name="email" value="<%=user.email%>"
-                                                readonly>
-                                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                                            <input readonly type="text" class="form-control" id="idCreate" value="<%=ob_urlShort.idCamp%>">
+                                            <span class="glyphicon glyphicon-tag form-control-feedback"></span>
                                         </div>
-                                        <b>Role</b>
-                                        <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idRole" name="role" value="<%=user.role%>"
-                                                readonly>
-                                            <span class="glyphicon glyphicon-flag form-control-feedback"></span>
-                                        </div>
-                                        <!-- /.col -->
+                                    </div>
+                                    <!-- /.col -->
+
+                                    <div class="col-md-12">
+                                        <br>
                                         <div class="col-xs-3"></div>
                                         <div class="col-xs-6">
-                                            <a style="float: right" class="btn btn-primary btn-md btn-block" href="/admin/manager/user/<%=page%>">Back</a>
+                                            <a style="float: right" class="btn btn-primary btn-md btn-block" href="/admin/manager/link/<%=page_current%>">Back</a>
                                         </div>
                                         <div class="col-xs-3"></div>
+                                    </div>
 
-                                        <!-- /.col -->
+                                    <!-- /.col -->
                                 </div>
-                                </form>
+                                <!-- </form> -->
                             </div>
                             <!-- /.form-box -->
                         </div>

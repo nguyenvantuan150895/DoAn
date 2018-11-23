@@ -112,7 +112,7 @@ module.exports.getTotalRecord = () => {
 }
 
 //get 10 records 
-module.exports.getAllShort= (page) => {
+module.exports.getAllShort = (page) => {
     return new Promise((resolve, reject) => {
         const pagesize = 10;
         shorten.find({resource: null}).skip(pagesize*(page-1)).limit(pagesize).exec((err, users) =>{
@@ -121,3 +121,21 @@ module.exports.getAllShort= (page) => {
         }); 
     })  
 };
+// get totalLink (not link campaign)
+module.exports.getTotalLink = () => {
+    return new Promise((resolve, reject) => {
+        shorten.find({resource: null}, (err, result) => {
+            if(err) reject(err);
+            else resolve(result.length);
+        })
+    })
+}
+// Update urlShort (daminControll)
+module.exports.updateUrlShort = (idShorten, urlShort) => {
+    return new Promise((resolve, reject) => {
+        shorten.updateOne({_id:idShorten},{url:urlShort}, (err, result) => {
+            if(err)reject(err)
+            else resolve(result);
+        })
+    })
+}

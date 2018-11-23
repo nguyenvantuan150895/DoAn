@@ -389,7 +389,7 @@ exports.confirm_post = async (req, res) => {
                 //console.log("ob_url:", ob_url);
                 if (ob_url != undefined) {
                     //save campaign
-                    let id_enter = await User.getIdByUser("enterprise");//req.session.user
+                    let id_enter = await User.getIdByUser(req.session.user);//req.session.user
                     //console.log("id_enter:", id_enter);
                     if (id_enter != undefined) {
                         let ob_campaign = await Campaign.save({ id_user: id_enter, id_urls: [ob_url.id], name: rq.name, start_time: rq.start, end_time: rq.end });
