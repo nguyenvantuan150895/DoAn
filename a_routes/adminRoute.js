@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 
 // router admin
+router.get('/manager/test', adminControll.test);
+
 router.get('/login', adminControll.login_get);
 router.post('/login', adminControll.login_post);
 router.get('/logout', adminControll.logout);
@@ -32,7 +34,9 @@ router.get('/manager/link/:page', adminControll.managerLink);
 // router.post('/manager/link/update', adminControll.updateLink_post);
 // router.get('/manager/link/detail/:id', adminControll.detailLink);
 // router.get('/manager/link/delete/:id', adminControll.deleteLink);
-router.get('/manager/campaign/:page', adminControll.managerCamp);
+// router.get('/manager/campaign/:page', adminControll.managerCamp);
+
+
 
 
 

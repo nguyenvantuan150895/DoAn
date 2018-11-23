@@ -92,7 +92,7 @@ let randomTime = () => {
     let date1;
     if(Number(month) < 10) month = "0" + month;
     // month = randomArray(['06','07','08']);
-    month = '06';
+    month = '11';
     // console.log("month:", month);
     // console.log("typeof Month:", typeof month);
     if( month == "02"){

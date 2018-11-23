@@ -51,13 +51,13 @@ exports.getCampaignByName = async (req, res) => {
         let arr_shortUrlCV = await seedUrl.converArrShort(arr_shortUrl);
         // console.log("arr_shortUrl:", arr_shortUrl);
         // Get array access
-        let arr_accessF = await AccessModul.getAllRecordAccess(arr_shortUrlCV.fb); //console.log("Fb:",arr_accessF);
+        let arr_accessF = await AccessModul.getAllRecordAccess(arr_shortUrlCV.fb); console.log("Fb:",arr_accessF);
         let arr_accessE = await AccessModul.getAllRecordAccess(arr_shortUrlCV.email);//console.log("Email:",arr_accessE);
         let arr_accessS = await AccessModul.getAllRecordAccess(arr_shortUrlCV.sms);//console.log("SMS:",arr_accessS);
         let arr_accessO = await AccessModul.getAllRecordAccess(arr_shortUrlCV.other);//console.log("Other:",arr_accessO);
         let arr_accessGr = await AccessModul.getAllRecordAccessGr(arr_shortUrlCV.ob_group);//console.log("arr_accessGr:", arr_accessGr.length);
         // Filter arr_access
-        let arr_accessF1 = AccessModul.filterArrAccess(arr_accessF, start_time, end_time);//console.log("Fb1:",arr_accessF1);
+        let arr_accessF1 = AccessModul.filterArrAccess(arr_accessF, start_time, end_time);console.log("Fb1:",arr_accessF1);
         let arr_accessE1 = AccessModul.filterArrAccess(arr_accessE, start_time, end_time);//console.log("Email1:",arr_accessE1);
         let arr_accessS1 = AccessModul.filterArrAccess(arr_accessS, start_time, end_time);//console.log("SMS1:",arr_accessS1);
         let arr_accessO1 = AccessModul.filterArrAccess(arr_accessO, start_time, end_time);//console.log("Other1:",arr_accessO1);
@@ -87,17 +87,17 @@ exports.getCampaignByName = async (req, res) => {
         customer.averageDayE = averageDayE.average;
         customer.averageDayS = averageDayS.average;
         customer.averageDayO = averageDayO.average;
-        customer.clickF = averageDayF.sum;total_fb = averageDayF.sum;
-        customer.clickE = averageDayE.sum;total_e = averageDayE.sum;
-        customer.clickS = averageDayS.sum;total_s = averageDayS.sum;
-        customer.clickO = averageDayO.sum;total_o = averageDayO.sum;
+        customer.clickF = averageDayF.sum;
+        customer.clickE = averageDayE.sum;
+        customer.clickS = averageDayS.sum;
+        customer.clickO = averageDayO.sum;
         customer.averageGr = averageGr;
         customer.browser = objInfo.browser;
         customer.device = objInfo.device;
         customer.osDesktop = objInfo.osDesktop;
         customer.osPhone = objInfo.osPhone;
         customer.objLocation = objInfo.objLocation;
-        // console.log("test:", customer.objLocation);
+        // console.log("test:", customer);
         res.send(customer);
 
     } catch (e) {
@@ -411,7 +411,7 @@ exports.confirm_post = async (req, res) => {
             else customer.err_format = false;
             if (flagDup == true) customer.err_dup = true;
             else customer.err_dup = false;
-            //res.send(customer);
+            // res.send(customer);
         }
     } catch (e) {
         console.log(e + "--tuan: confirm_post");

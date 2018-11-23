@@ -4,17 +4,9 @@ $(function () {
   let str = arrCampaign;
 
   arrCampaign = JSON.parse(arrCampaign);
-  if (arrCampaign.length == 0) {
-    $("#canxoa").hide();
-    //console.log("Empty");
-  } else {
-    $("#canxoa").show();
-    //console.log("Co data");
-  }
-  // console.log('arrCampagin ', arrCampaign);
-  // console.log("LENGTH:", arrCampaign.length)
   for (let i = 0; i < arrCampaign.length; i++) {
     let id = "id_list" + (i + 1);
+
     $('#' + id).click((function () {
       $("#export").show();
       $(".btn_list").removeClass("active");
@@ -40,11 +32,6 @@ $(function () {
     }));
   }
 })// end function ready
-
-
-
-
-
 let detailCampaign = (data, elementCampaign) => {
   let arr_shortUrl = data.arr_shortUrl;
   $("#idname").val(elementCampaign.name);

@@ -375,9 +375,6 @@ let saveUpdateLink = async (username, urlShort, urlOrigin) => {
 }
 /* End Update Link */
 
-// @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-
-
 // Detail Link
 exports.detailLink = async (req, res) => {
     id = req.params.id;
@@ -395,7 +392,6 @@ exports.detailLink = async (req, res) => {
         console.log(e + "--tuan: detailLink_get adminControll");
     }
 };
-
 
 // Delete Link
 exports.deleteLink = async (req, res) => {
@@ -426,12 +422,20 @@ let subdDeleteLink = async (ob_urlShort) => {
         let rs5 = await Shorten.delete(ob_urlShort.id);
     }
 }
+/* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+// Start Manger Campaign
+exports.managerCamp = (req, res) => {
+    let data = 1;
+    res.render("../d_views/admin/managerCamp.ejs", data);
+}
 
 
-
-//test
-exports.test = async (req, res) => {
-    let test = await Campaign.getCampaignNull('5bf77299b9abf91929387344');
-    console.log("test:", test);
-    res.send("hello test");
+//TEST
+exports.test = (req, res) => {
+    try{
+        res.send("testing!!");
+    }catch(e){
+        console.log(e);
+    }
 }
