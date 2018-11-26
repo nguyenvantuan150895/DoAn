@@ -98,14 +98,27 @@ module.exports.getCampaignByName = (nameCampaign) => {
         })
     })
 }
-
+module.exports.getCampaignById = (id_camp) => {
+    return new Promise((resolve, reject) => {
+        campaign.find({_id: id_camp }, (err, result) => {
+            if (err) reject(err);
+            else resolve(result[0]);
+        })
+    })
+}
 //get Total campaign
 module.exports.getTotalRecord = () => {
     return new Promise((resolve, reject) => {
-        campaign.countDocuments((err, result) => {
-            if (err) reject(err);
-            else resolve(result);
-        })
+        campaign.find({
+            $where: function () {
+                if(this.name != null)
+                return (this);
+            }
+        },
+        (err, result) => {
+            if(err) reject(err);
+            else resolve(result.length);
+        });
     })
 }
 // get obj campaign by id url (for admin controller managerLink)
@@ -122,8 +135,8 @@ module.exports.getObCampByIdUrl = (idUrl) => {
 // remove 1 idUrl in array urls (change user - admincontroll)
 module.exports.removeIdUrlInCamp = (idCamp, idUrl) => {
     return new Promise((resolve, reject) => {
-        campaign.updateOne({_id: idCamp}, { $pull: { id_urls: idUrl } }, (err, result) => {
-            if(err) reject(err);
+        campaign.updateOne({ _id: idCamp }, { $pull: { id_urls: idUrl } }, (err, result) => {
+            if (err) reject(err);
             else resolve(result);
         })
     })
@@ -131,8 +144,8 @@ module.exports.removeIdUrlInCamp = (idCamp, idUrl) => {
 // add 1 idUrl in array urls (change user - admincontroll)
 module.exports.addIdUrlInCamp = (idCamp, idUrl) => {
     return new Promise((resolve, reject) => {
-        campaign.updateOne({_id: idCamp}, { $push: { id_urls: idUrl } }, (err, result) => {
-            if(err) reject(err);
+        campaign.updateOne({ _id: idCamp }, { $push: { id_urls: idUrl } }, (err, result) => {
+            if (err) reject(err);
             else resolve(result);
         })
     })
@@ -141,9 +154,27 @@ module.exports.addIdUrlInCamp = (idCamp, idUrl) => {
 module.exports.getCampaignNull = (idUser) => {
     // return [] if not found
     return new Promise((resolve, reject) => {
-        campaign.find({id_user: idUser, name : null}, (err, result) => {
-            if(err) reject(err);
+        campaign.find({ id_user: idUser, name: null }, (err, result) => {
+            if (err) reject(err);
             else resolve(result);
         })
     })
 }
+
+// Get campaign with name difirent null (5 record)
+module.exports.getCampaignOtherNull = (page) => {
+    // return [] if not found
+    return new Promise((resolve, reject) => {
+        const pagesize = 5;
+        campaign.find({
+            $where: function () {
+                if(this.name != null)
+                return (this);
+            }
+        }, (err, result) => {
+            if(err) reject(err);
+            else resolve(result)
+        }).skip(pagesize*(page-1)).limit(pagesize);
+    })
+}
+

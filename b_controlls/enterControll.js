@@ -38,26 +38,26 @@ exports.manager = async (req, res) => {
     }
 }
 //Get campaign by name
-exports.getCampaignByName = async (req, res) => {
+exports.getDataForCampaign = async (req, res) => {
     // console.log("data receive from client:", req.body);
     let customer = {};
     try {
-        let ob_campaign = await Campaign.getCampaignByName(req.body.name); ob_campaignPl = ob_campaign;
+        let ob_campaign = await Campaign.getCampaignById(req.body.id); ob_campaignPl = ob_campaign;
         let start_time = ob_campaign.start_time; let end_time = ob_campaign.end_time;
         end_time = AccessModul.returnEndTime(end_time);
         // console.log("ob_campaign:", ob_campaign);
         let ob_url = await Url.getObUrlById(ob_campaign.id_urls[0]); ob_urlPl = ob_url;
-        let arr_shortUrl = await seedUrl.getArrShortUrl(ob_url.short_urls); arr_shortPl = arr_shortUrl;
+        let arr_shortUrl = await seedUrl.getArrShortUrl(ob_url.short_urls); arr_shortPl = arr_shortUrl;//don't care arr_shortPl
         let arr_shortUrlCV = await seedUrl.converArrShort(arr_shortUrl);
         // console.log("arr_shortUrl:", arr_shortUrl);
         // Get array access
-        let arr_accessF = await AccessModul.getAllRecordAccess(arr_shortUrlCV.fb); console.log("Fb:",arr_accessF);
+        let arr_accessF = await AccessModul.getAllRecordAccess(arr_shortUrlCV.fb); //console.log("Fb:",arr_accessF);
         let arr_accessE = await AccessModul.getAllRecordAccess(arr_shortUrlCV.email);//console.log("Email:",arr_accessE);
         let arr_accessS = await AccessModul.getAllRecordAccess(arr_shortUrlCV.sms);//console.log("SMS:",arr_accessS);
         let arr_accessO = await AccessModul.getAllRecordAccess(arr_shortUrlCV.other);//console.log("Other:",arr_accessO);
         let arr_accessGr = await AccessModul.getAllRecordAccessGr(arr_shortUrlCV.ob_group);//console.log("arr_accessGr:", arr_accessGr.length);
         // Filter arr_access
-        let arr_accessF1 = AccessModul.filterArrAccess(arr_accessF, start_time, end_time);console.log("Fb1:",arr_accessF1);
+        let arr_accessF1 = AccessModul.filterArrAccess(arr_accessF, start_time, end_time);//console.log("Fb1:",arr_accessF1);
         let arr_accessE1 = AccessModul.filterArrAccess(arr_accessE, start_time, end_time);//console.log("Email1:",arr_accessE1);
         let arr_accessS1 = AccessModul.filterArrAccess(arr_accessS, start_time, end_time);//console.log("SMS1:",arr_accessS1);
         let arr_accessO1 = AccessModul.filterArrAccess(arr_accessO, start_time, end_time);//console.log("Other1:",arr_accessO1);
@@ -70,10 +70,10 @@ exports.getCampaignByName = async (req, res) => {
         let averageDayS = await AccessModul.caculateAverageDay(arr_accessS1, start_time, end_time); //console.log("averageDayS:", JSON.stringify(averageDayS));
         let averageDayO = await AccessModul.caculateAverageDay(arr_accessO1, start_time, end_time); //console.log("averageDayO:", JSON.stringify(averageDayO));
         let averageGr = await AccessModul.caculateAverageHour(arr_accessGr1, start_time, end_time);
-        total_fb = averageDayF.sum;
-        total_e = averageDayE.sum;
-        total_s = averageDayS.sum;
-        total_o = averageDayO.sum;
+        total_fb = arr_accessF1.length;
+        total_e = arr_accessE1.length;
+        total_s = arr_accessS1.length;
+        total_o = arr_accessO1.length;
         // console.log("AverageGr:", averageGr);
         //Get info chart (os, browser, device)
         let arrFilter = arr_accessF1.concat(arr_accessE1, arr_accessS1, arr_accessO1);
@@ -87,10 +87,10 @@ exports.getCampaignByName = async (req, res) => {
         customer.averageDayE = averageDayE.average;
         customer.averageDayS = averageDayS.average;
         customer.averageDayO = averageDayO.average;
-        customer.clickF = averageDayF.sum;
-        customer.clickE = averageDayE.sum;
-        customer.clickS = averageDayS.sum;
-        customer.clickO = averageDayO.sum;
+        customer.clickF = arr_accessF1.length;
+        customer.clickE = arr_accessE1.length;
+        customer.clickS = arr_accessS1.length;
+        customer.clickO = arr_accessO1.length;
         customer.averageGr = averageGr;
         customer.browser = objInfo.browser;
         customer.device = objInfo.device;

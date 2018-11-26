@@ -32,9 +32,11 @@ router.get('/manager/link/:page', adminControll.managerLink);
 // router.post('/manager/link/add', adminControll.addLink_post);
 // router.get('/manager/link/update/:id', adminControll.updateLink_get);
 // router.post('/manager/link/update', adminControll.updateLink_post);
-// router.get('/manager/link/detail/:id', adminControll.detailLink);
+router.get('/manager/campaign/detail/:id', adminControll.detailCamp);
+router.get('/manager/campaign/export', adminControll.exportCamp);
+
 // router.get('/manager/link/delete/:id', adminControll.deleteLink);
-// router.get('/manager/campaign/:page', adminControll.managerCamp);
+router.get('/manager/campaign/:page', adminControll.managerCamp);
 
 
 

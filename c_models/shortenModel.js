@@ -130,12 +130,21 @@ module.exports.getTotalLink = () => {
         })
     })
 }
-// Update urlShort (daminControll)
+// Update urlShort (aminControll)
 module.exports.updateUrlShort = (idShorten, urlShort) => {
     return new Promise((resolve, reject) => {
         shorten.updateOne({_id:idShorten},{url:urlShort}, (err, result) => {
             if(err)reject(err)
             else resolve(result);
+        })
+    })
+}
+// Get url shorten by id
+module.exports.getUrlShortByID = (idShorten) => {
+    return new Promise((resolve, reject) => {
+        shorten.find({_id:idShorten},(err, result) => {
+            if(err)reject(err)
+            else resolve(result[0]);
         })
     })
 }

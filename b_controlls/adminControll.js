@@ -5,6 +5,7 @@ const Access = require('../c_models/accesslogModel');
 const Shorten = require('../c_models/shortenModel');
 const Campaign = require('../c_models/campaignModel');
 const seedUrl = require('../public/modul/seedUrl');
+const AccessModul = require('../public/modul/accessModul.js');
 let arr_shortP;
 let obShortBefore;
 
@@ -326,7 +327,7 @@ exports.updateLink_post = async (req, res) => {
 };
 //save change update Link
 let saveUpdateLink = async (username, urlShort, urlOrigin) => {
-    if (username == obShortBefore.username && urlShort == obShortBefore.urlShort && urlOrigin == obShortBefore.urlOrigin){
+    if (username == obShortBefore.username && urlShort == obShortBefore.urlShort && urlOrigin == obShortBefore.urlOrigin) {
         // console.log("khong thay doi gi ca");
     }
     else if (username == obShortBefore.username && urlShort == obShortBefore.urlShort) {
@@ -347,15 +348,15 @@ let saveUpdateLink = async (username, urlShort, urlOrigin) => {
         if (obNewCamp.length == 0) {
             // console.log("Chua ton tai campaign null");
             // create new Camp width newUser
-            let data = {id_user: idNewUser, id_urls :[obShortBefore.idUrlOrigin], name: null, end_time: null}
+            let data = { id_user: idNewUser, id_urls: [obShortBefore.idUrlOrigin], name: null, end_time: null }
             let rs8 = await Campaign.save(data);
             let rs11 = await Campaign.removeIdUrlInCamp(obShortBefore.idCamp, obShortBefore.idUrlOrigin);
-            if(urlShort != obShortBefore.urlShort) {
+            if (urlShort != obShortBefore.urlShort) {
                 let rs10 = await Shorten.updateUrlShort(obShortBefore.id, urlShort);
             }
-            if(urlOrigin != obShortBefore.urlOrign) {
+            if (urlOrigin != obShortBefore.urlOrign) {
                 let rs9 = await Url.updateUrlOrigin(obShortBefore.idUrlOrigin, urlOrigin);
-            } 
+            }
         }
         else {
             // console.log("Ton tai campaign null");
@@ -363,12 +364,12 @@ let saveUpdateLink = async (username, urlShort, urlOrigin) => {
             //add urlOrigin into new Campaign
             let rs4 = await Campaign.addIdUrlInCamp(obNewCamp.id, obShortBefore.idUrlOrigin);
             let rs5 = await Campaign.removeIdUrlInCamp(obShortBefore.idCamp, obShortBefore.idUrlOrigin);
-            if(urlShort != obShortBefore.urlShort) {
+            if (urlShort != obShortBefore.urlShort) {
                 let rs6 = await Shorten.updateUrlShort(obShortBefore.id, urlShort);
             }
-            if(urlOrigin != obShortBefore.urlOrign) {
+            if (urlOrigin != obShortBefore.urlOrign) {
                 let rs7 = await Url.updateUrlOrigin(obShortBefore.idUrlOrigin, urlOrigin);
-            } 
+            }
         }
 
     }
@@ -397,22 +398,22 @@ exports.detailLink = async (req, res) => {
 exports.deleteLink = async (req, res) => {
     id = req.params.id;
     let ob_urlShort;
-    try{
+    try {
         for (let i = 0; i < arr_shortP.length; i++) {
             if (id == arr_shortP[i].id) {
                 ob_urlShort = arr_shortP[i];
                 break;
             }
         }
-        let rs = await subdDeleteLink(ob_urlShort);
+        let rs = await subDeleteLink(ob_urlShort);
         let path = '/admin/manager/link/' + pageUrl.toString();
         res.redirect(path);
     } catch (e) {
         console.log(e + "--tuan: deleteLink in adminControll");
     }
 };
-let subdDeleteLink = async (ob_urlShort) => {
-    if(ob_urlShort.username == "unregistered") {
+let subDeleteLink = async (ob_urlShort) => {
+    if (ob_urlShort.username == "unregistered") {
         let rs1 = await Url.delete(ob_urlShort.idUrlOrigin);
         let rs2 = await Shorten.delete(ob_urlShort.id);
     }
@@ -425,17 +426,132 @@ let subdDeleteLink = async (ob_urlShort) => {
 /* @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 // Start Manger Campaign
-exports.managerCamp = (req, res) => {
-    let data = 1;
-    res.render("../d_views/admin/managerCamp.ejs", data);
+exports.managerCamp = async (req, res) => {
+    try {
+        pageCamp = req.params.page;
+        let arrCamp = await Campaign.getCampaignOtherNull(pageCamp);
+        arrCamp = await standardizedCampaign(arrCamp);
+        let totalCamp = await Campaign.getTotalRecord();
+        // console.log("arrayCamp:", arrCamp);
+        // res.send("hello");
+        res.render("../d_views/admin/managerCamp.ejs", {arrCamp: arrCamp, page: pageCamp,admin: "ADMIN", totalCamp :totalCamp });
+    } catch (e) {
+        console.log(e + "--tuan: managerCamp in adminControll");
+    }
+
+}
+let standardizedCampaign = async (arrCamp) => {
+    let arr = [];
+    for (let i = 0; i < arrCamp.length; i++) {
+        let ob_user = await User.findByID(arrCamp[i].id_user);
+        let ob_url = await Url.getObUrlById(arrCamp[i].id_urls[0]);
+        let arrShort = await getALlUrlShortInCampaign(ob_url.short_urls);
+        let time_create = arrCamp[i].time_create;
+        time_create = time_create.slice(0, -14);
+        let ob = {};
+        ob.id = arrCamp[i].id;
+        ob.id_user = arrCamp[i].id_user;
+        ob.username = ob_user.username;
+        ob.name = arrCamp[i].name;
+        // ob.id_url = arrCamp[i].id_urls[0];
+        ob.urlOrigin = ob_url.url;
+        ob.arrShort = arrShort;
+        ob.start_time = arrCamp[i].start_time;
+        ob.end_time = arrCamp[i].end_time;
+        ob.time_create = time_create;
+        arr.push(ob);
+    }
+    return arr;
+}
+let getALlUrlShortInCampaign = async (arr_idUrlShort) => {
+    let arrUrlShort = [];
+    for (let i = 0; i < arr_idUrlShort.length; i++) {
+        let urlShort = await Shorten.getUrlShortByID(arr_idUrlShort[i]);
+        arrUrlShort.push(urlShort);
+    }
+    // console.log("arrShort:", arrUrlShort);
+    return arrUrlShort;
+}
+// Detail campaign
+exports.detailCamp = async (req, res) => {
+    idCamp = req.params.id;
+    let customer = {};
+    try {
+        let ob_campaign = await Campaign.getCampaignById(idCamp);
+        let ob_user = await User.findByID(ob_campaign.id_user);
+        let start_time = ob_campaign.start_time; let end_time = ob_campaign.end_time;
+        end_time = AccessModul.returnEndTime(end_time);
+        // console.log("ob_campaign:", ob_campaign);
+        let ob_url = await Url.getObUrlById(ob_campaign.id_urls[0]); ob_urlPl = ob_url;
+        let arr_shortUrl = await seedUrl.getArrShortUrl(ob_url.short_urls); arr_shortPl = arr_shortUrl;//don't care arr_shortPl
+        let arr_shortUrlCV = await seedUrl.converArrShort(arr_shortUrl);
+        // console.log("arr_shortUrl:", arr_shortUrl);
+        // Get array access
+        let arr_accessF = await AccessModul.getAllRecordAccess(arr_shortUrlCV.fb); //console.log("Fb:",arr_accessF);
+        let arr_accessE = await AccessModul.getAllRecordAccess(arr_shortUrlCV.email);//console.log("Email:",arr_accessE);
+        let arr_accessS = await AccessModul.getAllRecordAccess(arr_shortUrlCV.sms);//console.log("SMS:",arr_accessS);
+        let arr_accessO = await AccessModul.getAllRecordAccess(arr_shortUrlCV.other);//console.log("Other:",arr_accessO);
+        let arr_accessGr = await AccessModul.getAllRecordAccessGr(arr_shortUrlCV.ob_group);//console.log("arr_accessGr:", arr_accessGr.length);
+        // Filter arr_access
+        let arr_accessF1 = AccessModul.filterArrAccess(arr_accessF, start_time, end_time);//console.log("Fb1:",arr_accessF1);
+        let arr_accessE1 = AccessModul.filterArrAccess(arr_accessE, start_time, end_time);//console.log("Email1:",arr_accessE1);
+        let arr_accessS1 = AccessModul.filterArrAccess(arr_accessS, start_time, end_time);//console.log("SMS1:",arr_accessS1);
+        let arr_accessO1 = AccessModul.filterArrAccess(arr_accessO, start_time, end_time);//console.log("Other1:",arr_accessO1);
+        let arr_accessGr1 = AccessModul.filterArrAccessGr(arr_accessGr, start_time, end_time);//console.log("arr_accessGr1:", arr_accessGr1[0]);
+        // Get value average Day
+        let averageDayF = await AccessModul.caculateAverageDay(arr_accessF1, start_time, end_time); //console.log("averageDayF:",JSON.stringify(averageDayF));
+        let averageDayE = await AccessModul.caculateAverageDay(arr_accessE1, start_time, end_time); //console.log("averageDayE:", JSON.stringify(averageDayE));
+        let averageDayS = await AccessModul.caculateAverageDay(arr_accessS1, start_time, end_time); //console.log("averageDayS:", JSON.stringify(averageDayS));
+        let averageDayO = await AccessModul.caculateAverageDay(arr_accessO1, start_time, end_time); //console.log("averageDayO:", JSON.stringify(averageDayO));
+        let averageGr = await AccessModul.caculateAverageHour(arr_accessGr1, start_time, end_time);
+            // total_fb = arr_accessF1.length;
+            // total_e = arr_accessE1.length;
+            // total_s = arr_accessS1.length;
+            // total_o = arr_accessO1.length;
+            // console.log("AverageGr:", averageGr);
+        //Get info chart (os, browser, device)
+        let arrFilter = arr_accessF1.concat(arr_accessE1, arr_accessS1, arr_accessO1);
+        let objInfo = AccessModul.getInfoChart(arrFilter);
+        //console.log("objInfo:", objInfo);
+
+        customer.username = ob_user.username;
+        customer.ob_campaign = ob_campaign;
+        customer.ob_url = ob_url;
+        customer.arr_shortUrl = arr_shortUrlCV;
+        // customer.detailTotal = detailTotal;
+        customer.averageDayF = averageDayF.average;
+        customer.averageDayE = averageDayE.average;
+        customer.averageDayS = averageDayS.average;
+        customer.averageDayO = averageDayO.average;
+        customer.clickF = arr_accessF1.length;
+        customer.clickE = arr_accessE1.length;
+        customer.clickS = arr_accessS1.length;
+        customer.clickO = arr_accessO1.length;
+        customer.averageGr = averageGr;
+        customer.browser = objInfo.browser;
+        customer.device = objInfo.device;
+        customer.osDesktop = objInfo.osDesktop;
+        customer.osPhone = objInfo.osPhone;
+        customer.objLocation = objInfo.objLocation;
+        // console.log("test:", customer);
+        res.render("../d_views/admin/detailCamp.ejs", {customer});
+    } catch (e) {
+        console.log(e + "--tuan: detailCamp admin controller");
+    }
+}
+//export campaign
+exports.exportCamp = (req, res) => {
+    res.send("export test");
 }
 
 
 //TEST
-exports.test = (req, res) => {
-    try{
-        res.send("testing!!");
-    }catch(e){
+exports.test = async (req, res) => {
+    try {
+        let rs = await Campaign.getCampaignOtherNull();
+        console.log("rs:", rs);
+        res.send("Testing");
+    } catch (e) {
         console.log(e);
     }
 }

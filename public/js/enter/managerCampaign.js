@@ -1,19 +1,18 @@
 $(function () {
   // get  arr_Campaign
   let arrCampaign = $("#arr_campaign").attr("arrCampaign");
-  let str = arrCampaign;
-
   arrCampaign = JSON.parse(arrCampaign);
+  // console.log("arrCampaign:", arrCampaign);
   for (let i = 0; i < arrCampaign.length; i++) {
     let id = "id_list" + (i + 1);
-
     $('#' + id).click((function () {
       $("#export").show();
       $(".btn_list").removeClass("active");
       $(this).addClass("active");
-      let name = arrCampaign[i].name;
+      let id_camp = arrCampaign[i]._id;
+      // console.log("id_camp:", id_camp);
       //call ajax
-      $.post("/enterprise/getCampaignByName", { name: name })
+      $.post("/enterprise/getDataForCampaign", { id: id_camp })
         .done(function (data) {
           // Set detail campaign
           detailCampaign(data, arrCampaign[i]);
@@ -45,6 +44,7 @@ let detailCampaign = (data, elementCampaign) => {
   $(".block1").empty();
   for (let j = 0; j < arr_shortUrl.fb.length; j++) {
     $(".block1").append('<label for="" style ="color: white; width:20%"> ' + (j + 1) + '. ' + arr_shortUrl.fb[j].group + ':</label>');
+    $(".block1").append('<br>');
     $(".block1").append('<input type="text" class = "infoDetail" readonly value= "' + arr_shortUrl.fb[j].url + '"></input>')
   }
 }
@@ -349,35 +349,63 @@ let randomArray = (arr) => {
   let result = arr[Math.floor(Math.random() * arr.length)];
   return result;
 }
-// let mylocation = (objLocation) => {
-//   let arr_color = [];
-//   let arr_label = [];
-//   let arr_data = [];
-//   for (const key of Object.keys(objLocation)) {
-//     arr_label.push(key);
-//     arr_data.push(objLocation[key]);
-//     arr_color.push(randomColor(1));
-//   }
-//   $(".location").empty();
-//   $(".location").append(' <canvas id="location" height="90vh" width="300vw"></canvas> ');
-//   new Chart($("#location"), {
-//     type: 'bar',
-//     data: {
-//       labels: arr_label,
-//       datasets: [
-//         {
-//           label: "Total",
-//           backgroundColor: arr_color,
-//           data: arr_data
-//         }
-//       ]
-//     },
-//     options: {
-//       legend: { display: false },
-//       title: {
-//         display: true,
-//         text: 'Location'
-//       }
-//     }
-//   });
-// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+let mylocation = (objLocation) => {
+  let arr_color = [];
+  let arr_label = [];
+  let arr_data = [];
+  for (const key of Object.keys(objLocation)) {
+    arr_label.push(key);
+    arr_data.push(objLocation[key]);
+    arr_color.push(randomColor(1));
+  }
+  $(".location").empty();
+  $(".location").append(' <canvas id="location" height="90vh" width="300vw"></canvas> ');
+  new Chart($("#location"), {
+    type: 'bar',
+    data: {
+      labels: arr_label,
+      datasets: [
+        {
+          label: "Total",
+          backgroundColor: arr_color,
+          data: arr_data
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Location'
+      }
+    }
+  });
+} */

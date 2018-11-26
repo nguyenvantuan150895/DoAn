@@ -309,9 +309,9 @@ const caculateAverageDay = async (arr, start, end) => {
     m10 = InfoAccessInMonth(arr_month[9],"day");
     m11 = InfoAccessInMonth(arr_month[10], "day");
     m12 = InfoAccessInMonth(arr_month[11], "day");
-    let sum = getTotalClick(m1) + getTotalClick(m2)+ getTotalClick(m3)+getTotalClick(m4)+getTotalClick(m5)+
-    getTotalClick(m6)+getTotalClick(m7)+getTotalClick(m8)+getTotalClick(m9)+getTotalClick(m10)+
-    getTotalClick(m11)+getTotalClick(m12); 
+    // let sum = getTotalClick(m1) + getTotalClick(m2)+ getTotalClick(m3)+getTotalClick(m4)+getTotalClick(m5)+
+    // getTotalClick(m6)+getTotalClick(m7)+getTotalClick(m8)+getTotalClick(m9)+getTotalClick(m10)+
+    // getTotalClick(m11)+getTotalClick(m12); 
     // console.log("m1:",JSON.stringify(m1));console.log("m2:", JSON.stringify(m2));console.log("m3:", JSON.stringify(m3));
     // console.log("m4:", JSON.stringify(m4));console.log("m5:", JSON.stringify(m5));console.log("m6:", JSON.stringify(m6));
     // console.log("m7:", JSON.stringify(m7));console.log("m8:", JSON.stringify(m8));console.log("m9:", JSON.stringify(m9));
@@ -320,7 +320,7 @@ const caculateAverageDay = async (arr, start, end) => {
     let object = {Jan:m1,Feb:m2,Mar:m3,Apr:m4,May:m5,June:m6,July:m7,Aug:m8,Sept:m9,Oct:m10,Nov:m11,Dec:m12};
     let average_day = averageDay(object,start,end);
     // console.log("average_day:", JSON.stringify(average_day));
-    return {average:average_day, sum:sum};
+    return {average:average_day};
 }
 let getTotalClick = (month) => {
     let sum = 0;
