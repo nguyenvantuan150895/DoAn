@@ -6,8 +6,23 @@ const Shorten = require('../c_models/shortenModel');
 const Campaign = require('../c_models/campaignModel');
 const seedUrl = require('../public/modul/seedUrl');
 const AccessModul = require('../public/modul/accessModul.js');
+const ExportModul = require('../public/modul/exportModul.js');
+const CampaignModul = require('../public/modul/campaignModul.js');
+/*manager link */
 let arr_shortP;
 let obShortBefore;
+/*manager camp */
+// let totalCampPl;
+/*Export camp*/
+let ob_campaignPl;
+let ob_urlPl;
+let arr_shortPl;
+let accessGr_Pl;
+let accessE_Pl;
+let accessS_Pl;
+let accessO_Pl;
+let ob_userPl;
+/*end export*/
 
 //Handle login
 exports.login_get = (req, res) => {
@@ -477,8 +492,8 @@ exports.detailCamp = async (req, res) => {
     idCamp = req.params.id;
     let customer = {};
     try {
-        let ob_campaign = await Campaign.getCampaignById(idCamp);
-        let ob_user = await User.findByID(ob_campaign.id_user);
+        let ob_campaign = await Campaign.getCampaignById(idCamp); ob_campaignPl = ob_campaign;
+        let ob_user = await User.findByID(ob_campaign.id_user); ob_userPl = ob_user;
         let start_time = ob_campaign.start_time; let end_time = ob_campaign.end_time;
         end_time = AccessModul.returnEndTime(end_time);
         // console.log("ob_campaign:", ob_campaign);
@@ -498,6 +513,8 @@ exports.detailCamp = async (req, res) => {
         let arr_accessS1 = AccessModul.filterArrAccess(arr_accessS, start_time, end_time);//console.log("SMS1:",arr_accessS1);
         let arr_accessO1 = AccessModul.filterArrAccess(arr_accessO, start_time, end_time);//console.log("Other1:",arr_accessO1);
         let arr_accessGr1 = AccessModul.filterArrAccessGr(arr_accessGr, start_time, end_time);//console.log("arr_accessGr1:", arr_accessGr1[0]);
+        accessGr_Pl = arr_accessGr1; accessE_Pl = arr_accessE1; accessS_Pl = arr_accessS1;
+        accessO_Pl = arr_accessO1;
         // Get value average Day
         let averageDayF = await AccessModul.caculateAverageDay(arr_accessF1, start_time, end_time); //console.log("averageDayF:",JSON.stringify(averageDayF));
         let averageDayE = await AccessModul.caculateAverageDay(arr_accessE1, start_time, end_time); //console.log("averageDayE:", JSON.stringify(averageDayE));
@@ -541,14 +558,83 @@ exports.detailCamp = async (req, res) => {
 }
 //export campaign
 exports.exportCamp = (req, res) => {
-    res.send("export test");
+    try {
+        let report = ExportModul.exportExcel(ob_campaignPl, ob_urlPl, arr_shortPl,
+            accessE_Pl, accessS_Pl, accessO_Pl, accessGr_Pl, ob_userPl.username);
+        res.attachment('Campaign.xlsx');
+        return res.send(report);
+    } catch (e) {
+        console.log(e + "--tuan: exportCamp in adminControll");
+    }
 }
+// export AccessLog
+exports.exportAccessLog = async (req, res) => {
+    try {
+        let arr_access = await Access.getAllRecord();
+        let report = ExportModul.exportAccessLog(arr_access);
+        res.attachment('AccessLog.xlsx');
+        return res.send(report);
+    } catch (e) {
+        console.log(e + "--tuan: exportAccessLog in adminControll");
+    }
+}
+// add Campaign
+exports.addCampaign_get = async (req, res) => {
+    res.render("../d_views/admin/addCamp.ejs", { admin: 'ADMIN' });
+};
+exports.addCampaign_post = async (req, res) => {
+    let data = req.body;
+    let domain = 'dontcare.com';
+    let sms = seedUrl.createShortUrl(domain);
+    let email = seedUrl.createShortUrl(domain);
+    let other = seedUrl.createShortUrl(domain);
+    let fb = [];
+  
+    if (typeof data.faceGroup == "object") {
+        for (let i = 0; i < (data.faceGroup).length; i++) {
+            fb.push(seedUrl.createShortUrl(domain));
+        }
+    } else if (typeof data.faceGroup == "string") {
+        data.faceGroup = [data.faceGroup];
+        fb.push(seedUrl.createShortUrl(domain));
+    }
+
+    let customer = {
+        username: data.username, name: data.name, oldUrl: data.oldUrl, faGroup: data.faceGroup,
+        sms: sms, email: email, other: other, fb: fb, start: data.start, end: data.end
+    }
+    
+    res.render('../d_views/admin/confirmCamp.ejs', customer);
+};
+//confirm Campaign
+exports.confirmCampaign = async (req, res) => {
+    let rq = req.body;
+    try{
+        let customer = await CampaignModul.validateConfirm(rq);
+        if(customer.state == 'ok'){ 
+            let ob_user = customer.ob_user;
+            let arrIdShorten = await CampaignModul.saveShortUrlCampaign(rq);
+            if (arrIdShorten != undefined) {
+                let ob_url = await Url.save({ url: rq.oldUrl, short_urls: arrIdShorten, timeCreate: rq.start });
+                if (ob_url != undefined) {
+                    let ob_campaign = await Campaign.save({ id_user: ob_user.id, id_urls: [ob_url.id], name: rq.name, 
+                        start_time: rq.start, end_time: rq.end });
+                }
+            }
+        }
+        res.send(customer);
+    }catch(e) {
+        console.log(e + '--tuan: confirmCampaign in AdminControll');
+    }
+};
+
+
 
 
 //TEST
 exports.test = async (req, res) => {
     try {
-        let rs = await Campaign.getCampaignOtherNull();
+        let rs = CampaignModul.test();
         console.log("rs:", rs);
         res.send("Testing");
     } catch (e) {

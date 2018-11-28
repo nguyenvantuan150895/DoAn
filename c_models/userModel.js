@@ -100,3 +100,13 @@ module.exports.checkExistUser = (user_name) => {
         })
     })
 }
+// get obj User by username
+module.exports.getObUserByName = (username) => {
+    return new Promise((resolve, reject) => {
+        //resolve("haha");
+        user.find({ username: username }, (err, result) => {
+            if (err) reject(err);
+            else resolve(result[0]);
+        })
+    })
+}

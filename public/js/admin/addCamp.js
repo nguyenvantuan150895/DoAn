@@ -1,26 +1,21 @@
 $(function () {
-
+    //date picker
+    $(".datepicker").datepicker();
     //apend group facebook
     $("#btn2").click(function () {
         event.preventDefault();
-        $("ol").append('<li><input type="text" class="form-control faceGroup" placeholder="Enter name face group" name ="faceGroup"/></li>');
+        $("ol").append('<li style = "margin-top:10px;"> <input type="text" class="form-control faceGroup" placeholder="Enter name face group" name="faceGroup" autocomplete="off" /> </li>');
     });
 
     // undo group facebook
     $("#btn1").click(function () {
         event.preventDefault();
         $("#idOl li:last-child").remove()
-    })
-
-    //date picker
-    $(".datepicker").datepicker();
-    $('.fa-calendar').click(function () {
-        $("#datepicker").focus();
     });
-
     // validate form;
     $("#formSubmit").submit(function () {
         try {
+            let user = $("#username").val(); user = user.trim();
             let name = $("#name").val(); name = name.trim();
             let oldUrl = $("#oldUrl").val(); oldUrl = oldUrl.trim();
             let start = $("#start").val();
@@ -30,8 +25,8 @@ $(function () {
             }).get()
             let lenGroup = groupArr.length;
 
-
-            if (name.length == 0) { alert("Name must be filled out"); return false }
+            if (user.length == 0) { alert("User Name must be filled out"); return false }
+            else if (name.length == 0) { alert("Name Campaign must be filled out"); return false }
             else if (oldUrl.length == 0) { alert("Url Origin must be filled out"); return false }
             else if (start.length == 0) { alert("Start time must be filled out "); return false }
             else if (end.length == 0) { alert("End time must be filled out "); return false }
@@ -52,8 +47,9 @@ $(function () {
         }
     })
 })
- //compare Date
- let compareDate = (start, end) => {
+
+//compare Date
+let compareDate = (start, end) => {
     //format : 10/08/2018 => 08/october/2018
     let day_start = start.slice(3, 5);
     let month_start = start.slice(0, 2);
@@ -76,3 +72,4 @@ $(function () {
         }
     }
 }
+

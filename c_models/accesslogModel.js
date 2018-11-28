@@ -39,3 +39,12 @@ module.exports.getTotalRecord = () => {
         })
     })
 }
+// get all record
+module.exports.getAllRecord = () => {
+    return new Promise((resolve, reject) => {
+        accesslog.find({},(err, result) => {
+            if(err) reject(err);
+            else resolve(result);
+        })
+    })
+}

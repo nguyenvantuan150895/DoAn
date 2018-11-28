@@ -12,7 +12,7 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>User Manager</title>
+    <title>Campaign Manager</title>
     <link rel="icon" type="image/png" href="/icons/shortLink.jpeg" />
 
     <!-- Tell the browser to be responsive to screen width -->
@@ -27,20 +27,22 @@
     <link rel="stylesheet" href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
-    <!-- import fusionchart.js -->
-    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
-    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
-    <!-- import file js addUser -->
-    <script src="/js/admin/addUser.js"></script>
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- importdate picker -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- import file js addLink -->
+    <script src="/js/admin/addCamp.js"></script>
+
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
-
         <header class="main-header">
             <!-- Logo -->
             <a href="/admin/manager" class="logo">
@@ -134,7 +136,8 @@
                             <li><a href="/admin/manager/user/1"><i class="fa fa-circle-o"></i> User Manager</a></li>
                             <li><a href="/admin/manager/campaign/1"><i class="fa fa-circle-o"></i> Campaign Manager</a></li>
                             <li><a href="/admin/manager/link/1"><i class="fa fa-circle-o"></i> Link Manager</a></li>
-                            <li><a href="/admin/manager/campaign/exportAccess"><i class="fa fa-circle-o"></i> Export Accesslog</a></li>
+                            <li><a href="/admin/manager/campaign/exportAccess"><i class="fa fa-circle-o"></i> Export
+                                    Accesslog</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -147,7 +150,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1 style="font-weight: bold">
-                    User Manager
+                    Campaign Manager
                 </h1>
             </section>
 
@@ -157,73 +160,91 @@
                     <div class="col-xs-12">
                         <div class="box">
                             <div class="box-header">
-                                
+
                             </div>
                             <!-- /.box-header -->
 
                             <!-- *************************************** -->
                             <div class="box-body">
-                                <div style="border: 1px solid #d2d6dd; border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 420px; margin-left: auto; margin-right: auto"
+                                <div class='col-md-12' style="border: 1px solid #d2d6dd; border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 100%; margin-left: auto; margin-right: auto"
                                     class="register-box-body">
-                                    <img src="/addUser.png" alt="" style="width:30px; height: 30px" title="Add user">
-                                    <h3 class="login-box-msg">Create new User</h3>
+                                    <img src="/createCamp.png" alt="" style="width:30px; height: 30px">
+                                    <h3 class="login-box-msg">Create Campaign</h3>
 
-                                    <!-- <form action="/admin/manager/user/add" method="post"> -->
-                                    <b>User Name</b>
-                                    <div class="form-group has-feedback">
-                                        <input type="text" class="form-control" placeholder="Enter..." id="idUsername"
-                                            name="username">
-                                        <span class=" glyphicon  glyphicon-user form-control-feedback"></span>
-                                    </div>
-                                    <b>Password</b>
-                                    <div class="form-group has-feedback">
-                                        <input type="text" class="form-control" placeholder="Enter..." id="idPassword"
-                                            name="password">
-                                        <span class="fa fa-lock form-control-feedback"></span>
-                                    </div>
-                                    <b>Email</b>
-                                    <div class="form-group has-feedback">
-                                        <input type="email" class="form-control" placeholder="Enter..." id="idEmail"
-                                            name="email">
-                                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                                    </div>
-                                    <b>Role</b>
-                                    <div class="radio">
-                                        <label><input type="radio" name="optradio" value="personal" id="idPersonal" checked>Personal</label>
-                                    </div>
-                                    <div class="radio">
-                                        <label><input type="radio" name="optradio" value="enterprise" id="idEnterprise">Enterprise</label>
-                                    </div>
-
-                                    <!-- /.col -->
-                                    <div>
-                                        <div class="col-xs-1"></div>
-                                        <div class="col-xs-5">
-                                            <button class="btn btn-primary btn-md btn-block btn-md" id="idCreate">Create</button>
+                                    <form action="/admin/manager/campaign/add" method="post" autocomplete="off" id="formSubmit">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="firstname">User Name:</label>
+                                                <input type="text" class="form-control" id="username" placeholder="Enter user name"
+                                                    name="username" autocomplete="off" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="firstname">Name Campaign:</label>
+                                                <input type="text" class="form-control" id="name" placeholder="Enter name campaign"
+                                                    name="name" autocomplete="off" />
+                                            </div>
+                                            <div class="form-group">
+                                                <label>Url Original:</label>
+                                                <input type="text" class="form-control" id="oldUrl" placeholder="Enter UrlOriginal"
+                                                    name="oldUrl" autocomplete="off" />
+                                            </div>
+                                            <div>
+                                                <!-- date picker -->
+                                                <label>Start time:</label>
+                                                <input type="text" id="start" name='start' class="form-control col-md-10 datepicker"
+                                                    id="datepicker" ng-required="true" placeholder="MM/DD/YYYY">
+                                                <br> <br> <br>
+                                                <label>End time:</label>
+                                                <input type="text" id="end" name='end' class="form-control col-md-10 datepicker"
+                                                    id="datepicker2" ng-required="true" placeholder="MM/DD/YYYY">
+                                                <!-- end date picker -->
+                                            </div>
                                         </div>
-                                        <div class="col-xs-5">
-                                            <button type="reset" class="btn btn-primary btn-md btn-block  btn-md">Reset</button>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="email">Name Groups Facebook:</label>
+                                                <ol id="idOl">
+                                                    <li>
+                                                        <input type="text" class="form-control faceGroup" placeholder="Enter name face group"
+                                                            name="faceGroup" autocomplete="off" />
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-7"></div>
+                                                <div class="col-md-2">
+                                                    <button class="btn btn-primary" id="btn1">Undo</button>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <button class="btn btn-primary" id="btn2">
+                                                        Append group
+                                                    </button>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div class="col-xs-1"></div>
+                                        <div class="col-md-12" style="padding-top:30px; padding-bottom:20px">
+                                            <div class="col-md-3"></div>
+                                            <div class="col-md-6">
+                                                <button type="submit" class="btn btn-primary btn-md btn-block" id="submit">Submit</button>
+                                            </div>
+                                            <div class="col-md-3"></div>
+                                        </div>
                                     </div>
-
-                                    <!-- /.col -->
+                                    </form>
                                 </div>
-                                <!-- </form> -->
                             </div>
-                            <!-- /.form-box -->
                         </div>
+                        <!-- **********************************88 -->
+                        <!-- /.box-body -->
                     </div>
-                    <!-- **********************************88 -->
-                    <!-- /.box-body -->
+                    <!-- /.box -->
                 </div>
-                <!-- /.box -->
+                <!-- /.col -->
         </div>
-        <!-- /.col -->
-    </div>
-    <!-- /.row -->
-    </section>
-    <!-- /.content -->
+        <!-- /.row -->
+        </section>
+        <!-- /.content -->
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
@@ -233,32 +254,13 @@
         <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Nguyen Van Tuan</a>.</strong> All rights
         reserved.
     </footer>
-
-
     <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
+           immediately after the control sidebar -->
     <div class="control-sidebar-bg"></div>
     </div>
     <!-- ./wrapper -->
-
-    <!-- jQuery 3 -->
-    <script src="/bower_components/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap 3.3.7 -->
-    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <!-- DataTables -->
-    <script src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <!-- SlimScroll -->
-    <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-    <!-- FastClick -->
-    <script src="/bower_components/fastclick/lib/fastclick.js"></script>
-    <!-- AdminLTE App -->
-    <script src="/dist/js/adminlte.min.js"></script>
-    <!-- AdminLTE for demo purposes -->
-    <script src="/dist/js/demo.js"></script>
-    <!-- page script -->
-
 </body>
+
 
 
 </html>
