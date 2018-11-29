@@ -184,7 +184,7 @@
                                                 <%if(j == 0){ %>
                                                     <tr>
                                                         <td rowspan="<%=arrCamp[i].arrShort.length%>">
-                                                            <%= ((i+1) + (page-1)*10) %>
+                                                            <%= ((i+1) + (page-1)*5) %>
                                                         </td>
                                                         <td rowspan="<%=arrCamp[i].arrShort.length%>">
                                                             <%= arrCamp[i].username %>
@@ -221,7 +221,7 @@
                                                         </td>
                                                         <td rowspan="<%=arrCamp[i].arrShort.length%>">
                                                             <a href="/admin/manager/campaign/update/<%=arrCamp[i].id %>"><img style="width: 20px; height: 20px"
-                                                                    src="/updateLink.jpeg" alt="/image_update" title="Update Campaign"></a>
+                                                                    src="/updateLink.jpeg" alt="/image_update" title="Edit Campaign"></a>
                                                         </td>
                                                         <td rowspan="<%=arrCamp[i].arrShort.length%>">
                                                             <a class="my_link" href="/admin/manager/campaign/delete/<%=arrCamp[i].id %>"

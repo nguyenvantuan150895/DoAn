@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        .group:focus{
+            outline: none;
+        }
+        .group {
+            border: none;
+            background:none;
+            border-bottom:1px solid gray;
+            margin-bottom: 10px;
+        }
+        
+    </style>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Campaign Manager</title>
+    <link rel="icon" type="image/png" href="/icons/shortLink.jpeg" />
+
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- importdate picker -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- import file js addLink -->
+    <script src="/js/admin/updateCamp.js"></script>
+
+</head>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="/admin/manager" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>A</b>LT</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Shorten</b></span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button"></a>
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                </a>
+
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- Messages: style can be found in dropdown.less-->
+
+
+                        <!-- Tasks: style can be found in dropdown.less -->
+
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="/admin.png" class="user-image" alt="User Image">
+                                <span class="hidden-xs">ADMIN</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img src="/admin.png" class="img-circle" alt="User Image">
+
+                                    <p>
+                                        ADMIN>
+                                        <small>administrator account</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+
+                                <!-- Menu Footer-->
+                                <li class="user-footer" style="border: 1px solid #bdbbbb;">
+
+                                    <!-- Tim thay roi !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
+                                    <div class="pull-right">
+                                        <a href="/admin/logout" class="btn  "><b>Log out</b> </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Control Sidebar Toggle Button -->
+
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="/admin.png" class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        <p>ADMIN INFO</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    </div>
+                </div>
+                <br>
+                <ul>
+                    <li style="color : white; ">User name: ADMIN</li>
+                    <li style="color : white; ">Email: admin@gmail.com</li>
+                    <li style="color : white; ">Phone : 02413 884 999</li>
+                    <li style="color : white; ">Address: Hà Nội - Việt Nam</li>
+                </ul>
+
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="treeview">
+                        <a href="#">
+                            <i class="fa fa-wrench"></i> <span>Tool</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li><a href="/admin/manager/user/1"><i class="fa fa-circle-o"></i> User Manager</a></li>
+                            <li><a href="/admin/manager/campaign/1"><i class="fa fa-circle-o"></i> Campaign Manager</a></li>
+                            <li><a href="/admin/manager/link/1"><i class="fa fa-circle-o"></i> Link Manager</a></li>
+                            <li><a href="/admin/manager/campaign/exportAccess"><i class="fa fa-circle-o"></i> Export
+                                    Accesslog</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1 style="font-weight: bold">
+                    Campaign Manager
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="box">
+                            <div class="box-header">
+
+                            </div>
+                            <!-- /.box-header -->
+
+                            <!-- *************************************** -->
+                            <div class="box-body">
+                                <div class='col-md-12' id="scroll" style="border: 1px solid #d2d6dd; border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 100%; margin-left: auto; margin-right: auto"
+                                    class="register-box-body">
+                                    <img src="/updateLink.jpeg" alt="" style="width:30px; height: 30px">
+                                    <h3 class="login-box-msg">Edit Campaign</h3>
+
+                                    <!-- <form > -->
+                                        <div class="col-md-12">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="firstname">User Name:</label>
+                                                    <input type="text" class="form-control" id="idusername" placeholder="Enter user name"
+                                                        name="username" autocomplete="off" value="<%=username%>" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="firstname">Name Campaign:</label>
+                                                    <input type="text" class="form-control" id="idname" placeholder="Enter name campaign"
+                                                        name="name" autocomplete="off" value="<%=name%>" />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Url Original:</label>
+                                                    <input type="text" class="form-control" id="idoldUrl" placeholder="Enter UrlOriginal"
+                                                        name="oldUrl" autocomplete="off" value="<%=oldUrl%>" />
+                                                </div>
+                                                <div>
+                                                    <!-- date picker -->
+                                                    <label>Start time:</label>
+                                                    <input type="text" id="idstart" name='start' class="form-control col-md-10 datepicker"
+                                                        id="datepicker" ng-required="true" placeholder="MM/DD/YYYY"
+                                                        value="<%=start%>">
+                                                    <br> <br> <br>
+                                                    <label>End time:</label>
+                                                    <input type="text" id="idend" name='end' class="form-control col-md-10 datepicker"
+                                                        id="datepicker2" ng-required="true" placeholder="MM/DD/YYYY"
+                                                        value="<%=end%>">
+                                                    <!-- end date picker -->
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <div class="form-group">
+                                                        <label>Url for email:</label>
+                                                        <input type="text" class="form-control" id="idemail" name="email"
+                                                            value="<%=email%>" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Url for sms:</label>
+                                                        <input type="text" class="form-control" id="idsms" name="sms"
+                                                            value="<%=sms%>" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label>Url for other:</label>
+                                                        <input type="text" class="form-control" id="idother" name="other"
+                                                            value="<%=other%>" />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Url for facebook:</label>
+                                                    <% for (let i = 0; i < fb.length ;  i++) { %>
+                                                    <br>
+                                                    <input type="text" value="<%=faGroup[i]%>" class="group" style = "color: blue; font-weight: bold">
+                                                    <input type="text" class="form-control fb" value="<%=fb[i]%>" name="other" />
+                                                    <% } %>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12" style="padding-top:30px; padding-bottom:20px">
+                                                <div>
+                                                    <div class="col-xs-3"></div>
+                                                    <div class="col-xs-3">
+                                                        <button id="save" class="btn btn-primary btn-md btn-block btn-md">Save</button>
+                                                    </div>
+                                                    <div class="col-xs-3">
+                                                        <a href="/admin/manager/campaign/<%=page_current%>" class="btn btn-primary btn-md btn-block  btn-md">Cancel</a>
+                            
+                                                    </div>
+                                                    <div class="col-xs-3"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <!-- </form> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!-- **********************************88 -->
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+                <!-- /.col -->
+        </div>
+        <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Version</b> 2.4.0
+        </div>
+        <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Nguyen Van Tuan</a>.</strong> All rights
+        reserved.
+    </footer>
+    <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+    <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+    <!-- Bootstrap 3.3.7 -->
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- DataTables -->
+    <script src="/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <!-- SlimScroll -->
+    <script src="/bower_components/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="/bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="/dist/js/demo.js"></script>
+    <!-- page script -->
+</body>
+
+
+
+</html>

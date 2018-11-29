@@ -36,7 +36,7 @@ module.exports.checkUserExist = (id_user) => {
     })
 }
 
-//update
+//update (chua su dung!!!)
 module.exports.update = (id_user, id_url) => {
     return new Promise((resolve, reject) => {
         campaign.findOneAndUpdate({ id_user: id_user }, { $push: { id_urls: id_url } }, (err, result) => {
@@ -56,10 +56,10 @@ module.exports.getArrObUrl = (id_user) => {
     })
 }
 
-//Delete id_url 
+//Delete id_url (Chua su dung !!!!)
 module.exports.delete = (id_user, id_url) => {
     return new Promise((resolve, reject) => {
-        campaign.update({}, { $pull: { id_urls: id_url } }, { multi: true }, (err, result) => {
+        campaign.update({id_user:id_user}, { $pull: { id_urls: id_url } }, (err, result) => {
             if (err) reject(err);
             else resolve(result);
         })
@@ -100,7 +100,7 @@ module.exports.getCampaignByName = (nameCampaign) => {
 }
 module.exports.getCampaignById = (id_camp) => {
     return new Promise((resolve, reject) => {
-        campaign.find({_id: id_camp }, (err, result) => {
+        campaign.find({ _id: id_camp }, (err, result) => {
             if (err) reject(err);
             else resolve(result[0]);
         })
@@ -111,14 +111,14 @@ module.exports.getTotalRecord = () => {
     return new Promise((resolve, reject) => {
         campaign.find({
             $where: function () {
-                if(this.name != null)
-                return (this);
+                if (this.name != null)
+                    return (this);
             }
         },
-        (err, result) => {
-            if(err) reject(err);
-            else resolve(result.length);
-        });
+            (err, result) => {
+                if (err) reject(err);
+                else resolve(result.length);
+            });
     })
 }
 // get obj campaign by id url (for admin controller managerLink)
@@ -152,7 +152,7 @@ module.exports.addIdUrlInCamp = (idCamp, idUrl) => {
 }
 // Get campaign with name = null (admincontroll)
 module.exports.getCampaignNull = (idUser) => {
-    // return [] if not found
+    // return [] if not found, gia tri tra ve la mot mang, can xu ly [0] de tra ve object
     return new Promise((resolve, reject) => {
         campaign.find({ id_user: idUser, name: null }, (err, result) => {
             if (err) reject(err);
@@ -168,13 +168,34 @@ module.exports.getCampaignOtherNull = (page) => {
         const pagesize = 5;
         campaign.find({
             $where: function () {
-                if(this.name != null)
-                return (this);
+                if (this.name != null)
+                    return (this);
             }
         }, (err, result) => {
-            if(err) reject(err);
+            if (err) reject(err);
             else resolve(result)
-        }).skip(pagesize*(page-1)).limit(pagesize);
+        }).skip(pagesize * (page - 1)).limit(pagesize);
     })
 }
-
+//update campaign (admincontroll & ...)
+module.exports.updateCampaign = (idCamp, obj) => {
+    return new Promise((resolve, reject) => {
+        campaign.findOneAndUpdate(
+            { _id: idCamp },
+            {
+                id_user: obj.id_user, name: obj.name, start_time: obj.start_time, end_time: obj.end_time
+            }, (err, result) => {
+                if (err) reject(err);
+                else resolve(result);
+            })
+    })
+}
+// Delete campaign
+module.exports.deleteCamp = (idCamp) => {
+    return new Promise((resolve, reject) => {
+        campaign.deleteOne({ _id: idCamp }, (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        })
+    })
+}

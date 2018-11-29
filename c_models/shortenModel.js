@@ -148,3 +148,12 @@ module.exports.getUrlShortByID = (idShorten) => {
         })
     })
 }
+//update urlshorten for UpdateCampaign( update resource, urlshorte)
+module.exports.updateUrlShortForUpdateCamp = (idShorten, urlShort, group) => {
+    return new Promise((resolve, reject) => {
+        shorten.findOneAndUpdate({_id:idShorten},{url:urlShort, group:group}, (err, result) => {
+            if(err)reject(err)
+            else resolve(result);
+        })
+    })
+}

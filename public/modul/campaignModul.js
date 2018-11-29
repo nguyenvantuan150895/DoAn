@@ -1,9 +1,10 @@
 const Shorten = require('../../c_models/shortenModel');
 const User = require('../../c_models/userModel');
+const Url = require('../../c_models/urlModel');
 const Campaign = require('../../c_models/campaignModel');
 const seedUrl = require('./seedUrl');
 
-
+/*Support for confirm campaign*/
 const saveShortUrlCampaign = async (data) => {
     // data is (req.body);
     //console.log("Data in saveCampaign:", data);
@@ -60,7 +61,7 @@ const saveESO = async (shortUrl, resource, group) => {
 const validateConfirm = async (rq) => {
     // rq is req.body
     let customer = {};
-    let totalCamp = await Campaign.getTotalRecord();
+    let totalCamp = await Campaign.getTotalRecord(); totalCamp = totalCamp+1;
     let domain = "dontcare.com";
     let arrCheckDup = [rq.email, rq.sms, rq.other];
     arrCheckDup = arrCheckDup.concat(rq['fbArr[]']);
@@ -144,9 +145,146 @@ const validateConfirm = async (rq) => {
         console.log(e + "--tuan: validateConfirm in campaignModul.");
     }
 }
+/* ----- End support for confirm campaign ------*/
 
+/*Support for update campaign*/
+const validateUpdate = async (rq,obCampBefore, page_current) => {
+    let customer = {};
+    // let totalCamp = await Campaign.getTotalRecord(); totalCamp = totalCamp+1;
+    let domain = "dontcare.com";
+    let arrCheckDup = [rq.email, rq.sms, rq.other];
+    arrCheckDup = arrCheckDup.concat(rq['fbArr[]']);
+    try {
+        let ob_user = await User.getObUserByName(rq.username);
+        let existNameCamp = true;
+        if (ob_user != undefined) {
+            existNameCamp = await Campaign.checkNameCamp(rq.name, ob_user.id);
+        }
+        let eFormat = seedUrl.checkFormatUrlShort(rq.email, domain); //console.log("eFormat:", eFormat);
+        let sFormat = seedUrl.checkFormatUrlShort(rq.sms, domain); //console.log("sFormat:", sFormat);
+        let oFormat = seedUrl.checkFormatUrlShort(rq.other, domain); //console.log("oFormat:", oFormat);
+        let fbFormat = seedUrl.checkFormatFbShort(rq['fbArr[]'], domain); //console.log("fbFormat:", fbFormat);
+        let existEmail = await Shorten.checkExist(rq.email); //console.log("checkEmail:", checkEmail);
+        let existSms = await Shorten.checkExist(rq.sms);  //console.log("checkSms:", checkSms);
+        let existOther = await Shorten.checkExist(rq.other);  //console.log("checkother:", checkOther);
+        // let existFb = await seedUrl.checkExistForFb(rq['fbArr[]']); //console.log("checkFb:", checkFb);
+        let existFb = await checkExitFbUpdate(obCampBefore.fb, rq['fbArr[]']);
+        let checkDup = seedUrl.checkDuplicate(arrCheckDup)
+        //check role username (invalid if role user = personal)
+        if (ob_user == undefined) {
+            customer.state = 'fail';
+            customer.existUser = false;
+        }
+        else if (ob_user.role == 'personal') {
+            customer.state = 'fail';
+            customer.checkRoleUser = false;
+        }
+        //check exist name campaign
+        else if (existNameCamp == true && (rq.name != obCampBefore.name)) {
+            customer.state = 'fail';
+            customer.existNameCamp = true;
+        }
+        // check format url shorten
+        else if (eFormat == false) {
+            customer.state = 'fail';
+            customer.emailFormat = false;
+        }
+        else if (sFormat == false) {
+            customer.state = 'fail';
+            customer.smsFormat = false;
+        }
+        else if (oFormat == false) {
+            customer.state = 'fail';
+            customer.otherFormat = false;
+        }
+        else if (fbFormat == false) {
+            customer.state = 'fail';
+            customer.fbFormat = false;
+        }
+        // check exist url shorten
+        else if (existEmail == true && (rq.email != obCampBefore.email)) {
+            customer.state = 'fail';
+            customer.existEmail = true;
+        }
+        else if (existSms == true && (rq.sms != obCampBefore.sms)) {
+            customer.state = 'fail';
+            customer.existSms = true;
+        }
+        else if (existOther == true && (rq.other != obCampBefore.other)) {
+            customer.state = 'fail';
+            customer.existOther = true;
+        }
+        else if (existFb > 0 ) {
+            customer.state = 'fail';
+            customer.existFb = true;
+        }
+        // check duplicate url shorten
+        else if (checkDup == true) {
+            customer.state = 'fail';
+            customer.checkDup = true;
+        }
+        else {
+            customer.state = 'ok';
+            customer.ob_user = ob_user;
+            customer.page_current = page_current;
+        }
+        return customer;
+    } catch (e) {
+        console.log(e + "--tuan: validateConfirm in campaignModul.");
+    }
+}
+const checkExitFbUpdate = async (arrFbBefore, arrFbAfter) => {
+    if(typeof arrFbAfter == 'string'){
+        arrFbAfter = [arrFbAfter];
+    }
+    // console.log("arrFbBefore:", arrFbBefore);
+    // console.log("arrFbAfter:", arrFbAfter);
+    for(let i = 0; i < arrFbBefore.length; i++) {
+        let existFb = await Shorten.checkExist(arrFbAfter[i]);
+        if(existFb == true && (arrFbAfter[i] != arrFbBefore[i])) {
+            return (i+1);
+        }
+    }
+    return -3;
+}
+const saveUpdateCamp = async (req, idCamp, idUrl, idEmail, idSms, idOther, arrIdFb) => {
+    //req = req.body
+    let newUser = await User.getObUserByName(req.username);
+    let objCampUpdate = {id_user: newUser.id, name: req.name, start_time: req.start, end_time: req.end}
+    let cp = await Campaign.updateCampaign(idCamp,objCampUpdate );
+    if(cp != undefined ){
+        let url = await Url.updateUrlOrigin(idUrl, req.oldUrl);
+        if(url != undefined) {
+            let email = await Shorten.updateUrlShortForUpdateCamp(idEmail,req.email,null);
+            let sms = await Shorten.updateUrlShortForUpdateCamp(idSms, req.sms,null);
+            let other = await Shorten.updateUrlShortForUpdateCamp(idOther, req.other, null);
+            let fb = await updateArrFb(arrIdFb, req['fbArr[]'], req['groupArr[]']);
+        }
+    }
+}
+const updateArrFb = async (arrId, arrFb, arrGr) => {
+    if (typeof arrGr == 'string') arrGr = [arrGr];
+    if (typeof arrFb == 'string') arrFb = [arrFb];
+    for(let i = 0; i < arrGr.length; i++) {
+        let rs = await Shorten.updateUrlShortForUpdateCamp(arrId[i],arrFb[i],arrGr[i]);
+    }
+}
+const deleteCamp = async (idCamp, idUrl, arrIdShort) => {
+    let delShort = await deleteArrShort(arrIdShort);
+    let delUrl =  await Url.delete(idUrl);
+    let delCamp = await Campaign.deleteCamp(idCamp);
+}
+const deleteArrShort = async (arrIdShort) => {
+    for(let i = 0; i < arrIdShort.length; i++) {
+        let rs = await Shorten.delete(arrIdShort[i]);
+    }
+}
+/* ----- End support for update campaign ------*/
 
 module.exports = {
     saveShortUrlCampaign,
     validateConfirm,
+    validateUpdate,
+    saveUpdateCamp,
+    deleteCamp
 }

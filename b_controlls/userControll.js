@@ -83,21 +83,19 @@ exports.addLink = async (req, res) => {
     try{
         let ob_shortUrl = await Shorten.save({url: shortUrl});
         let object_url = {url:req.body.urlOrigin , short_urls : [ob_shortUrl.id]};
-        let result = await Url.save(object_url);
+        let ob_url = await Url.save(object_url);
         if(req.session.user) {// if req.session.user , gs : = user1
-            //get id_user by user 
             let id_user = await User.getIdByUser(req.session.user);//req.session.user
             let checkUser = await Campaign.checkUserExist(id_user);
-            //console.log("id_user:", id_user);
-            //console.log("checkUser:", checkUser);
+            let ob_camp = await Campaign.getCampaignNull(id_user); ob_camp = ob_camp[0];
             if(checkUser) {
-                await Campaign.update(id_user, result.id);// result.id = id_url
+                let rs = await Campaign.addIdUrlInCamp(ob_camp.id,ob_url.id);
             } else {
-                let ob_campaign = {id_user: id_user, id_urls :[result.id]};
+                let ob_campaign = {id_user: id_user, id_urls :[ob_url.id]};
                 await Campaign.save(ob_campaign);
             }
         }
-        if(result) data.urlShort = shortUrl;
+        if(ob_url) data.urlShort = shortUrl;
         res.send(data);
     }catch(e) {
         console.log(e +"--- Tuan: Error addLink" );
@@ -157,13 +155,17 @@ exports.delete = async (req, res) => {
         let ob_url = await Url.getObUrlById(id);
                 //console.log("ob_url:", ob_url);
         let ob_shorten = await Shorten.getObUrlShorten(ob_url.short_urls[0]);//by id
-                //console.log("ob_Shorten:", ob_shorten);
+        let id_user = await User.getIdByUser(req.session.user);
+        let ob_camp = await Campaign.getCampaignNull(id_user); ob_camp = ob_camp[0];
+        // console.log("camapaign:", ob_camp);
+        // console.log("idUrl:", ob_url.id);
+        // console.log("idShort:", ob_shorten.id);
+        // console.log("Id CAMPAIGN:", ob_camp.id);
         //delete
-            //console.log("ID SHORTEN:", ob_shorten.id);
         let rs1 = await Shorten.delete(ob_shorten.id); //console.log("rs1:", rs1);
         let rs2 = await Url.delete(ob_url.id);
-        let rs3 = await Campaign.delete(req.session.user, id);
-            //console.log("Rs3:", rs3);
+        let rs3 = await Campaign.removeIdUrlInCamp(ob_camp.id, ob_url.id);
+        
     } catch (e) {
         console.log(e + "--tuan: error delete in urlControll.")
     }
@@ -219,23 +221,19 @@ exports.userEditLink = async (req, res) => {
 
 //add Link1
 let addLink1 = async (oldUrl, newUrl, user) => { 
-    // let data = {};
-    // data.urlOrigin = req.body.urlOrigin;
-    // let shortUrl = seedUrl.createShortUrl();
     try{
         let ob_shortUrl = await Shorten.save({url: newUrl}); 
         let object_url = {url:oldUrl , short_urls : [ob_shortUrl.id]};
-        let result = await Url.save(object_url);
+        let ob_url = await Url.save(object_url);
         
         //get id_user by user 
         let id_user = await User.getIdByUser(user);//req.session.user
         let checkUser = await Campaign.checkUserExist(id_user);
-        //console.log("id_user:", id_user);
-        //console.log("checkUser:", checkUser);
+        let ob_camp = await Campaign.getCampaignNull(id_user); ob_camp = ob_camp[0];
         if(checkUser) {
-            await Campaign.update(id_user, result.id);// result.id = id_url
+            let rs = await Campaign.addIdUrlInCamp(ob_camp.id,ob_url.id);
         } else {
-            let ob_campaign = {id_user: id_user, id_urls :[result.id]};
+            let ob_campaign = {id_user: id_user, id_urls :[ob_url.id]};
             await Campaign.save(ob_campaign);
         }
         return true;

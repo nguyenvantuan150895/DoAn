@@ -61,7 +61,7 @@ module.exports.delete = (id) => {
 //update urlOrigin ( admin controll)
 module.exports.updateUrlOrigin = (idUrl, urlOrigin) => {
     return new Promise((resolve, reject) => {
-        url.updateOne({_id:idUrl},{url:urlOrigin}, (err, result) => {
+        url.findOneAndUpdate({_id:idUrl},{url:urlOrigin}, (err, result) => {
             if(err)reject(err)
             else resolve(result);
         })
