@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // router admin
-router.get('/manager/test', adminControll.test);
+// router.get('/manager/test', adminControll.test);
 
 router.get('/login', adminControll.login_get);
 router.post('/login', adminControll.login_post);

@@ -283,9 +283,15 @@
               <div id="listCampaign">
                 <% for (var i = 0; i < arrCampaign.length ;  i++) { %>
                 <li style="margin-top: 10px; padding-bottom: 10px">
-                  <a href="/enterprise/detailCamp/<%=arrCampaign[i].id %>" class="fa fa-circle-o text-green">
-                    <%=arrCampaign[i].name%>
-                  </a>
+                  <% if (obCamp.name == arrCampaign[i].name) { %>
+                    <a href="/enterprise/detailCamp/<%=arrCampaign[i].id %>" class="fa fa-circle-o text-yellow">
+                      <%=arrCampaign[i].name%>
+                    </a>
+                  <% }  else { %>
+                    <a href="/enterprise/detailCamp/<%=arrCampaign[i].id %>" class="fa fa-circle-o text-green">
+                      <%=arrCampaign[i].name%>
+                    </a>
+                  <% } %>
                 </li>
                 <% } %>
               </div>

@@ -8,6 +8,7 @@ const seedUrl = require('../public/modul/seedUrl');
 const AccessModul = require('../public/modul/accessModul.js');
 const ExportModul = require('../public/modul/exportModul.js');
 const CampaignModul = require('../public/modul/campaignModul.js');
+const LinkModul = require('../public/modul/linkModul.js');
 /*manager link */
 let arr_shortP;
 let obShortBefore;
@@ -177,7 +178,7 @@ exports.managerLink = async (req, res) => {
     pageUrl = req.params.page;
     try {
         let arr_short = await Shorten.getAllShort(pageUrl);
-        arr_short = await allJoinArrShort(arr_short);
+        arr_short = await LinkModul.allJoinArrShort(arr_short);
         arr_shortP = arr_short; //don't care
         // get totalLink not Link campaign
         let totalLink = await Shorten.getTotalLink();
@@ -188,48 +189,7 @@ exports.managerLink = async (req, res) => {
         console.log(e + "--tuan: err managerLink");
     }
 };
-let allJoinArrShort = async (arr_short) => {
-    arr_short = converArrShort(arr_short);
-    for (let i = 0; i < arr_short.length; i++) {
-        let ob_url = await Url.getObjUrlByIdShort(arr_short[i].id);
-        let data = await getUserName(ob_url.id);
-        let timeCreate = (ob_url.timeCreate)
-        timeCreate = timeCreate.slice(0, -14);
 
-        arr_short[i].urlOrigin = ob_url.url;
-        arr_short[i].timeCreate = timeCreate;
-        arr_short[i].idUrlOrigin = ob_url.id;
-        arr_short[i].username = data.username;
-        arr_short[i].idCamp = data.idCamp;
-    }
-    return arr_short;
-}
-let getUserName = async (idUrlOrigin) => {
-    let data = {};
-    let obCamp = await Campaign.getObCampByIdUrl(idUrlOrigin);
-    if (obCamp == undefined) {
-        data.idCamp = undefined;
-        data.username = 'unregistered';
-    }
-    else {
-        let ob_user = await User.findByID(obCamp.id_user);
-        data.idCamp = obCamp.id;
-        data.username = ob_user.username;
-    }
-    return data;
-}
-let converArrShort = (arrShort) => {
-    // chuan hoa mang obj lay tu csdl
-    let arr = [];
-    for (let i = 0; i < arrShort.length; i++) {
-        let obj = {};
-        obj.id = arrShort[i].id;
-        obj.urlShort = arrShort[i].url;
-        obj.totalClick = arrShort[i].totalClick;
-        arr.push(obj);
-    }
-    return arr;
-}
 /* End manager link*/
 // Add link
 exports.addLink_get = async (req, res) => {
@@ -237,47 +197,14 @@ exports.addLink_get = async (req, res) => {
 };
 exports.addLink_post = async (req, res) => {
     // console.log("receive:", req.body);
-    let customer = {};
+    // let customer;
     try {
-        //Check if the user exists ?
-        let checkUser = await User.checkExistUser(req.body.username);
-        let username = req.body.username;
-        let urlOrigin = req.body.urlOrigin;
-        if (urlOrigin.length == 0) {
-            customer.state = 'fail';
-            customer.blankUrl = true;
-        }
-        else if (username.length == 0) {
-            customer.state = 'fail';
-            customer.blankUser = true;
-        }
-        else if (checkUser == false) {
-            customer.state = 'fail';
-            customer.checkUser = false;
-        }
-        else {
-            let urlShort = seedUrl.createShortUrl();
-            let ob_shortUrl = await Shorten.save({ url: urlShort });
-            let object_url = { url: urlOrigin, short_urls: [ob_shortUrl.id] };
-            let ob_url = await Url.save(object_url);
-            //get id_user by user 
-            let id_user = await User.getIdByUser(username);
-            let checkUser = await Campaign.checkUserExist(id_user);
-            let ob_camp = Campaign.getCampaignNull(id_user); 
-            if (checkUser) {
-                ob_camp = ob_camp[0];
-                let rs = await Campaign.addIdUrlInCamp(ob_camp.id,ob_url.id);
-            } else {
-                let ob_campaign = { id_user: id_user, id_urls: [ob_url.id] };
-                await Campaign.save(ob_campaign);
-            }
-            customer.state = 'ok';
-            let totalLink = await Shorten.getTotalLink();
-            let last_page = Math.ceil(totalLink / 10);
-            customer.last_page = last_page;
+        customer = await LinkModul.validateAddLink(req.body);
+        if(customer.state == 'ok') {
+            let rs = await LinkModul.saveLink(req.body.urlOrigin, req.body.username);
         }
         res.send(customer);
-    } catch (e) {
+    }catch(e) {
         console.log(e + "--tuan: addLink_port in adminController");
     }
 }
@@ -334,7 +261,7 @@ exports.updateLink_post = async (req, res) => {
             customer.existUser = false;
         }
         else {
-            let rs = await saveUpdateLink(username, urlShort, urlOrigin);
+            let rs = await LinkModul.saveUpdateLink(username, urlShort, urlOrigin,obShortBefore);
             customer.state = 'ok';
             customer.page_current = pageUrl;
         }
@@ -342,55 +269,6 @@ exports.updateLink_post = async (req, res) => {
         res.send(customer);
     } catch (e) {
         console.log(e + "--tuan: updateLink_post adminControll");
-    }
-};
-//save change update Link
-let saveUpdateLink = async (username, urlShort, urlOrigin) => {
-    if (username == obShortBefore.username && urlShort == obShortBefore.urlShort && urlOrigin == obShortBefore.urlOrigin) {
-        // console.log("khong thay doi gi ca");
-    }
-    else if (username == obShortBefore.username && urlShort == obShortBefore.urlShort) {
-        //update urlOrigin
-        let rs1 = await Url.updateUrlOrigin(obShortBefore.idUrlOrigin, urlOrigin);
-    }
-    else if (username == obShortBefore.username) {
-        let rs2 = await Url.updateUrlOrigin(obShortBefore.idUrlOrigin, urlOrigin);
-        let rs3 = await Shorten.updateUrlShort(obShortBefore.id, urlShort);
-    }
-    else if (username != obShortBefore.username) {
-        // console.log("Khac Usernam");
-        // console.log("user receive:", username);
-        let idNewUser = await User.getIdByUser(username);
-        // console.log("idNewUser:", idNewUser);
-        let obNewCamp = await Campaign.getCampaignNull(idNewUser);
-        // console.log("obNewCamp:", obNewCamp);
-        if (obNewCamp.length == 0) {
-            // console.log("Chua ton tai campaign null");
-            // create new Camp width newUser
-            let data = { id_user: idNewUser, id_urls: [obShortBefore.idUrlOrigin], name: null, end_time: null }
-            let rs8 = await Campaign.save(data);
-            let rs11 = await Campaign.removeIdUrlInCamp(obShortBefore.idCamp, obShortBefore.idUrlOrigin);
-            if (urlShort != obShortBefore.urlShort) {
-                let rs10 = await Shorten.updateUrlShort(obShortBefore.id, urlShort);
-            }
-            if (urlOrigin != obShortBefore.urlOrign) {
-                let rs9 = await Url.updateUrlOrigin(obShortBefore.idUrlOrigin, urlOrigin);
-            }
-        }
-        else {
-            // console.log("Ton tai campaign null");
-            obNewCamp = obNewCamp[0];
-            //add urlOrigin into new Campaign
-            let rs4 = await Campaign.addIdUrlInCamp(obNewCamp.id, obShortBefore.idUrlOrigin);
-            let rs5 = await Campaign.removeIdUrlInCamp(obShortBefore.idCamp, obShortBefore.idUrlOrigin);
-            if (urlShort != obShortBefore.urlShort) {
-                let rs6 = await Shorten.updateUrlShort(obShortBefore.id, urlShort);
-            }
-            if (urlOrigin != obShortBefore.urlOrign) {
-                let rs7 = await Url.updateUrlOrigin(obShortBefore.idUrlOrigin, urlOrigin);
-            }
-        }
-
     }
 }
 /* End Update Link */
@@ -412,7 +290,6 @@ exports.detailLink = async (req, res) => {
         console.log(e + "--tuan: detailLink_get adminControll");
     }
 };
-
 // Delete Link
 exports.deleteLink = async (req, res) => {
     id = req.params.id;
@@ -449,7 +326,7 @@ exports.managerCamp = async (req, res) => {
     try {
         pageCamp = req.params.page;
         let arrCamp = await Campaign.getCampaignOtherNull(pageCamp);
-        arrCamp = await standardizedCampaign(arrCamp);
+        arrCamp = await CampaignModul.standardizedCampaign(arrCamp);
         arrCampPl = arrCamp; //don't care
         let totalCamp = await Campaign.getTotalRecord();
         totalCampPl = totalCamp;//don't care
@@ -458,39 +335,6 @@ exports.managerCamp = async (req, res) => {
         console.log(e + "--tuan: managerCamp in adminControll");
     }
 
-}
-let standardizedCampaign = async (arrCamp) => {
-    let arr = [];
-    for (let i = 0; i < arrCamp.length; i++) {
-        let ob_user = await User.findByID(arrCamp[i].id_user);
-        let ob_url = await Url.getObUrlById(arrCamp[i].id_urls[0]);
-        let arrShort = await getALlUrlShortInCampaign(ob_url.short_urls);
-        let time_create = arrCamp[i].time_create;
-        time_create = time_create.slice(0, -14);
-        let ob = {};
-        ob.id = arrCamp[i].id;
-        ob.id_user = arrCamp[i].id_user;
-        ob.username = ob_user.username;
-        ob.name = arrCamp[i].name;
-        ob.id_url = arrCamp[i].id_urls[0];
-        ob.urlOrigin = ob_url.url;
-        ob.arrShort = arrShort;
-        ob.start_time = arrCamp[i].start_time;
-        ob.end_time = arrCamp[i].end_time;
-        ob.time_create = time_create;
-        ob.ob_url = ob_url;
-        arr.push(ob);
-    }
-    return arr;
-}
-let getALlUrlShortInCampaign = async (arr_idUrlShort) => {
-    let arrUrlShort = [];
-    for (let i = 0; i < arr_idUrlShort.length; i++) {
-        let urlShort = await Shorten.getUrlShortByID(arr_idUrlShort[i]);
-        arrUrlShort.push(urlShort);
-    }
-    // console.log("arrShort:", arrUrlShort);
-    return arrUrlShort;
 }
 // Detail campaign
 exports.detailCamp = async (req, res) => {
@@ -721,18 +565,18 @@ exports.deleteCamp = async (req, res) => {
 
 
 //TEST
-exports.test = async (req, res) => {
-    try {
-        let a = [1, 2, '3'];
-        let b = [1, 2, '3'];
-        // let compare = compareArr(a,b);
-        // console.log("compare:", compare);
+// exports.test = async (req, res) => {
+//     try {
+//         let a = [1, 2, '3'];
+//         let b = [1, 2, '3'];
+//         // let compare = compareArr(a,b);
+//         // console.log("compare:", compare);
 
-        res.send("Testing");
-    } catch (e) {
-        console.log(e);
-    }
-}
+//         res.send("Testing");
+//     } catch (e) {
+//         console.log(e);
+//     }
+// }
 
 
 

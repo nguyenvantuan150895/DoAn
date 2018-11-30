@@ -13,8 +13,8 @@ router.get('/export', enterControll.exportExcel);
 router.get('/detailCamp/:id', enterControll.getDetailCamp);
 router.get('/editCamp/:id', enterControll.editCamp_get);
 router.post('/editCamp', enterControll.editCamp_post);
-// router.post('/deleteCamp/:id', enterControll.deleteCamp);
-// router.get('/history', enterControll.history);
+router.get('/deleteCamp/:id', enterControll.deleteCamp);
+router.get('/history/:page', enterControll.history);
 
 
 

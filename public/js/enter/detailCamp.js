@@ -7,6 +7,7 @@ $(function () {
     let customer = $("#arr_campaign").attr("customer");//console.log("customer:", customer);
     customer = JSON.parse(customer);
 
+
     // Fuction Chart
     let detailCampaign = (data, elementCampaign) => {
         let arr_shortUrl = data.arr_shortUrl;

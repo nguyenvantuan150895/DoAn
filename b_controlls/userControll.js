@@ -141,9 +141,7 @@ exports.manager = async (req, res) => {
                     //console.log("arr_url:", arr_url[0]);
         }
         let data3 = {url:arr_url, page:page_current, count: count, user: req.session.user,domain:domain }
-        // console.log("data3:",data3);
         res.render("../d_views/user/manager.ejs",data3 );
-       //res.send("acc");
     } catch (e) {
         console.log(e + "--tuan: error Manager");
     }

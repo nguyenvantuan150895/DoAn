@@ -25,19 +25,26 @@
     <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <!-- Import jquery.min.js -->
+    <!-- Import chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Import Morris -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <!-- Import Fusion Charts -->
+    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
 
-    <!-- importdate picker -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
     <!-- import slidereveal -->
     <script src="/jquery.slidereveal.min.js"></script>
     <!-- import ajax shortlink va js  -->
     <script src="/js/enter/ajaxShort.js"></script>
-    <!-- import file editCamp.js (enterprise) -->
-    <script src="/js/enter/editCamp.js"></script>
+
+
+
 
     <style>
         #sticky {
@@ -147,20 +154,11 @@
       overflow-x: hidden;
       overflow-y: scroll;
     }
+  
+   
    
 </style>
-    <style>
-        .group:focus{
-        outline: none;
-    }
-    .group {
-        border: none;
-        background:none;
-        border-bottom:1px solid gray;
-        margin-bottom: 10px;
-    }
-    
-</style>
+
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -306,7 +304,7 @@
                         <a href="/enterprise/export"><i class="fa fa-print"></i> <span>Export file excel</span></a>
                     </li>
                     <li class="header"> <b>SHORTEN LINK</b> </li>
-                    <li><a href="/enterprise/history"><i class="fa fa-circle-o text-red"></i> <span>History</span></a></li>
+                    <li><a href="/enterprise/history/1"><i class="fa fa-circle-o text-red"></i> <span>History</span></a></li>
                 </ul>
             </section>
             <!-- /.sidebar -->
@@ -315,7 +313,6 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
-
             <div id='slider' class="slider">
                 <label for="" style="color: white">PASTE LONG URL</label>
                 <br>
@@ -331,10 +328,10 @@
             <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <!-- <h1>
-          Nguyen Van Tuan
-          <small>Preview sample</small>
-        </h1> -->
+                <h1>
+                    History
+                    <small>Preview</small>
+                </h1>
             </section>
 
             <!-- Main content -->
@@ -343,77 +340,117 @@
                 <!-- Main content -->
                 <section class="content">
                     <div class="row">
-                        <div class='col-md-12' id="scroll" style="border: 1px solid #d2d6dd; border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 100%; margin-left: auto; margin-right: auto"
-                            class="register-box-body">
-                            <i class = "fa fa-fw fa-refresh" style = "font-size: 35px; padding-top: 20px"></i>
-                            <h3 class="login-box-msg" customer = "<%= JSON.stringify(customer) %>" id = "idEditCamp">
-                                Edit Campaign
-                            </h3>
-
-                            <!-- <form > -->
-                            <div class="col-md-12">
-                                <div class="col-md-6"> 
-                                    <div class="form-group">
-                                        <label for="firstname">Name Campaign:</label>
-                                        <input type="text" class="form-control" id="idname" placeholder="Enter name campaign"
-                                            name="name" autocomplete="off" value="<%=customer.name%>" />
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Url Original:</label>
-                                        <input type="text" class="form-control" id="idoldUrl" placeholder="Enter UrlOriginal"
-                                            name="oldUrl" autocomplete="off" value="<%=customer.oldUrl%>" />
-                                    </div>
-                                    <div>
-                                        <!-- date picker -->
-                                        <label>Start time:</label>
-                                        <input type="text" id="idstart" name='start' class="form-control col-md-10 datepicker"
-                                            id="datepicker" ng-required="true" placeholder="MM/DD/YYYY" value="<%=customer.start%>">
-                                        <br> <br> <br>
-                                        <label>End time:</label>
-                                        <input type="text" id="idend" name='end' class="form-control col-md-10 datepicker"
-                                            id="datepicker2" ng-required="true" placeholder="MM/DD/YYYY" value="<%=customer.end%>">
-                                        <!-- end date picker -->
-                                    </div>
+                        <div class="col-xs-12">
+                            <div class="box">
+                                <div class="box-header">
+                                    
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <div class="form-group">
-                                            <label>Url for email:</label>
-                                            <input type="text" class="form-control" id="idemail" name="email" value="<%=customer.email%>" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Url for sms:</label>
-                                            <input type="text" class="form-control" id="idsms" name="sms" value="<%=customer.sms%>" />
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Url for other:</label>
-                                            <input type="text" class="form-control" id="idother" name="other" value="<%=customer.other%>" />
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Url for facebook:</label>
-                                        <% for (let i = 0; i < customer.fb.length ;  i++) { %>
-                                        <br>
-                                        <input type="text" value="<%=customer.faGroup[i]%>" class="group" style="color: blue; font-weight: bold">
-                                        <input type="text" class="form-control fb" value="<%=customer.fb[i]%>" name="other" />
+                                <!-- /.box-header -->
+
+                                <!-- *************************************** -->
+
+                                <div class="box-body">
+                                    <table id="paging" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>STT</th>
+                                                <th>Url Original</th>
+                                                <th>Url shorten</th>
+                                                <th>Total click</th>
+                                                <th>Time create</th>
+                                                <th colspan="2">Function</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <% for (var i = 0; i < data.arr_short.length ;  i++) { %>
+                                            <tr>
+                                                <td>
+                                                    <%= ((i+1) + (page-1)*10) %>
+                                                </td>
+                                                <%if((data.arr_short[i].urlOrigin).length > 50){ %>
+                                                <td>
+                                                    <a href='<%= data.arr_short[i].urlOrigin %>' title='<%= data.arr_short[i].urlOrigin %>'>
+                                                        <%= (data.arr_short[i].urlOrigin).slice(0,35) +"..."%></a>
+                                                </td>
+                                                <% } else { %>
+                                                <td>
+                                                    <a href='<%= data.arr_short[i].urlOrigin %>' title="<%=data. arr_short[i].urlOrigin %>">
+                                                        <%= data.arr_short[i].urlOrigin%></a>
+                                                </td>
+                                                <% } %>
+                                                <td>
+                                                    <a href='<%= arr_short[i].urlShort%>'>
+                                                        <%= data.arr_short[i].urlShort%></a>
+                                                </td>
+                                                <td>
+                                                    <%= data.arr_short[i].totalClick %>
+                                                </td>
+                                                <td>
+                                                    <%= data.arr_short[i].timeCreate %>
+                                                </td>
+                                                <td>
+                                                    <a href="/enterprise/editLink/<%=data.arr_short[i].id %>">
+                                                        <i class="fa fa-w fa-refresh" style="font-size: 25px; color: black" title = "Edit Campaign"> </i>
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a class="my_link" href="/enterprise/deleteLink/<%=data.arr_short[i].id %>"
+                                                        onclick="return confirm('Are you sure you want to delete?');"><img
+                                                            style="width: 20px; height: 20px" src="/deleteLink.png" alt=""
+                                                            title=" Delete">
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                        </tbody>
+                                    </table>
+                                    <!-- ** -->
+
+                                    <div class="container1" style="float: right">
+                                        <% var pages  = Math.ceil(data.totalLink/10)%>
+                                        <% if (pages > 0) { %>
+                                        <ul class="pagination text-center">
+                                            <% if (data.page == 1) { %>
+                                            <li class="disabled"><a>Previous</a></li>
+                                            <% } else { %>
+                                            <li><a href="/enterprise/history/<%=data.page-1%>">Previous</a></li>
+                                            <% } %>
+                                            <% var j = (Number(data.page) > 4 ? Number(data.page) - 3 : 1) %>
+                                            <% if (j !== 1) { %>
+                                            <li class="disabled"><a>...</a></li>
+                                            <% } %>
+                                            <% for (; j <= (Number(data.page) + 3) && j <= pages; j++) { %>
+                                            <% if (j == data.page) { %>
+                                            <li class="active"><a>
+                                                    <%= j %></a></li>
+                                            <% } else { %>
+                                            <li><a href="/enterprise/history/<%= j %>">
+                                                    <%= j %></a></li>
+                                            <% } %>
+                                            <% if (j == Number(data.page) + 3 && j < pages) { %>
+                                            <li class="disabled"><a>...</a></li>
+                                            <% } %>
+                                            <% } %>
+                                            <% if (data.page == pages) { %>
+                                            <li class="disabled"><a>Next</a></li>
+                                            <% } else { %>
+                                            <li><a href="/enterprise/history/<%=(Number(data.page)+1)%>">Next</a></li>
+                                            <% } %>
+                                        </ul>
                                         <% } %>
                                     </div>
-                                </div>
-                                <div class="col-md-12" style="padding-top:30px; padding-bottom:20px">
-                                    <div>
-                                        <div class="col-xs-3"></div>
-                                        <div class="col-xs-3">
-                                            <button id="save" class="btn btn-primary btn-md btn-block btn-md">Save</button>
-                                        </div>
-                                        <div class="col-xs-3">
-                                            <a href="/enterprise/detailCamp/<%=customer.idCamp%>" class="btn btn-primary btn-md btn-block  btn-md">Cancel</a>
 
-                                        </div>
-                                        <div class="col-xs-3"></div>
-                                    </div>
+                                    <p style="font-weight: lighter;margin-top: 26px;">Showing
+                                        <%= (1 + (data.page-1)*10) %> to
+                                        <%= (data.arr_short.length + (data.page-1)*10) %> of
+                                        <%=data.totalLink%> entries</p>
+                                    <b>Page current:
+                                        <%=data.page%></b>
                                 </div>
+                                <!-- **********************************88 -->
+                                <!-- /.box-body -->
                             </div>
-                            <!-- </form> -->
+                            <!-- /.box -->
                         </div>
                     </div>
                     <!-- /.row -->

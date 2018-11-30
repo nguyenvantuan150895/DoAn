@@ -45,7 +45,6 @@ module.exports.update = (id_user, id_url) => {
         })
     })
 }
-
 //get array object url by id_user
 module.exports.getArrObUrl = (id_user) => {
     return new Promise((resolve, reject) => {
@@ -65,7 +64,6 @@ module.exports.delete = (id_user, id_url) => {
         })
     })
 }
-
 //check unique nameCampaign corresponding username
 module.exports.checkNameCamp = (name, id_user) => {
     return new Promise((resolve, reject) => {
@@ -80,7 +78,6 @@ module.exports.checkNameCamp = (name, id_user) => {
         })
     })
 }
-
 // get campaign by User (id_user), return arrCampaign
 module.exports.getAllCampaignByIDUser = (id_user) => {
     return new Promise((resolve, reject) => {
@@ -131,7 +128,6 @@ module.exports.getObCampByIdUrl = (idUrl) => {
         })
     })
 }
-
 // remove 1 idUrl in array urls (change user - admincontroll)
 module.exports.removeIdUrlInCamp = (idCamp, idUrl) => {
     return new Promise((resolve, reject) => {
@@ -160,7 +156,6 @@ module.exports.getCampaignNull = (idUser) => {
         })
     })
 }
-
 // Get campaign with name difirent null (5 record)
 module.exports.getCampaignOtherNull = (page) => {
     // return [] if not found
@@ -197,5 +192,14 @@ module.exports.deleteCamp = (idCamp) => {
             if (err) reject(err);
             else resolve(result);
         })
+    })
+}
+// get object campaign by id
+module.exports.getObCampById = (idCamp) => {
+    return new Promise((resolve, reject) => {
+        campaign.findById(idCamp, (err, camp) => {
+            if (err) reject(err);
+            else resolve(camp);
+        });
     })
 }

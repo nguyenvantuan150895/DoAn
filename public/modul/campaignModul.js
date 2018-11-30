@@ -280,11 +280,47 @@ const deleteArrShort = async (arrIdShort) => {
     }
 }
 /* ----- End support for update campaign ------*/
+let standardizedCampaign = async (arrCamp) => {
+    let arr = [];
+    for (let i = 0; i < arrCamp.length; i++) {
+        let ob_user = await User.findByID(arrCamp[i].id_user);
+        let ob_url = await Url.getObUrlById(arrCamp[i].id_urls[0]);
+        let arrShort = await getALlUrlShortInCampaign(ob_url.short_urls);
+        let time_create = arrCamp[i].time_create;
+        time_create = time_create.slice(0, -14);
+        let ob = {};
+        ob.id = arrCamp[i].id;
+        ob.id_user = arrCamp[i].id_user;
+        ob.username = ob_user.username;
+        ob.name = arrCamp[i].name;
+        ob.id_url = arrCamp[i].id_urls[0];
+        ob.urlOrigin = ob_url.url;
+        ob.arrShort = arrShort;
+        ob.start_time = arrCamp[i].start_time;
+        ob.end_time = arrCamp[i].end_time;
+        ob.time_create = time_create;
+        ob.ob_url = ob_url;
+        arr.push(ob);
+    }
+    return arr;
+}
+let getALlUrlShortInCampaign = async (arr_idUrlShort) => {
+    let arrUrlShort = [];
+    for (let i = 0; i < arr_idUrlShort.length; i++) {
+        let urlShort = await Shorten.getUrlShortByID(arr_idUrlShort[i]);
+        arrUrlShort.push(urlShort);
+    }
+    // console.log("arrShort:", arrUrlShort);
+    return arrUrlShort;
+}
+/*Suport for manager campaign (in admin controll) */
 
+/* --end suport manager campaign--*/
 module.exports = {
     saveShortUrlCampaign,
     validateConfirm,
     validateUpdate,
     saveUpdateCamp,
-    deleteCamp
+    deleteCamp,
+    standardizedCampaign
 }
