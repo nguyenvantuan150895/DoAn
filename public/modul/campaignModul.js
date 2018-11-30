@@ -79,7 +79,7 @@ const validateConfirm = async (rq) => {
         let existSms = await Shorten.checkExist(rq.sms);  //console.log("checkSms:", checkSms);
         let existOther = await Shorten.checkExist(rq.other);  //console.log("checkother:", checkOther);
         let existFb = await seedUrl.checkExistForFb(rq['fbArr[]']); //console.log("checkFb:", checkFb);
-        let checkDup = seedUrl.checkDuplicate(arrCheckDup)
+        let checkDup = seedUrl.checkDuplicate(arrCheckDup);
         //check role username (invalid if role user = personal)
         if (ob_user == undefined) {
             customer.state = 'fail';

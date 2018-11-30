@@ -1,4 +1,5 @@
 $(function () {
+  //CO THE XOA, KHONG DUNG:)
   // get  arr_Campaign
   let arrCampaign = $("#arr_campaign").attr("arrCampaign");
   arrCampaign = JSON.parse(arrCampaign);

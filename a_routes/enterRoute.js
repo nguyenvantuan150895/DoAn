@@ -6,11 +6,16 @@ const router = express.Router();
 router.get('/create', enterControll.createCampaign_get);
 router.post('/create', enterControll.createCampaign_post);
 router.post('/confirm', enterControll.confirm_post);
-router.get('/manager', enterControll.manager);
+router.get('/manager', enterControll.manager);// home page
 router.post('/getShortLink', enterControll.getShortLink);
 router.post('/shortLink',enterControll.shortLink);
-router.post('/getDataForCampaign', enterControll.getDataForCampaign);
 router.get('/export', enterControll.exportExcel);
+router.get('/detailCamp/:id', enterControll.getDetailCamp);
+router.get('/editCamp/:id', enterControll.editCamp_get);
+router.post('/editCamp', enterControll.editCamp_post);
+// router.post('/deleteCamp/:id', enterControll.deleteCamp);
+// router.get('/history', enterControll.history);
+
 
 
 

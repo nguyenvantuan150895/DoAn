@@ -25,21 +25,25 @@
   <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-  <!-- Import jquery.min.js -->
+  <!-- Import chart.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!-- Import Morris -->
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+  <!-- Import Fusion Charts -->
+  <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+  <script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
 
-  <!-- importdate picker -->
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
   <!-- import slidereveal -->
   <script src="/jquery.slidereveal.min.js"></script>
   <!-- import ajax shortlink va js  -->
   <script src="/js/enter/ajaxShort.js"></script>
-  <!-- import file js createCamp.js (enterprise) -->
-  <script src="/js/enter/createCamp.js"></script>
 
-
+  
 
 
   <style>
@@ -308,7 +312,56 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
       <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
-      
+      <!-- <div id="detail">
+        <div class="col-md-6">
+          <div class=block>
+            <label for="" style="color: white">Name:</label>
+            <input type="text" class="infoDetail" value="" readonly id="idname">
+          </div>
+          <div class="block">
+            <label for="" style="color: white">Url Origin:</label>
+            <input type="text" class="infoDetail" value="" readonly id="idOldUrl">
+          </div>
+          <div class="block">
+            <label for="" style="color: white;">Start Time (mm/dd/yy):</label>
+            <input type="text" class="infoDetail" value="" readonly id="start">
+          </div>
+          <div class="block">
+            <label for="" style="color: white;">End Time (mm/dd/yy):</label>
+            <input type="text" class="infoDetail" value="" readonly id="end">
+          </div>
+          <div class="block">
+            <label for="" style="color: white;">Time Create:</label>
+            <input type="text" class="infoDetail" value="" readonly id="create">
+          </div>
+
+        </div>
+        <div class="col-md-6">
+          <div class="block">
+            <label for="" style="color: white;">Url Email:</label>
+            <input type="text" class="infoDetail" readonly value="" id="email">
+          </div>
+          <div class="block">
+            <label for="" style="color: white;">Url SMS:</label>
+            <input type="text" class="infoDetail" readonly value="" id="sms">
+          </div>
+          <div class="block">
+            <label for="" style="color: white;">Url Other:</label>
+            <input type="text" class="infoDetail" readonly value="" id="other">
+          </div>
+          <label for="" style="color: white">Url Facebook:</label> <br>
+          <% for (let x = 0; x < 1 ;  x++) { %>
+          <div class="block block1">
+            <label for="" style="color: white; "> </label>
+            <input type="text" class="infoDetail" readonly value="">
+          </div>
+
+          <% } %>
+
+        </div>
+      </div> -->
+      <!-- <div id="sticky"> <button id="mybtn"> <i id="fa" class="fa fa-angle-double-down"></i> Campaign detail</button>
+      </div> -->
       <div id='slider' class="slider">
         <label for="" style="color: white">PASTE LONG URL</label>
         <br>
@@ -324,10 +377,10 @@
       <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
       <!-- Content Header (Page header) -->
       <section class="content-header">
-        <!-- <h1>
+        <h1>
           Nguyen Van Tuan
           <small>Preview sample</small>
-        </h1> -->
+        </h1>
       </section>
 
       <!-- Main content -->
@@ -336,68 +389,7 @@
         <!-- Main content -->
         <section class="content">
           <div class="row">
-            <div class="col-md-12" style="border: 1px solid #d2d6dd; border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 100%; margin-left: auto; margin-right: auto"
-              class="register-box-body">
-              <img src="/createCamp.png" alt="" style="width:30px; height: 30px" title="">
-              <h1 class="login-box-msg">Create Campaign</h1>
-
-              <form action="/enterprise/create" method="post" autocomplete="off" id="formSubmit">
-                <div class="col-md-12">
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="firstname">Name Campaign:</label>
-                      <input type="text" class="form-control" id="name" placeholder="Enter name campaign" name="name"
-                        autocomplete="off" />
-                    </div>
-                    <div class="form-group">
-                      <label>Url Original:</label>
-                      <input type="text" class="form-control" id="oldUrl" placeholder="Enter UrlOriginal" name="oldUrl"
-                        autocomplete="off" />
-                    </div>
-                    <div>
-                      <!-- date picker -->
-                      <label>Start time:</label>
-                      <input type="text" id="start" name='start' class="form-control col-md-10 datepicker" id="datepicker"
-                        ng-required="true" placeholder="MM/DD/YYYY">
-                      <br> <br> <br>
-                      <label>End time:</label>
-                      <input type="text" id="end" name='end' class="form-control col-md-10 datepicker" id="datepicker2"
-                        ng-required="true" placeholder="MM/DD/YYYY">
-                      <!-- end date picker -->
-                    </div>
-                  </div>
-                  <div class="col-md-6">
-                    <div class="form-group">
-                      <label for="email">Name Groups Facebook:</label>
-                      <ol id="idOl">
-                        <li>
-                          <input type="text" class="form-control faceGroup" placeholder="Enter name face group" name="faceGroup"
-                            autocomplete="off" />
-                        </li>
-                      </ol>
-                    </div>
-                    <div class="col-md-12">
-                      <div class="col-md-7"></div>
-                      <div class="col-md-2">
-                        <button class="btn btn-primary" id="btn1">Undo</button>
-                      </div>
-                      <div class="col-md-3">
-                        <button class="btn btn-primary" id="btn2">
-                          Append group
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-12" style="padding-top:30px; padding-bottom:20px">
-                    <div class="col-md-3"></div>
-                    <div class="col-md-6">
-                      <button type="submit" class="btn btn-primary btn-md btn-block" id="submit">Submit</button>
-                    </div>
-                    <div class="col-md-3"></div>
-                  </div>
-                </div>
-              </form>
-            </div>
+            <h1>Welcome Mode Enterpise!</h1>
           </div>
           <!-- /.row -->
 

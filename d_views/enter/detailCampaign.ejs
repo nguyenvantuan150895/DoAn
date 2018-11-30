@@ -42,8 +42,9 @@
   <script src="/jquery.slidereveal.min.js"></script>
   <!-- import ajax shortlink va js  -->
   <script src="/js/enter/ajaxShort.js"></script>
-  <!-- import ajax & js managercampaign -->
-  <script src="/js/enter/managerCampaign.js"></script>
+  <!-- import js detailCampaing  -->
+  <script src="/js/enter/detailCamp.js"> </script>
+
 
 
   <style>
@@ -71,9 +72,10 @@
     }
     #detail{
       padding-top:20px;
+      padding-bottom: 10px;
       border-top: 1px solid #74c0ec;
       width: 100%;
-      height:380px;
+      height:390px;
       background-color: #3c8dbc;
       display: none;
     }
@@ -169,11 +171,11 @@
 
     <header class="main-header">
       <!-- Logo -->
-      <a href="../../index2.html" class="logo">
+      <a href="/enterprise/manager" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>A</b>LT</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Admin</b>LTE</span>
+        <span class="logo-lg"><b>Rutgon.com</b></span>
       </a>
       <!-- Header Navbar: style can be found in header.less -->
       <nav class="navbar navbar-static-top">
@@ -189,21 +191,21 @@
           <ul class="nav navbar-nav">
             <!-- Create ShortLink & Campaign -->
             <li>
-                <div class="dropdown" style="margin-top: 7px">
-                  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Create
-                    <span class="caret"></span></button>
-                  <ul class="dropdown-menu">
-                    <li><a href="#" id="btnShort"> <b>Short Link</b> </a></li>
-                    <li><a href="/enterprise/create" id="btnCampaign"> <b>Campaign</b> </a></li>
-                  </ul>
-                </div>
-              </li>
+              <div class="dropdown" style="margin-top: 7px">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Create
+                  <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><a href="#" id="btnShort"> <b>Short Link</b> </a></li>
+                  <li><a href="/enterprise/create" id="btnCampaign"> <b>Campaign</b> </a></li>
+                </ul>
+              </div>
+            </li>
 
             <!-- User Account: style can be found in dropdown.less -->
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                <span class="hidden-xs">.</span>
+                <span class="hidden-xs">Nguyễn Văn Tuấn</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- User image -->
@@ -228,7 +230,7 @@
               </ul>
             </li>
             <!-- Create shortlink -->
-            
+
             <!-- Control Sidebar Toggle Button -->
             <li>
               <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
@@ -265,10 +267,10 @@
         <!-- /.search form -->
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-          <li class="header" arrCampaign="<%= JSON.stringify(campaign) %>" id="arr_campaign">MAIN NAVIGATION</li>
-
-
-
+          <li class="header" id="arr_campaign" arrCampaign="<%= JSON.stringify(arrCampaign) %>" obCamp="<%= JSON.stringify(obCamp) %>"
+            customer="<%= JSON.stringify(customer) %>">
+            MAIN NAVIGATION
+          </li>
           <li class="treeview active">
             <a href="#">
               <i class="fa fa-pie-chart"></i>
@@ -279,16 +281,12 @@
             </a>
             <ul class="treeview-menu">
               <div id="listCampaign">
-                <% for (var i = 0; i < campaign.length ;  i++) { %>
-                <% if(i == 0) { %>
-                <li> <button class="btn_list active" id="id_list<%=i+1%>"><i class="fa fa-circle-o text-orange"></i>
-                    <%= campaign[i].name %></button></li>
-                <br>
-                <% } else { %>
-                <li> <button class="btn_list" id="id_list<%=i+1%>"><i class="fa fa-circle-o text-orange"></i>
-                    <%= campaign[i].name %></button></li>
-                <br>
-                <% } %>
+                <% for (var i = 0; i < arrCampaign.length ;  i++) { %>
+                <li style="margin-top: 10px; padding-bottom: 10px">
+                  <a href="/enterprise/detailCamp/<%=arrCampaign[i].id %>" class="fa fa-circle-o text-green">
+                    <%=arrCampaign[i].name%>
+                  </a>
+                </li>
                 <% } %>
               </div>
             </ul>
@@ -305,11 +303,11 @@
           </li>
 
 
-          <li id="export" style="display : none">
+          <li id="export">
             <a href="/enterprise/export"><i class="fa fa-print"></i> <span>Export file excel</span></a>
           </li>
           <li class="header"> <b>SHORTEN LINK</b> </li>
-          <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>History</span></a></li>
+          <li><a href="/enterprise/history"><i class="fa fa-circle-o text-red"></i> <span>History</span></a></li>
         </ul>
       </section>
       <!-- /.sidebar -->
@@ -361,10 +359,19 @@
             <label for="" style="color: white; "> </label>
             <input type="text" class="infoDetail" readonly value="">
           </div>
-
           <% } %>
-
         </div>
+        <div class="col-md-1" style = "float:right;">
+          <a href="/enterprise/deleteCamp/<%=obCamp.id%>" onclick="return confirm('Are you sure you want to delete?');">
+            <img style="width: 25px; height: 25px" src="/deleteLink.png" alt="" title="Delete Campaign">
+          </a>
+        </div>
+        <div class="col-md-1" style = "float: right;">
+          <a href="/enterprise/editCamp/<%=obCamp.id%>">
+            <i class="fa fa-w fa-refresh" style="font-size: 25px; color: black" title = "Edit Campaign"> </i>
+          </a>
+        </div>
+       
       </div>
       <div id="sticky"> <button id="mybtn"> <i id="fa" class="fa fa-angle-double-down"></i> Campaign detail</button>
       </div>
@@ -383,9 +390,10 @@
       <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
       <!-- Content Header (Page header) -->
       <section class="content-header">
-        <h1>
-          Nguyen Van Tuan
-          <small>Preview sample</small>
+        <h1 style="color:#3c8dbc">
+          <b>
+            <%=obCamp.name%></b>
+          <small>Preview </small>
         </h1>
       </section>
 

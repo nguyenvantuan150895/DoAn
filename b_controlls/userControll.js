@@ -87,8 +87,9 @@ exports.addLink = async (req, res) => {
         if(req.session.user) {// if req.session.user , gs : = user1
             let id_user = await User.getIdByUser(req.session.user);//req.session.user
             let checkUser = await Campaign.checkUserExist(id_user);
-            let ob_camp = await Campaign.getCampaignNull(id_user); ob_camp = ob_camp[0];
+            let ob_camp = await Campaign.getCampaignNull(id_user); 
             if(checkUser) {
+                ob_camp = ob_camp[0];
                 let rs = await Campaign.addIdUrlInCamp(ob_camp.id,ob_url.id);
             } else {
                 let ob_campaign = {id_user: id_user, id_urls :[ob_url.id]};
@@ -229,8 +230,9 @@ let addLink1 = async (oldUrl, newUrl, user) => {
         //get id_user by user 
         let id_user = await User.getIdByUser(user);//req.session.user
         let checkUser = await Campaign.checkUserExist(id_user);
-        let ob_camp = await Campaign.getCampaignNull(id_user); ob_camp = ob_camp[0];
+        let ob_camp = await Campaign.getCampaignNull(id_user); 
         if(checkUser) {
+            ob_camp = ob_camp[0];
             let rs = await Campaign.addIdUrlInCamp(ob_camp.id,ob_url.id);
         } else {
             let ob_campaign = {id_user: id_user, id_urls :[ob_url.id]};
