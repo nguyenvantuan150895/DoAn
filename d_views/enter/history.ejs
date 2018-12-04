@@ -25,25 +25,19 @@
     <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <!-- Import chart.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <!-- Import jquery/3.3.1/jquery.min.js -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- Import Morris -->
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
-    <!-- Import Fusion Charts -->
-    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
-    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
-
-
-
+    <!-- import  sweetalert-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <link rel='stylesheet' href='/css/user/sweetalert2.min.css'>
+    <script src='/js/user/sweetalert2.all.min.js'></script>
+    <!-- end import -->
     <!-- import slidereveal -->
     <script src="/jquery.slidereveal.min.js"></script>
     <!-- import ajax shortlink va js  -->
     <script src="/js/enter/ajaxShort.js"></script>
-
-
+    <!-- import editLink (history) -->
+    <script src="/js/enter/editLinkHistory.js"></script>
 
 
     <style>
@@ -158,6 +152,7 @@
    
    
 </style>
+
 
 </head>
 
@@ -328,7 +323,7 @@
             <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1>
+                <h1 arr_short="<%= JSON.stringify(data.arr_short)%>" id="history">
                     History
                     <small>Preview</small>
                 </h1>
@@ -343,7 +338,7 @@
                         <div class="col-xs-12">
                             <div class="box">
                                 <div class="box-header">
-                                    
+
                                 </div>
                                 <!-- /.box-header -->
 
@@ -358,14 +353,14 @@
                                                 <th>Url shorten</th>
                                                 <th>Total click</th>
                                                 <th>Time create</th>
-                                                <th colspan="2">Function</th>
+                                                <th colspan="2">Tool</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <% for (var i = 0; i < data.arr_short.length ;  i++) { %>
                                             <tr>
                                                 <td>
-                                                    <%= ((i+1) + (page-1)*10) %>
+                                                    <%= ((i+1) + (data.page-1)*10) %>
                                                 </td>
                                                 <%if((data.arr_short[i].urlOrigin).length > 50){ %>
                                                 <td>
@@ -379,25 +374,27 @@
                                                 </td>
                                                 <% } %>
                                                 <td>
-                                                    <a href='<%= arr_short[i].urlShort%>'>
+                                                    <a href='<%= data.arr_short[i].urlShort%>'>
                                                         <%= data.arr_short[i].urlShort%></a>
                                                 </td>
                                                 <td>
                                                     <%= data.arr_short[i].totalClick %>
                                                 </td>
                                                 <td>
-                                                    <%= data.arr_short[i].timeCreate %>
+                                                    <%= data.arr_short[i].timeCreate.slice(0,-15) %>
                                                 </td>
                                                 <td>
-                                                    <a href="/enterprise/editLink/<%=data.arr_short[i].id %>">
-                                                        <i class="fa fa-w fa-refresh" style="font-size: 25px; color: black" title = "Edit Campaign"> </i>
+                                                    <a href="#" class = "classEdit"
+                                                        obShortBefore=" <%=JSON.stringify(data.arr_short[i])%> ">
+                                                        <i class="fa fa-w fa-refresh" style="font-size: 20px; color: black"
+                                                            title="Edit Link"> </i>
                                                     </a>
                                                 </td>
                                                 <td>
-                                                    <a class="my_link" href="/enterprise/deleteLink/<%=data.arr_short[i].id %>"
+                                                    <a class="my_link" href="/enterprise/deleteLink/<%=data.arr_short[i].idUrl %>"
                                                         onclick="return confirm('Are you sure you want to delete?');"><img
                                                             style="width: 20px; height: 20px" src="/deleteLink.png" alt=""
-                                                            title=" Delete">
+                                                            title=" Delete Link">
                                                     </a>
                                                 </td>
                                             </tr>

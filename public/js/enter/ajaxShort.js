@@ -11,7 +11,6 @@ $(function() {
 		}
 	});
 	
-
 	//slide reveal
 	$('#slider').slideReveal({
         trigger: $("#btnShort"),
@@ -49,6 +48,7 @@ $(function() {
 					alert("Create success!");
 					$("#oldUrlShortLink").val(""); $("#newUrlShortLink").val('');
 					$("#slider").slideReveal("hide");
+					window.location = '/enterprise/history/' + customer.last_page;
 				} 
 			   	else if(customer.state =="fail") {
 					//alert("that bai");

@@ -5,7 +5,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <style>
-    th {
+        th {
         background-color: rgb(236, 240, 245);
         border: 1px solid black;
     }
@@ -132,7 +132,8 @@
                             <li><a href="/admin/manager/user/1"><i class="fa fa-circle-o"></i> User Manager</a></li>
                             <li><a href="/admin/manager/campaign/1"><i class="fa fa-circle-o"></i> Campaign Manager</a></li>
                             <li><a href="/admin/manager/link/1"><i class="fa fa-circle-o"></i> Link Manager</a></li>
-                            <li><a href="/admin/manager/campaign/exportAccess"><i class="fa fa-circle-o"></i> Export Accesslog</a></li>
+                            <li><a href="/admin/manager/campaign/exportAccess"><i class="fa fa-circle-o"></i> Export
+                                    Accesslog</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -144,9 +145,12 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1 style="font-weight: bold">
-                    Campaign Manager
-                </h1>
+                <a href="/admin/manager/campaign/1">
+                    <h3 style="font-weight: bold" valueSearch="<%=JSON.stringify(valueSearch)%>" id = "idCampManager">
+                        Campaign Manager
+                    </h3>
+                </a>
+
             </section>
 
             <!-- Main content -->
@@ -154,10 +158,31 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box">
-                            <div class="box-header">
-                                <a class="btn" href="/admin/manager/campaign/add">
-                                    <img src="/createCamp.png" alt="" style="width:40px; height: 40px; margin-bottom: -15px" title="Create Campaign">
-                                </a>
+                            <div class="col-xs-12">
+                                <div class="col-xs-8">
+                                    <div class="box-header">
+                                        <a class="btn" href="/admin/manager/campaign/add">
+                                            <img src="/createCamp.png" alt="" style="width:40px; height: 40px; margin-top:-13px "
+                                                title="Create Campaign">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4" style="float: right; margin-right: -30px">
+                                    <!-- search form -->
+                                    <form action="/admin/manager/campaign/1" method="get" class="sidebar-form"
+                                        autocomplete="off">
+                                        <div class="input-group">
+                                            <input id="inputSearch" type="text" name="campaignSearch" class="form-control"
+                                                placeholder="Search campaign..." style="background-color: white">
+                                            <span class="input-group-btn">
+                                                <button type="submit" id="search-btn" class="btn btn-flat" style="background-color: white"><i
+                                                        class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                    <!-- /.search form -->
+                                </div>
                             </div>
                             <!-- /.box-header -->
 
@@ -180,82 +205,82 @@
                                     </thead>
                                     <tbody>
                                         <% for (var i = 0; i < arrCamp.length ;  i++) { %>
-                                            <% for (var j = 0; j < arrCamp[i].arrShort.length ;  j++) { %>  
-                                                <%if(j == 0){ %>
-                                                    <tr>
-                                                        <td rowspan="<%=arrCamp[i].arrShort.length%>">
-                                                            <%= ((i+1) + (page-1)*5) %>
-                                                        </td>
-                                                        <td rowspan="<%=arrCamp[i].arrShort.length%>">
-                                                            <%= arrCamp[i].username %>
-                                                        </td>
-                                                        <td rowspan="<%=arrCamp[i].arrShort.length%>">
-                                                            <%= arrCamp[i].name %>
-                                                        </td>
-                                                        <%if((arrCamp[i].urlOrigin).length > 50){ %>
-                                                        <td rowspan="<%=arrCamp[i].arrShort.length%>">
-                                                            <a href='<%= arrCamp[i].urlOrigin %>' title='<%= arrCamp[i].urlOrigin %>'>
-                                                                <%= (arrCamp[i].urlOrigin).slice(0,35) +"..."%>
-                                                            </a>
-                                                        </td>
-                                                        <% } else { %>
-                                                        <td rowspan="<%=arrCamp[i].arrShort.length%>">
-                                                            <a href='<%= arrCamp[i].urlOrigin %>' title="<%= arrCamp[i].urlOrigin %>">
-                                                                <%= arrCamp[i].urlOrigin%>
-                                                            </a>
-                                                        </td>
-                                                        <% } %>
-                                                        <td>
-                                                            <a href='<%= arrCamp[i].arrShort[j].urlShort %>' title="<%= arrCamp[i].arrShort[j].urlShort %>">
-                                                                <%= arrCamp[i].arrShort[j].url %>
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            <%= arrCamp[i].arrShort[j].resource %>
-                                                        </td>
-                                                        <td>
-                                                            <%= arrCamp[i].arrShort[j].group %>
-                                                        </td>
-                                                        <td>
-                                                            <%= arrCamp[i].arrShort[j].totalClick %>
-                                                        </td>
-                                                        <td rowspan="<%=arrCamp[i].arrShort.length%>">
-                                                            <a href="/admin/manager/campaign/update/<%=arrCamp[i].id %>"><img style="width: 20px; height: 20px"
-                                                                    src="/updateLink.jpeg" alt="/image_update" title="Edit Campaign"></a>
-                                                        </td>
-                                                        <td rowspan="<%=arrCamp[i].arrShort.length%>">
-                                                            <a class="my_link" href="/admin/manager/campaign/delete/<%=arrCamp[i].id %>"
-                                                                onclick="return confirm('Are you sure you want to delete?');"><img
-                                                                    style="width: 25px; height: 25px" src="/deleteLink.png" alt=""
-                                                                    title="Delete Campaign">
-                                                            </a>
-                                                        </td>
-                                                        <td rowspan="<%=arrCamp[i].arrShort.length%>">
-                                                            <a class="my_link" href="/admin/manager/campaign/detail/<%=arrCamp[i].id %>"><img
-                                                                    style="width: 20px; height: 20px" src="/detailLink.png" alt=""
-                                                                    title="Detail Campaign">
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                <% } else { %>
-                                                    <tr>
-                                                        <td>
-                                                            <a href='<%= arrCamp[i].arrShort[j].urlShort %>' title="<%= arrCamp[i].arrShort[j].urlShort %>">
-                                                                <%= arrCamp[i].arrShort[j].url %>
-                                                            </a>
-                                                        </td>
-                                                        <td>
-                                                            <%= arrCamp[i].arrShort[j].resource %>
-                                                        </td>
-                                                        <td>
-                                                            <%= arrCamp[i].arrShort[j].group %>
-                                                        </td>
-                                                        <td>
-                                                            <%= arrCamp[i].arrShort[j].totalClick %>
-                                                        </td>
-                                                    </tr>
-                                                <% } %>
+                                        <% for (var j = 0; j < arrCamp[i].arrShort.length ;  j++) { %>
+                                        <%if(j == 0){ %>
+                                        <tr>
+                                            <td rowspan="<%=arrCamp[i].arrShort.length%>">
+                                                <%= ((i+1) + (page-1)*5) %>
+                                            </td>
+                                            <td rowspan="<%=arrCamp[i].arrShort.length%>">
+                                                <%= arrCamp[i].username %>
+                                            </td>
+                                            <td rowspan="<%=arrCamp[i].arrShort.length%>">
+                                                <%= arrCamp[i].name %>
+                                            </td>
+                                            <%if((arrCamp[i].urlOrigin).length > 50){ %>
+                                            <td rowspan="<%=arrCamp[i].arrShort.length%>">
+                                                <a href='<%= arrCamp[i].urlOrigin %>' title='<%= arrCamp[i].urlOrigin %>'>
+                                                    <%= (arrCamp[i].urlOrigin).slice(0,35) +"..."%>
+                                                </a>
+                                            </td>
+                                            <% } else { %>
+                                            <td rowspan="<%=arrCamp[i].arrShort.length%>">
+                                                <a href='<%= arrCamp[i].urlOrigin %>' title="<%= arrCamp[i].urlOrigin %>">
+                                                    <%= arrCamp[i].urlOrigin%>
+                                                </a>
+                                            </td>
                                             <% } %>
+                                            <td>
+                                                <a href='<%= arrCamp[i].arrShort[j].urlShort %>' title="<%= arrCamp[i].arrShort[j].urlShort %>">
+                                                    <%= arrCamp[i].arrShort[j].url %>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <%= arrCamp[i].arrShort[j].resource %>
+                                            </td>
+                                            <td>
+                                                <%= arrCamp[i].arrShort[j].group %>
+                                            </td>
+                                            <td>
+                                                <%= arrCamp[i].arrShort[j].totalClick %>
+                                            </td>
+                                            <td rowspan="<%=arrCamp[i].arrShort.length%>">
+                                                <a href="/admin/manager/campaign/update/<%=arrCamp[i].id %>"><img style="width: 20px; height: 20px"
+                                                        src="/updateLink.jpeg" alt="/image_update" title="Edit Campaign"></a>
+                                            </td>
+                                            <td rowspan="<%=arrCamp[i].arrShort.length%>">
+                                                <a class="my_link" href="/admin/manager/campaign/delete/<%=arrCamp[i].id %>"
+                                                    onclick="return confirm('Are you sure you want to delete?');"><img
+                                                        style="width: 25px; height: 25px" src="/deleteLink.png" alt=""
+                                                        title="Delete Campaign">
+                                                </a>
+                                            </td>
+                                            <td rowspan="<%=arrCamp[i].arrShort.length%>">
+                                                <a class="my_link" href="/admin/manager/campaign/detail/<%=arrCamp[i].id %>"><img
+                                                        style="width: 23px; height: 23px" src="/detailLink.png" alt=""
+                                                        title="Detail Campaign">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <% } else { %>
+                                        <tr>
+                                            <td>
+                                                <a href='<%= arrCamp[i].arrShort[j].urlShort %>' title="<%= arrCamp[i].arrShort[j].urlShort %>">
+                                                    <%= arrCamp[i].arrShort[j].url %>
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <%= arrCamp[i].arrShort[j].resource %>
+                                            </td>
+                                            <td>
+                                                <%= arrCamp[i].arrShort[j].group %>
+                                            </td>
+                                            <td>
+                                                <%= arrCamp[i].arrShort[j].totalClick %>
+                                            </td>
+                                        </tr>
+                                        <% } %>
+                                        <% } %>
                                         <% } %>
 
                                     </tbody>
@@ -349,6 +374,11 @@
     <!-- AdminLTE for demo purposes -->
     <script src="/dist/js/demo.js"></script>
     <!-- page script -->
+    <script>
+        let valueSearch = $("#idCampManager").attr("valueSearch");
+        valueSearch = JSON.parse(valueSearch);
+        $("#inputSearch").val(valueSearch);
+    </script>
 
 </body>
 

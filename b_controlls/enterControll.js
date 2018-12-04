@@ -22,6 +22,7 @@ let obCampBefore;
 
 // Manager campaign
 exports.manager = async (req, res) => {
+    // manager tro ve homeEnter.ejs
     try {
         //Get arr object campaign
         let id_user = await User.getIdByUser(req.session.user);
@@ -89,8 +90,8 @@ exports.getDetailCamp = async (req, res) => {
         customer.osPhone = objInfo.osPhone;
         customer.objLocation = objInfo.objLocation;
         // console.log("test:", JSON.stringify(customer));
-        
-        res.render('../d_views/enter/detailCampaign.ejs', {arrCampaign:arr_campaignPl,obCamp: ob_campaign, customer:customer});
+
+        res.render('../d_views/enter/detailCampaign.ejs', { arrCampaign: arr_campaignPl, obCamp: ob_campaign, customer: customer });
 
     } catch (e) {
         console.log(e + "--tuan: getailCampain in EnterControll");
@@ -98,7 +99,7 @@ exports.getDetailCamp = async (req, res) => {
 }
 //Create campaign
 exports.createCampaign_get = async (req, res) => {
-    res.render("../d_views/enter/createCampaign.ejs", {arrCampaign:arr_campaignPl});
+    res.render("../d_views/enter/createCampaign.ejs", { arrCampaign: arr_campaignPl });
 }
 exports.createCampaign_post = async (req, res) => {
     let data = req.body;
@@ -122,7 +123,7 @@ exports.createCampaign_post = async (req, res) => {
         sms: sms, email: email, other: other, fb: fb, start: data.start, end: data.end
     }
     // console.log("customer:", customer);
-    res.render('../d_views/enter/confirm.ejs', {customer: customer, arrCampaign: arr_campaignPl});
+    res.render('../d_views/enter/confirm.ejs', { customer: customer, arrCampaign: arr_campaignPl });
 }
 // Confirm campaign
 exports.confirm_post = async (req, res) => {
@@ -151,7 +152,7 @@ exports.confirm_post = async (req, res) => {
 }
 //Edit campaign
 exports.editCamp_get = async (req, res) => {
-    idCamp = req.params.id;   
+    idCamp = req.params.id;
     try {
         let ob_camp = await Campaign.getObCampById(idCamp);
         //chuan hoa
@@ -188,7 +189,7 @@ exports.editCamp_get = async (req, res) => {
         }
         obCampBefore = customer; //don't care
         // console.log("Send:",customer);
-        res.render('../d_views/enter/editCamp.ejs', {customer:customer, arrCampaign: arr_campaignPl});
+        res.render('../d_views/enter/editCamp.ejs', { customer: customer, arrCampaign: arr_campaignPl });
     } catch (e) {
         console.log(e + "--tuan: editCamp_get enterControll");
     }
@@ -217,7 +218,7 @@ exports.deleteCamp = async (req, res) => {
         let ob_camp = await Campaign.getObCampById(idCampDel);
         // console.log("ob_camp:", ob_camp);
         let idUrl = ob_camp.id_urls;
-        let ob_url = await Url.getObUrlById(idUrl); 
+        let ob_url = await Url.getObUrlById(idUrl);
         // console.log("ob_url:", ob_url);
         let arrIdShort = ob_url.short_urls;
         let rs = await CampaignModul.deleteCamp(idCampDel, idUrl, arrIdShort);
@@ -249,6 +250,7 @@ exports.getShortLink = async (req, res) => {
 exports.shortLink = async (req, res) => {
     let customer = {};
     let domain = "dontcare.com";
+    let totalLink = 0;
     // console.log("req.body:", req.body);
     try {
         let checkFormat = seedUrl.checkFormatUrlShort(req.body.newUrl, domain);
@@ -257,6 +259,13 @@ exports.shortLink = async (req, res) => {
         // console.log("CheckExist:", checkExist);
         if (checkFormat == true && checkExist == false) {
             await addLink1(req.body.oldUrl, req.body.newUrl, req.session.user);
+            //get totalLink
+            let id_user = await User.getIdByUser(req.session.user);
+            let ob_campaign = await Campaign.getArrObUrl(id_user);
+            if (ob_campaign != undefined) totalLink = ob_campaign.id_urls.length;
+            let last_page = Math.ceil(totalLink / 10);
+            //
+            customer.last_page = last_page;
             customer.state = "ok";
         } else {
             customer.state = "fail";
@@ -306,35 +315,95 @@ const addLink1 = async (oldUrl, newUrl, user) => {
 /*---end Short Link--*/
 
 //history
-exports.history = async (req, res) => {
-    let pageHistory = req.params.page;
+exports.showHistory = async (req, res) => {
+    let page_size = 10;
+    pageHistory = req.params.page;
+    // console.log("page_current:", page_current);
+    let i = (pageHistory - 1) * page_size;
+    let limit1 = (pageHistory - 1) * page_size + page_size;
+    let arr_link = [];
+    let totalLink = 0;
     try {
-        let idUser = await User.getIdByUser(req.session.user);
-        console.log("idUser:", idUser);
-        // let arr_short = await Shorten.getAllShortByUser(idUser, pageHistory);
-        //get array  short
-        //1. lay 10 gia tri id url trong campaign null
-        //2. lay 10 gia tri idurlshort tuong ung voi idurl
-        console.log("arr_short:", arr_short);
-        arr_short = await LinkModul.allJoinArrShort(arr_short);
-        // arr_shortP = arr_short; //don't care
-        // get totalLink not Link campaign
-        let totalLink = await Shorten.getTotalLink();
-        // console.log("arr_short:", arr_short);
-        let data = { arr_short: arr_short, admin: 'ADMIN', page: pageHistory, totalLink: totalLink };
-        res.render('../d_views/enter/history.ejs', {data:data, arrCampaign: arr_campaignPl});
+        let id_user = await User.getIdByUser(req.session.user);
+        let ob_campaign = await Campaign.getArrObUrl(id_user);
+        if (ob_campaign != undefined) {
+            let arr_idUrl = ob_campaign.id_urls;
+            if (arr_idUrl != undefined) {
+                totalLink = arr_idUrl.length;
+                // totalRecord = totalLink; // don't care 
+                let limit = (limit1 > totalLink) ? totalLink : limit1;
+                //Get 10 records(url & urlshort) per page
+                for (i; i < limit; i++) {
+                    let result1 = await Url.getObUrlById(arr_idUrl[i]);
+                    if (result1 != undefined) {
+                        let result2 = await Shorten.getObUrlShorten(result1.short_urls[0]);
+                        if (result2 != undefined) {
+                            let tempUrl = {
+                                idUrl: arr_idUrl[i], urlOrigin: result1.url, urlShort: result2.url,
+                                totalClick: result2.totalClick, timeCreate: result1.timeCreate, idShortUrl: result2.id
+                            }
+                            arr_link.push(tempUrl);
+                        }
+                    }
+                }
+            }
+            //console.log("arr_url:", arr_url[0]);
+        }
+        let data = { arr_short: arr_link, admin: 'ADMIN', page: pageHistory, totalLink: totalLink };
+        res.render('../d_views/enter/history.ejs', { data: data, arrCampaign: arr_campaignPl });
     } catch (e) {
-        console.log(e + "--tuan: history");
+        console.log(e + "--tuan: error Manager");
     }
 }
+// edit Link History
+exports.editLink = async (req, res) => {
+    // console.log("receive:", req.body);
+    let customer = {};
+    try {
+        //check new url invalid
+        let domain = "dontcare.com";
+        let newUrl = req.body.newUrl;
+        let check_format = seedUrl.checkFormatUrlShort(newUrl, domain);
+        let checkExist = await Shorten.checkExist(newUrl);
+        if (check_format) {
+            if (checkExist && (req.body.newUrl != req.body.urlPreEdit)) {
+                customer.state = "fail";
+            } else {
+                await Shorten.update(req.body.idShortUrl, { url: req.body.newUrl });
+                customer.state = "ok";
+            }
+        } else customer.state = 'fail';
+        return res.send(customer);
+    } catch (e) {
+        console.log(e + "--tuan: Error editLink in enterControll!");
+    }
+}
+exports.deleteLink = async (req, res) => {
+    let idUrlOrign = req.params.id;
+    try {
+        let ob_url = await Url.getObUrlById(idUrlOrign);
+        let ob_shorten = await Shorten.getObUrlShorten(ob_url.short_urls[0]);//by id
+        let id_user = await User.getIdByUser(req.session.user);
+        let ob_camp = await Campaign.getCampaignNull(id_user); ob_camp = ob_camp[0];
+        //delete
+        let rs1 = await Shorten.delete(ob_shorten.id); //console.log("rs1:", rs1);
+        let rs2 = await Url.delete(ob_url.id);
+        let rs3 = await Campaign.removeIdUrlInCamp(ob_camp.id, ob_url.id);
 
-
-
-
-
-
-
-
+    } catch (e) {
+        console.log(e + "--tuan: error delete in urlControll.")
+    }
+    let path = '/enterprise/history/' + pageHistory;
+    res.redirect(path);
+}
+exports.search = async (req, res) => {
+    let nameCamp = req.query.campaign;
+    let idUser = await User.getIdByUser(req.session.user);
+    let arr_campaign = await Campaign.searchCamp(idUser, nameCamp);
+    // console.log("ArrCamp:", arrCamp);
+    arr_campaignPl = arr_campaign;//don't care
+    res.render("../d_views/enter/homeEnter.ejs", { arrCampaign: arr_campaign });
+}
 
 
 

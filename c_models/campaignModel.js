@@ -58,7 +58,7 @@ module.exports.getArrObUrl = (id_user) => {
 //Delete id_url (Chua su dung !!!!)
 module.exports.delete = (id_user, id_url) => {
     return new Promise((resolve, reject) => {
-        campaign.update({id_user:id_user}, { $pull: { id_urls: id_url } }, (err, result) => {
+        campaign.update({ id_user: id_user }, { $pull: { id_urls: id_url } }, (err, result) => {
             if (err) reject(err);
             else resolve(result);
         })
@@ -201,5 +201,34 @@ module.exports.getObCampById = (idCamp) => {
             if (err) reject(err);
             else resolve(camp);
         });
+    })
+}
+//search Campaign
+module.exports.searchCamp = (idUser, nameCamp) => {
+    return new Promise((resolve, reject) => {
+        campaign.find({ id_user:idUser, name: { $regex: nameCamp, $options: 'i' } }, (err, result) => {
+            if(err) reject(err);
+            else{
+                if(nameCamp == null) resolve([]);
+                else resolve(result);
+            }
+        })
+    })
+}
+// serarch Campaign1 (manager campaign)
+module.exports.searchCamp1 = (campSearch, page, pagesize) => {
+    return new Promise((resolve, reject) => {
+        campaign.find({ name: { $neq:  null},name: {$regex: campSearch, $options: 'i' }}, (err, result)=>{
+            if(err) reject(err);
+            else resolve(result);
+        }).skip(pagesize * (page - 1)).limit(pagesize);
+    })
+}
+module.exports.getTotalCampSearch = (campSearch) => {
+    return new Promise((resolve, reject) => {
+        campaign.find({ name: { $neq:  null},name: {$regex: campSearch, $options: 'i' }}, (err, result)=>{
+            if(err) reject(err);
+            else resolve(result.length);
+        })
     })
 }

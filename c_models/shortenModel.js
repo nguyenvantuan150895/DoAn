@@ -121,16 +121,6 @@ module.exports.getAllShort = (page) => {
         }); 
     })  
 };
-// get 10 record by PAGE & USER
-module.exports.getAllShortByUser = (idUser, page) => {
-    return new Promise((resolve, reject) => {
-        const pagesize = 10;
-        shorten.find({id_user:idUser, resource: null}).skip(pagesize*(page-1)).limit(pagesize).exec((err, users) =>{
-            if(err) reject(err);
-            else resolve(users);
-        }); 
-    })  
-};
 // get totalLink (not link campaign)
 module.exports.getTotalLink = () => {
     return new Promise((resolve, reject) => {
@@ -165,5 +155,22 @@ module.exports.updateUrlShortForUpdateCamp = (idShorten, urlShort, group) => {
             if(err)reject(err)
             else resolve(result);
         })
+    })
+}
+//search link (manger link)
+module.exports.searchLink = (linkSearch, page, pagesize) => {
+    return new Promise((resolve, reject) => {
+        shorten.find({ resource: null,url: {$regex: linkSearch, $options: 'i' }}, (err, result)=>{
+            if(err) reject(err);
+            else resolve(result);
+        }).skip(pagesize * (page - 1)).limit(pagesize);
+    })
+}
+module.exports.getTotalLinkSearch = (linkSearch) => {
+    return new Promise((resolve, reject) => {
+        shorten.find({resource: null, url: { $regex: linkSearch, $options: 'i' }}, (err, result)=>{
+            if(err) reject(err);
+            else resolve(result.length);
+        });
     })
 }

@@ -18,6 +18,7 @@ router.post('/manager/user/update', adminControll.updateUser_post);
 router.get('/manager/user/delete/:id',adminControll.deleteUser);
 router.get('/manager/user/detail/:id',adminControll.detailUser);
 router.get('/manager/user/:page', adminControll.managerUser);
+// router.get('/manager/user/search/:page', adminControll.searchUser);
 
 
 router.get('/manager/link/add', adminControll.addLink_get);

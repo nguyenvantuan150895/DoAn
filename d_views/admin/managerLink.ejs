@@ -12,7 +12,7 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>User Manager</title>
+    <title>Link Manager</title>
     <link rel="icon" type="image/png" href="/icons/shortLink.jpeg" />
 
     <!-- Tell the browser to be responsive to screen width -->
@@ -134,7 +134,8 @@
                             <li><a href="/admin/manager/user/1"><i class="fa fa-circle-o"></i> User Manager</a></li>
                             <li><a href="/admin/manager/campaign/1"><i class="fa fa-circle-o"></i> Campaign Manager</a></li>
                             <li><a href="/admin/manager/link/1"><i class="fa fa-circle-o"></i> Link Manager</a></li>
-                            <li><a href="/admin/manager/campaign/exportAccess"><i class="fa fa-circle-o"></i> Export Accesslog</a></li>
+                            <li><a href="/admin/manager/campaign/exportAccess"><i class="fa fa-circle-o"></i> Export
+                                    Accesslog</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -146,9 +147,12 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1 style="font-weight: bold">
-                    Link Manager
-                </h1>
+                <a href="/admin/manager/link/1">
+                    <h3 style="font-weight: bold" valueSearch="<%=JSON.stringify(valueSearch)%>" id="idLinkManager">
+                        Link Manager
+                    </h3>
+                </a>
+
             </section>
 
             <!-- Main content -->
@@ -156,10 +160,29 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box">
-                            <div class="box-header">
-                                <a class="btn" href="/admin/manager/link/add">
-                                    <img src="/addLink.png" alt="" style="width:30px; height: 30px" title="Add Link">
-                                </a>
+                            <div class="col-xs-12">
+                                <div class="col-xs-8">
+                                    <div class="box-header">
+                                        <a class="btn" href="/admin/manager/link/add">
+                                            <img src="/addLink.png" alt="" style="width:30px; height: 30px" title="Add Link">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4" style="float: right; margin-right: -30px">
+                                    <!-- search form -->
+                                    <form action="/admin/manager/link/1" method="get" class="sidebar-form" autocomplete="off">
+                                        <div class="input-group">
+                                            <input id="inputSearch" type="text" name="linkSearch" class="form-control"
+                                                placeholder="Search link..." style="background-color: white">
+                                            <span class="input-group-btn">
+                                                <button type="submit" id="search-btn" class="btn btn-flat" style="background-color: white"><i
+                                                        class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                    <!-- /.search form -->
+                                </div>
                             </div>
                             <!-- /.box-header -->
 
@@ -212,7 +235,8 @@
                                                         src="/updateLink.jpeg" alt="" title="Update"></a></td>
                                             <td><a class="my_link" href="/admin/manager/link/delete/<%=arr_short[i].id %>"
                                                     onclick="return confirm('Are you sure you want to delete?');"><img
-                                                        style="width: 20px; height: 20px" src="/deleteLink.png" alt="" title=" Delete"></a></td>
+                                                        style="width: 20px; height: 20px" src="/deleteLink.png" alt=""
+                                                        title=" Delete"></a></td>
                                             <td><a class="my_link" href="/admin/manager/link/detail/<%=arr_short[i].id %>"><img
                                                         style="width: 23px; height: 23px" src="/detailLink.png" alt=""
                                                         title=" Detail"></a> </td>
@@ -307,6 +331,11 @@
     <!-- AdminLTE for demo purposes -->
     <script src="/dist/js/demo.js"></script>
     <!-- page script -->
+    <script>
+        let valueSearch = $("#idLinkManager").attr("valueSearch");
+        valueSearch = JSON.parse(valueSearch);
+        $("#inputSearch").val(valueSearch);
+    </script>
 
 </body>
 

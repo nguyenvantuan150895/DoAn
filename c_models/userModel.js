@@ -110,3 +110,20 @@ module.exports.getObUserByName = (username) => {
         })
     })
 }
+//search user (manger user)
+module.exports.searchUser = (userSearch, page, pagesize) => {
+    return new Promise((resolve, reject) => {
+        user.find({username: { $regex: userSearch, $options: 'i' }}, (err, result)=>{
+            if(err) reject(err);
+            else resolve(result);
+        }).skip(pagesize * (page - 1)).limit(pagesize);
+    })
+}
+module.exports.getTotalUserSearch = (userSearch) => {
+    return new Promise((resolve, reject) => {
+        user.find({username: { $regex: userSearch, $options: 'i' }}, (err, result)=>{
+            if(err) reject(err);
+            else resolve(result.length);
+        });
+    })
+}

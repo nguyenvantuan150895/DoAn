@@ -14,10 +14,10 @@ router.get('/detailCamp/:id', enterControll.getDetailCamp);
 router.get('/editCamp/:id', enterControll.editCamp_get);
 router.post('/editCamp', enterControll.editCamp_post);
 router.get('/deleteCamp/:id', enterControll.deleteCamp);
-router.get('/history/:page', enterControll.history);
-
-
-
+router.get('/history/:page', enterControll.showHistory);
+router.post('/editLink', enterControll.editLink);
+router.get('/deleteLink/:id', enterControll.deleteLink);
+router.get('/search',enterControll.search);
 
 
 

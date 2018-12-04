@@ -32,10 +32,10 @@
     <!-- import fusionchart.js -->
     <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
     <script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
-    <!-- import file js overviewManager -->
-    <script src="/js/admin/overviewManager.js"></script>
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -134,7 +134,8 @@
                             <li><a href="/admin/manager/user/1"><i class="fa fa-circle-o"></i> User Manager</a></li>
                             <li><a href="/admin/manager/campaign/1"><i class="fa fa-circle-o"></i> Campaign Manager</a></li>
                             <li><a href="/admin/manager/link/1"><i class="fa fa-circle-o"></i> Link Manager</a></li>
-                            <li><a href="/admin/manager/campaign/exportAccess"><i class="fa fa-circle-o"></i> Export Accesslog</a></li>
+                            <li><a href="/admin/manager/campaign/exportAccess"><i class="fa fa-circle-o"></i> Export
+                                    Accesslog</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -146,9 +147,12 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1 style = "font-weight: bold">
-                    User Manager
-                </h1>
+                <a href="/admin/manager/user/1">
+                    <h3 style="font-weight: bold" valueSearch="<%=JSON.stringify(valueSearch)%>" id="idUserManager">
+                        User Manager
+                    </h3>
+                </a>
+
             </section>
 
             <!-- Main content -->
@@ -156,10 +160,28 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box">
-                            <div class="box-header">
-                                <a class="btn" href="/admin/manager/user/add">
-                                    <img src="/addUser.png" alt="" style = "width:30px; height: 30px" title="Add user">
-                                </a>
+                            <div class="col-xs-12">
+                                <div class="col-xs-8">
+                                    <div class="box-header">
+                                        <a class="btn" href="/admin/manager/user/add">
+                                            <img src="/addUser.png" alt="" style="width:30px; height: 30px" title="Add user">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4" style="float: right; margin-right: -30px">
+                                    <!-- search form -->
+                                    <form action="/admin/manager/user/1" method="get" class="sidebar-form" autocomplete="off">
+                                        <div class="input-group">
+                                            <input id="inputSearch" type="text" name="userSearch" class="form-control"
+                                                placeholder="Search user..." style ="background-color: white">
+                                            <span class="input-group-btn">
+                                                <button type="submit" id="search-btn" class="btn btn-flat" style = "background-color: white"><i class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </form>
+                                    <!-- /.search form -->
+                                </div>
                             </div>
                             <!-- /.box-header -->
 
@@ -201,12 +223,14 @@
                                             </td>
 
                                             <td><a href="/admin/manager/user/update/<%=users[i].id %>"><img style="width: 20px; height: 20px"
-                                                        src="/updateUser.png" alt="/image_update" title="Update user" ></a></td>
+                                                        src="/updateUser.png" alt="/image_update" title="Update user"></a></td>
                                             <td><a class="my_link" href="/admin/manager/user/delete/<%=users[i].id %>"
                                                     onclick="return confirm('Are you sure you want to delete?');"><img
-                                                        style="width: 25px; height: 25px" src="/deleteUser.png" alt="" title="Delete user"></a></td>
+                                                        style="width: 25px; height: 25px" src="/deleteUser.png" alt=""
+                                                        title="Delete user"></a></td>
                                             <td><a class="my_link" href="/admin/manager/user/detail/<%=users[i].id %>"><img
-                                                        style="width: 20px; height: 20px" src="/detailUser.png" alt="" title="Detail user"></a>
+                                                        style="width: 20px; height: 20px" src="/detailUser.png" alt=""
+                                                        title="Detail user"></a>
                                             </td>
 
                                         </tr>
@@ -303,7 +327,11 @@
     <!-- AdminLTE for demo purposes -->
     <script src="/dist/js/demo.js"></script>
     <!-- page script -->
-
+    <script>
+        let valueSearch = $("#idUserManager").attr("valueSearch");
+        valueSearch = JSON.parse(valueSearch);
+        $("#inputSearch").val(valueSearch);
+    </script>
 </body>
 
 </html>

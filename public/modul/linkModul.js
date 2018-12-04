@@ -144,9 +144,19 @@ let saveUpdateLink = async (username, urlShort, urlOrigin, obShortBefore) => {
 
     }
 }
+let getArrShortFromArrIdUrl = async (arrUrl) => {
+    let arrShort = [];
+    for(let i = 0; i < arrUrl.length; i++) {
+        let ob_url = await Url.getObUrlById(arrUrl[i]);
+        let ob_short = await Shorten.getObUrlShorten(ob_url.short_urls[0]);
+        arrShort.push(ob_short);
+    }
+    return arrShort;
+}
 module.exports = {
     validateAddLink,
     saveLink,
     allJoinArrShort,
-    saveUpdateLink
+    saveUpdateLink,
+    getArrShortFromArrIdUrl
 }

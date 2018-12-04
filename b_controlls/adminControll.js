@@ -60,10 +60,24 @@ exports.manager = async (req, res) => {
 // admin manager user
 exports.managerUser = async (req, res) => {
     page_current = req.params.page;
+    let userSearch = req.query.userSearch;
+    let totalUser;
+    let users;//array
+    let valueSearch = "";
     try {
-        let totalUser = await User.getTotalRecord();
-        let users = await User.getAllUser(page_current);
-        res.render('../d_views/admin/managerUser.ejs', { users: users, admin: "ADMIN", page: page_current, totalUser: totalUser });
+        if (userSearch == undefined) {
+            totalUser = await User.getTotalRecord();
+            users = await User.getAllUser(page_current);
+        } else {
+            valueSearch = userSearch;
+            totalUser = await User.getTotalUserSearch(userSearch);
+            users = await User.searchUser(userSearch, page_current, 10);
+        }
+        res.render('../d_views/admin/managerUser.ejs', {
+            users: users, admin: "ADMIN", page: page_current,
+            totalUser: totalUser, valueSearch: valueSearch
+        });
+
     } catch (e) {
         console.log(e + "--tuan: error managerUser");
     }
@@ -170,20 +184,28 @@ exports.detailUser = async (req, res) => {
         console.log(e + "--tuan: detailUser");
     }
 };
-
-/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ */
+/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
 
 // Start manager Link
 exports.managerLink = async (req, res) => {
     pageUrl = req.params.page;
+    let linkSearch = req.query.linkSearch;
+    let totalLink;
+    let arr_short;//array
+    let valueSearch = "";
     try {
-        let arr_short = await Shorten.getAllShort(pageUrl);
+        if (linkSearch == undefined) {
+            arr_short = await Shorten.getAllShort(pageUrl);
+            totalLink = await Shorten.getTotalLink();
+        } else {
+            valueSearch = linkSearch;
+            arr_short = await Shorten.searchLink(linkSearch, pageUrl, 10);
+            totalLink = await Shorten.getTotalLinkSearch(linkSearch);
+        }
         arr_short = await LinkModul.allJoinArrShort(arr_short);
         arr_shortP = arr_short; //don't care
-        // get totalLink not Link campaign
-        let totalLink = await Shorten.getTotalLink();
-        // console.log("arr_short:", arr_short);
-        let data = { arr_short: arr_short, admin: 'ADMIN', page: pageUrl, totalLink: totalLink };
+        let data = { arr_short: arr_short, admin: 'ADMIN', page: pageUrl, totalLink: totalLink, 
+        valueSearch: valueSearch };
         res.render('../d_views/admin/managerLink.ejs', data);
     } catch (e) {
         console.log(e + "--tuan: err managerLink");
@@ -200,11 +222,11 @@ exports.addLink_post = async (req, res) => {
     // let customer;
     try {
         customer = await LinkModul.validateAddLink(req.body);
-        if(customer.state == 'ok') {
+        if (customer.state == 'ok') {
             let rs = await LinkModul.saveLink(req.body.urlOrigin, req.body.username);
         }
         res.send(customer);
-    }catch(e) {
+    } catch (e) {
         console.log(e + "--tuan: addLink_port in adminController");
     }
 }
@@ -261,7 +283,7 @@ exports.updateLink_post = async (req, res) => {
             customer.existUser = false;
         }
         else {
-            let rs = await LinkModul.saveUpdateLink(username, urlShort, urlOrigin,obShortBefore);
+            let rs = await LinkModul.saveUpdateLink(username, urlShort, urlOrigin, obShortBefore);
             customer.state = 'ok';
             customer.page_current = pageUrl;
         }
@@ -323,14 +345,25 @@ let subDeleteLink = async (ob_urlShort) => {
 
 // Start Manger Campaign
 exports.managerCamp = async (req, res) => {
+    pageCamp = req.params.page;
+    let campaignSearch = req.query.campaignSearch;
+    let totalCamp;
+    let arrCamp;//array
+    let valueSearch = "";
     try {
-        pageCamp = req.params.page;
-        let arrCamp = await Campaign.getCampaignOtherNull(pageCamp);
+        if(campaignSearch == undefined) {
+            arrCamp = await Campaign.getCampaignOtherNull(pageCamp);
+            totalCamp = await Campaign.getTotalRecord();
+        } else {
+            valueSearch = campaignSearch;
+            arrCamp = await Campaign.searchCamp1(campaignSearch, pageCamp, 5);
+            totalCamp = await Campaign.getTotalCampSearch(campaignSearch);
+        }
         arrCamp = await CampaignModul.standardizedCampaign(arrCamp);
         arrCampPl = arrCamp; //don't care
-        let totalCamp = await Campaign.getTotalRecord();
         totalCampPl = totalCamp;//don't care
-        res.render("../d_views/admin/managerCamp.ejs", { arrCamp: arrCamp, page: pageCamp, admin: "ADMIN", totalCamp: totalCamp });
+        res.render("../d_views/admin/managerCamp.ejs", { arrCamp: arrCamp, page: pageCamp, 
+            admin: "ADMIN", totalCamp: totalCamp, valueSearch: valueSearch });
     } catch (e) {
         console.log(e + "--tuan: managerCamp in adminControll");
     }
@@ -556,7 +589,7 @@ exports.deleteCamp = async (req, res) => {
         let idUrl = ob_camp.id_url;
         let arrIdShort = ob_camp.ob_url.short_urls;
         let rs = await CampaignModul.deleteCamp(idCamp, idUrl, arrIdShort);
-        res.redirect('/admin/manager/campaign/' +pageCamp);
+        res.redirect('/admin/manager/campaign/' + pageCamp);
     } catch (e) {
         console.log(e + '--tuan: deleteCamp in AdminControll');
     }
