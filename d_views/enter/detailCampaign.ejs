@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | ChartJS</title>
+  <title>Detail Campaign</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -220,11 +220,16 @@
 
                 <!-- Menu Footer-->
                 <li class="user-footer">
-                  <div class="pull-left">
-                    <a href="#" class="btn btn-default btn-flat"><b>Profile</b></a>
-                  </div>
-                  <div class="pull-right">
-                    <a href="/user/logout" class="btn btn-default btn-flat"> <b>Sign out</b> </a>
+                  <div class="col-md-12">
+                    <div class="col-md-4" style="margin-left: -21px; margin-right: 10px">
+                      <a href="#" class="btn btn-default btn-flat" id="idPremium"><b>Upgrade</b></a>
+                    </div>
+                    <div class="col-md-4">
+                      <a href="/enterprise/profile" class="btn btn-default btn-flat" id="profile"><b>Profile</b></a>
+                    </div>
+                    <div class="col-md-4">
+                      <a href="/user/logout" class="btn btn-default btn-flat"> <b>Sign out</b> </a>
+                    </div>
                   </div>
                 </li>
               </ul>
@@ -255,11 +260,11 @@
           </div>
         </div>
         <!-- search form -->
-        <form action="#" method="get" class="sidebar-form">
+        <form action="/enterprise/manager" method="get" class="sidebar-form" autocomplete="off">
           <div class="input-group">
-            <input type="text" name="q" class="form-control" placeholder="Search...">
-            <span class="input-group-btn">
-              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+            <input type="text" name="campaign" class="form-control" placeholder="Search campaign..." id="inputSearch">
+            <span class="input-group-btn" valueSearch="<%=JSON.stringify(valueSearch)%>" id="idValueSearch">
+              <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
               </button>
             </span>
           </div>
@@ -284,13 +289,13 @@
                 <% for (var i = 0; i < arrCampaign.length ;  i++) { %>
                 <li style="margin-top: 10px; padding-bottom: 10px">
                   <% if (obCamp.name == arrCampaign[i].name) { %>
-                    <a href="/enterprise/detailCamp/<%=arrCampaign[i].id %>" class="fa fa-circle-o text-yellow">
-                      <%=arrCampaign[i].name%>
-                    </a>
+                  <a href="/enterprise/detailCamp/<%=arrCampaign[i].id %>" class="fa fa-circle-o text-yellow">
+                    <%=arrCampaign[i].name%>
+                  </a>
                   <% }  else { %>
-                    <a href="/enterprise/detailCamp/<%=arrCampaign[i].id %>" class="fa fa-circle-o text-green">
-                      <%=arrCampaign[i].name%>
-                    </a>
+                  <a href="/enterprise/detailCamp/<%=arrCampaign[i].id %>" class="fa fa-circle-o text-green">
+                    <%=arrCampaign[i].name%>
+                  </a>
                   <% } %>
                 </li>
                 <% } %>
@@ -367,17 +372,17 @@
           </div>
           <% } %>
         </div>
-        <div class="col-md-1" style = "float:right;">
+        <div class="col-md-1" style="float:right;">
           <a href="/enterprise/deleteCamp/<%=obCamp.id%>" onclick="return confirm('Are you sure you want to delete?');">
             <img style="width: 25px; height: 25px" src="/deleteLink.png" alt="" title="Delete Campaign">
           </a>
         </div>
-        <div class="col-md-1" style = "float: right;">
+        <div class="col-md-1" style="float: right;">
           <a href="/enterprise/editCamp/<%=obCamp.id%>">
-            <i class="fa fa-w fa-refresh" style="font-size: 25px; color: black" title = "Edit Campaign"> </i>
+            <i class="fa fa-w fa-refresh" style="font-size: 25px; color: black" title="Edit Campaign"> </i>
           </a>
         </div>
-       
+
       </div>
       <div id="sticky"> <button id="mybtn"> <i id="fa" class="fa fa-angle-double-down"></i> Campaign detail</button>
       </div>

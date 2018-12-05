@@ -1,7 +1,11 @@
 
 const mongoose = require('mongoose');
 mongoose.set('useCreateIndex', true);
-mongoose.connect('mongodb://localhost/mydata', { useNewUrlParser: true });
+const fs = require('fs');
+
+let csdl = fs.readFileSync('csdl.txt', 'utf8'); csdl = csdl.trim();
+let pathConect = 'mongodb://localhost/' + csdl.toString();
+mongoose.connect(pathConect, { useNewUrlParser: true });
 const userSchema = new mongoose.Schema({
     username: { type: String, unique: true, required: true },
     password: { type: String, required: true },

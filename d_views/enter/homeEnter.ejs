@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | ChartJS</title>
+  <title>Enterprise Home Page</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -43,7 +43,7 @@
   <!-- import ajax shortlink va js  -->
   <script src="/js/enter/ajaxShort.js"></script>
 
-  
+
 
 
   <style>
@@ -167,11 +167,11 @@
 
     <header class="main-header">
       <!-- Logo -->
-      <a href="../../index2.html" class="logo">
+      <a href="/enterprise/manager" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>A</b>LT</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Admin</b>LTE</span>
+        <span class="logo-lg"><b>Rutgon</b>.com</span>
       </a>
       <!-- Header Navbar: style can be found in header.less -->
       <nav class="navbar navbar-static-top">
@@ -216,12 +216,20 @@
 
                 <!-- Menu Footer-->
                 <li class="user-footer">
-                  <div class="pull-left">
-                    <a href="#" class="btn btn-default btn-flat"><b>Profile</b></a>
+                  <div class="col-md-12">
+                    <div class="col-md-4" style = "margin-left: -21px; margin-right: 10px">
+                      <a href="#" class="btn btn-default btn-flat" id="idPremium"><b>Upgrade</b></a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="/enterprise/profile" class="btn btn-default btn-flat" id ="profile"><b>Profile</b></a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="/user/logout" class="btn btn-default btn-flat"> <b>Sign out</b> </a>
+                    </div>
                   </div>
-                  <div class="pull-right">
-                    <a href="/user/logout" class="btn btn-default btn-flat"> <b>Sign out</b> </a>
-                  </div>
+                </li>
+                <li>
+
                 </li>
               </ul>
             </li>
@@ -251,10 +259,10 @@
           </div>
         </div>
         <!-- search form -->
-        <form action="/enterprise/search" method="get" class="sidebar-form" autocomplete="off">
+        <form action="/enterprise/manager" method="get" class="sidebar-form" autocomplete="off">
           <div class="input-group">
-            <input type="text" name="campaign" class="form-control" placeholder="Search campaign...">
-            <span class="input-group-btn">
+            <input type="text" name="campaign" class="form-control" placeholder="Search campaign..." id = "inputSearch" >
+            <span class="input-group-btn" valueSearch = "<%=JSON.stringify(valueSearch)%>" id = "idValueSearch">
               <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
               </button>
             </span>
@@ -372,7 +380,21 @@
         <input type="text" id="newUrlShortLink" autocomplete="off"> <br> <br>
         <button class="btn btn-primary" id="btnSave">Save</button>
       </div>
-
+      <!--Slider premium -->
+      <div id="sliderPremium" class="slider">
+        <label for="" style="color: white">Please enter your domain name!</label><br>
+        <div class="col-md-10">
+          <textarea rows="3" cols="19" id="idDomain" style="margin-left: -14px; width: 172px;"></textarea>
+        </div>
+        <div class="col-md-2">
+          <button style="height: 68px" class="btn btn-primary" id="btnok">OK</button>
+        </div>
+        <label id="labelNotice" style="color:white; display: none;">Everything is almost finished, please point your
+          domain to the server
+          ip address provided below. Once completed you can access with the registered domain name!</label> <br>
+        <input type="text" id="idIpServer" autocomplete="off" readonly style="display: none"> <br> <br>
+        <button class="btn btn-primary" id="idUnderstand" style="display: none"> I Understand</button>
+      </div>
 
       <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
       <!-- Content Header (Page header) -->

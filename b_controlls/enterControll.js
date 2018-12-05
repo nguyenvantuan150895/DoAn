@@ -7,7 +7,12 @@ const CampaignModul = require('../public/modul/campaignModul');
 const ExportModul = require('../public/modul/exportModul');
 const AccessModul = require('../public/modul/accessModul');
 const LinkModul = require('../public/modul/linkModul');
+const fs = require('fs');
+const cmd = require('node-cmd');
+const promise = require('bluebird');
+
 // const Accesslog = require('../c_models/accesslogModel');
+let valueSearchPl = "";
 let arr_campaignPl;
 let ob_campaignPl;
 let ob_urlPl;
@@ -23,17 +28,42 @@ let obCampBefore;
 // Manager campaign
 exports.manager = async (req, res) => {
     // manager tro ve homeEnter.ejs
+    let id_user = await User.getIdByUser(req.session.user);
+    let nameCamp = req.query.campaign;
+    let valueSearch = "";
+    let arr_campaign;
     try {
-        //Get arr object campaign
-        let id_user = await User.getIdByUser(req.session.user);
-        let arr_campaign = await Campaign.getAllCampaignByIDUser(id_user);
+        if(nameCamp == undefined) {
+            arr_campaign = await Campaign.getAllCampaignByIDUser(id_user);
+        } else {
+            valueSearch = nameCamp;
+            valueSearchPl = valueSearch;
+            arr_campaign = await Campaign.searchCamp(id_user, nameCamp);
+        }
         arr_campaign = seedUrl.removeCampaignNull(arr_campaign);
         arr_campaignPl = arr_campaign;//don't care
-        res.render("../d_views/enter/homeEnter.ejs", { arrCampaign: arr_campaign });
+        res.render("../d_views/enter/homeEnter.ejs", { arrCampaign: arr_campaign, valueSearch: valueSearch });
     } catch (e) {
         console.log(e + "--tuan:manager in enter");
     }
 }
+
+// Search campaign
+// exports.search = async (req, res) => {
+//     try {
+//         let nameCamp = req.query.campaign;
+//         let idUser = await User.getIdByUser(req.session.user);
+//         let arr_campaign = await Campaign.searchCamp(idUser, nameCamp);
+//         // console.log("ArrCamp:", arrCamp);
+//         arr_campaignPl = arr_campaign;//don't care
+//         res.render("../d_views/enter/homeEnter.ejs", { arrCampaign: arr_campaign });
+//     } catch (e) {
+//         console.log(e + "--tuan: search in entercontroll");
+//     }
+// }
+
+
+
 // detail campaign
 exports.getDetailCamp = async (req, res) => {
     let id = req.params.id;
@@ -90,8 +120,9 @@ exports.getDetailCamp = async (req, res) => {
         customer.osPhone = objInfo.osPhone;
         customer.objLocation = objInfo.objLocation;
         // console.log("test:", JSON.stringify(customer));
-
-        res.render('../d_views/enter/detailCampaign.ejs', { arrCampaign: arr_campaignPl, obCamp: ob_campaign, customer: customer });
+        let response = { arrCampaign: arr_campaignPl, obCamp: ob_campaign, customer: customer, 
+            valueSearch: valueSearchPl }
+        res.render('../d_views/enter/detailCampaign.ejs',response );
 
     } catch (e) {
         console.log(e + "--tuan: getailCampain in EnterControll");
@@ -99,7 +130,7 @@ exports.getDetailCamp = async (req, res) => {
 }
 //Create campaign
 exports.createCampaign_get = async (req, res) => {
-    res.render("../d_views/enter/createCampaign.ejs", { arrCampaign: arr_campaignPl });
+    res.render("../d_views/enter/createCampaign.ejs", { arrCampaign: arr_campaignPl , valueSearch: valueSearchPl});
 }
 exports.createCampaign_post = async (req, res) => {
     let data = req.body;
@@ -123,7 +154,7 @@ exports.createCampaign_post = async (req, res) => {
         sms: sms, email: email, other: other, fb: fb, start: data.start, end: data.end
     }
     // console.log("customer:", customer);
-    res.render('../d_views/enter/confirm.ejs', { customer: customer, arrCampaign: arr_campaignPl });
+    res.render('../d_views/enter/confirm.ejs', { customer: customer, arrCampaign: arr_campaignPl, valueSearch: valueSearchPl });
 }
 // Confirm campaign
 exports.confirm_post = async (req, res) => {
@@ -189,7 +220,7 @@ exports.editCamp_get = async (req, res) => {
         }
         obCampBefore = customer; //don't care
         // console.log("Send:",customer);
-        res.render('../d_views/enter/editCamp.ejs', { customer: customer, arrCampaign: arr_campaignPl });
+        res.render('../d_views/enter/editCamp.ejs', { customer: customer, arrCampaign: arr_campaignPl , valueSearch: valueSearchPl});
     } catch (e) {
         console.log(e + "--tuan: editCamp_get enterControll");
     }
@@ -350,7 +381,7 @@ exports.showHistory = async (req, res) => {
             //console.log("arr_url:", arr_url[0]);
         }
         let data = { arr_short: arr_link, admin: 'ADMIN', page: pageHistory, totalLink: totalLink };
-        res.render('../d_views/enter/history.ejs', { data: data, arrCampaign: arr_campaignPl });
+        res.render('../d_views/enter/history.ejs', { data: data, arrCampaign: arr_campaignPl, valueSearch: valueSearchPl});
     } catch (e) {
         console.log(e + "--tuan: error Manager");
     }
@@ -396,13 +427,23 @@ exports.deleteLink = async (req, res) => {
     let path = '/enterprise/history/' + pageHistory;
     res.redirect(path);
 }
-exports.search = async (req, res) => {
-    let nameCamp = req.query.campaign;
-    let idUser = await User.getIdByUser(req.session.user);
-    let arr_campaign = await Campaign.searchCamp(idUser, nameCamp);
-    // console.log("ArrCamp:", arrCamp);
-    arr_campaignPl = arr_campaign;//don't care
-    res.render("../d_views/enter/homeEnter.ejs", { arrCampaign: arr_campaign });
+// Upgrade premium
+exports.upgrade = async (req, res) => {
+    try {
+        console.log("receive:", req.body);
+        let ipServer = fs.readFileSync('ipServer.txt', 'utf8');
+        // console.log("ipServer:", ipServer);
+        let domain = req.body.domain; domain = domain.toString();
+        let command = "cd ~ && cd tool && sudo node index.js " + domain;
+        cmd.run(command);
+        res.send({ipServer: ipServer});
+    } catch (e) {
+        console.log(e + "--tuan: upgrade in entercontroll"); 
+    }
+}
+// Profile
+exports.getProfile = (req, res) => {
+    res.render('../d_views/enter/profile.ejs', { arrCampaign: arr_campaignPl, valueSearch: valueSearchPl });
 }
 
 

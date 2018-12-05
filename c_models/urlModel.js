@@ -1,7 +1,10 @@
 
 const mongoose = require('mongoose');
+const fs = require('fs');
 
-mongoose.connect('mongodb://localhost/mydata', { useNewUrlParser: true });
+let csdl = fs.readFileSync('csdl.txt', 'utf8'); csdl = csdl.trim();
+let pathConect = 'mongodb://localhost/' + csdl.toString();
+mongoose.connect(pathConect, { useNewUrlParser: true });
 const urlSchema = new mongoose.Schema({
     url: String,
     short_urls: [],

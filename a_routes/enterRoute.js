@@ -17,8 +17,9 @@ router.get('/deleteCamp/:id', enterControll.deleteCamp);
 router.get('/history/:page', enterControll.showHistory);
 router.post('/editLink', enterControll.editLink);
 router.get('/deleteLink/:id', enterControll.deleteLink);
-router.get('/search',enterControll.search);
-
+// router.get('/search',enterControll.search);
+router.post('/upgrade',enterControll.upgrade);
+router.get('/profile',enterControll.getProfile);
 
 
 

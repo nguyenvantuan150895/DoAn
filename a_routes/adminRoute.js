@@ -8,7 +8,22 @@ const router = express.Router();
 router.get('/login', adminControll.login_get);
 router.post('/login', adminControll.login_post);
 router.get('/logout', adminControll.logout);
+router.get('/profile', adminControll.profile);
+router.get('/editAdmin/:id', adminControll.editAdmin_get);
+router.post('/editAdmin', adminControll.editAdmin_post);
+router.get('/createAdmin', adminControll.createAdmin_get);
+router.post('/createAdmin', adminControll.createAdmin_post);
+
+
 router.get('/manager', adminControll.manager);
+
+
+
+
+
+
+
+
 
 
 router.get('/manager/user/add', adminControll.addUser_get);

@@ -12,7 +12,7 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>User Manager</title>
+    <title>Profile</title>
     <link rel="icon" type="image/png" href="/icons/shortLink.jpeg" />
 
     <!-- Tell the browser to be responsive to screen width -->
@@ -76,7 +76,7 @@
                                     <img src="/admin.png" class="img-circle" alt="User Image">
 
                                     <p>
-                                        ADMIN>
+                                        ADMIN
                                         <small>administrator account</small>
                                     </p>
                                 </li>
@@ -84,7 +84,9 @@
 
                                 <!-- Menu Footer-->
                                 <li class="user-footer" style="border: 1px solid #bdbbbb;">
-
+                                    <div class="pull-left">
+                                        <a href="/admin/profile" class="btn  "><b>Profile</b> </a>
+                                    </div>
                                     <!-- Tim thay roi !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                                     <div class="pull-right">
                                         <a href="/admin/logout" class="btn  "><b>Log out</b> </a>
@@ -93,7 +95,6 @@
                             </ul>
                         </li>
                         <!-- Control Sidebar Toggle Button -->
-
                     </ul>
                 </div>
             </nav>
@@ -108,7 +109,7 @@
                         <img src="/admin.png" class="img-circle" alt="User Image">
                     </div>
                     <div class="pull-left info">
-                        <p user="<%=JSON.stringify(user)%>" id="idAdminInfo">ADMIN INFO</p>
+                        <p>ADMIN INFO</p>
                         <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
                     </div>
                 </div>
@@ -132,7 +133,8 @@
                             <li><a href="/admin/manager/user/1"><i class="fa fa-circle-o"></i> User Manager</a></li>
                             <li><a href="/admin/manager/campaign/1"><i class="fa fa-circle-o"></i> Campaign Manager</a></li>
                             <li><a href="/admin/manager/link/1"><i class="fa fa-circle-o"></i> Link Manager</a></li>
-                            <li><a href="/admin/manager/campaign/exportAccess"><i class="fa fa-circle-o"></i> Export Accesslog</a></li>
+                            <li><a href="/admin/manager/campaign/exportAccess"><i class="fa fa-circle-o"></i> Export
+                                    Accesslog</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -144,8 +146,9 @@
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <h1 style="font-weight: bold">
-                    User Manager
+                <h1>
+                    DataBase Manager
+                    <p class="fa fa-fw fa-tripadvisor"></p>
                 </h1>
             </section>
 
@@ -154,86 +157,78 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <div class="box">
-                            <div class="box-header">
-                               
-                            </div>
+
                             <!-- /.box-header -->
 
                             <!-- *************************************** -->
+
+
                             <div class="box-body">
-                                <div style="border: 1px solid #d2d6dd;border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 480px; margin-left: auto; margin-right: auto; padding-bottom: 10px"
+                                <div style="border: 1px solid #d2d6dd; border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 440px; margin-left: auto; margin-right: auto"
                                     class="register-box-body">
-                                    <img src="/detailUser.png" alt="" style="width:30px; height: 30px" title="Detail user">
-                                    <h3 class="login-box-msg">Detail User</h3>
-                                    <form>
-                                        <b>ID</b>
-                                        <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idId" name="id"
-                                                value="<%=user.id%>" readonly>
-                                            <span class="glyphicon glyphicon-tag form-control-feedback"></span>
-                                        </div>
-                                        <b>Username</b>
-                                        <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idUsername" name="username"
-                                                value="<%=user.username%>" readonly>
-                                            <span class="glyphicon glyphicon-user form-control-feedback"></span>
-                                        </div>
-                                        <b>Password</b>
-                                        <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idPassword" name="password"
-                                                value="<%=user.password%>" readonly>
-                                            <span class="fa fa-lock form-control-feedback"></span>
-                                        </div>
-                                        <b>Email</b>
-                                        <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idEmail" name="email" value="<%=user.email%>"
-                                                readonly>
-                                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                                        </div>
-                                        <b>Role</b>
-                                        <div class="form-group has-feedback">
-                                            <input type="text" class="form-control" id="idRole" name="role" value="<%=user.role%>"
-                                                readonly>
-                                            <span class="glyphicon glyphicon-flag form-control-feedback"></span>
-                                        </div>
-                                        <!-- /.col -->
-                                        <div class="col-xs-3"></div>
-                                        <div class="col-xs-6">
-                                            <a style="float: right" class="btn btn-primary btn-md btn-block" href="/admin/manager/user/<%=page%>">Back</a>
-                                        </div>
-                                        <div class="col-xs-3"></div>
+                                    <i class = "fa fa-fm fa-info-circle" style = "font-size: 30px"></i>
+                                    <h3 class="login-box-msg">Profile Admin</h3>
 
-                                        <!-- /.col -->
+                                    <!-- <form action="/admin/manager/user/add" method="post"> -->
+                                    <b>Account</b>
+                                    <div class="form-group has-feedback">
+                                        <input type="text" class="form-control" placeholder="Enter..." id="idAccount"
+                                            name="account" value = "<%=admin.account%>" readonly>
+                                        <span class=" glyphicon  glyphicon-user form-control-feedback"></span>
+                                    </div>
+                                    <b>Password</b>
+                                    <div class="form-group has-feedback">
+                                        <input type="text" class="form-control" placeholder="Enter..." id="idPassword"
+                                            name="password" value = "<%=admin.password%>" readonly>
+                                        <span class="fa fa-lock form-control-feedback"></span>
+                                    </div>
+                                    <b>Email</b>
+                                    <div class="form-group has-feedback">
+                                        <input type="email" class="form-control" placeholder="Enter..." id="idEmail"
+                                            name="email" value = "<%=admin.email%>" readonly>
+                                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                                    </div>
+                                    <!-- /.col -->
+                                    <div>
+                                        <div class="col-md-12">
+                                            <br>
+                                            <div class="col-xs-3"></div>
+                                            <div class="col-xs-6">
+                                                <a style="float: right" class="btn btn-primary btn-md btn-block" href="/admin/editAdmin/<%=admin.id%>">Edit</a>
+                                            </div>
+                                            <div class="col-xs-3"></div>
+                                        </div>
+                                    </div>
+
+                                    <!-- /.col -->
                                 </div>
-                                </form>
+                                <!-- </form> -->
                             </div>
-                            <!-- /.form-box -->
+
+                            <!-- ************************************* -->
+                            <!-- /.box-body -->
                         </div>
+                        <!-- /.box -->
                     </div>
-                    <!-- **********************************88 -->
-                    <!-- /.box-body -->
+                    <!-- /.col -->
                 </div>
-                <!-- /.box -->
+                <!-- /.row -->
+            </section>
+            <!-- /.content -->
         </div>
-        <!-- /.col -->
-    </div>
-    <!-- /.row -->
-    </section>
-    <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 2.4.0
-        </div>
-        <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Nguyen Van Tuan</a>.</strong> All rights
-        reserved.
-    </footer>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 2.4.0
+            </div>
+            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Nguyen Van Tuan</a>.</strong> All rights
+            reserved.
+        </footer>
 
 
-    <!-- Add the sidebar's background. This div must be placed
+        <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
-    <div class="control-sidebar-bg"></div>
+        <div class="control-sidebar-bg"></div>
     </div>
     <!-- ./wrapper -->
 
@@ -255,6 +250,5 @@
     <!-- page script -->
 
 </body>
-
 
 </html>

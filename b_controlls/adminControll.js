@@ -9,6 +9,8 @@ const AccessModul = require('../public/modul/accessModul.js');
 const ExportModul = require('../public/modul/exportModul.js');
 const CampaignModul = require('../public/modul/campaignModul.js');
 const LinkModul = require('../public/modul/linkModul.js');
+/*CRUD admin*/
+let ob_adminBF;
 /*manager link */
 let arr_shortP;
 let obShortBefore;
@@ -46,6 +48,89 @@ exports.logout = (req, res) => {
     req.session.admin = undefined;
     res.redirect("/admin/login");
 }
+// profile
+exports.profile = async (req, res) => {
+    let admin = req.session.admin; //console.log("Admin:", admin);
+    let ob_admin = await Admin.getObAdminByAccount(admin);
+    res.render("../d_views/admin/profile.ejs", {admin: ob_admin});
+};
+//edit admin
+exports.editAdmin_get = async (req, res) => {
+    let id_admin = req.params.id;
+    let ob_admin = await Admin.getObAdminById(id_admin);
+    ob_adminBF = ob_admin; //don't care
+    res.render("../d_views/admin/editAdmin.ejs", {admin: ob_admin});
+};
+exports.editAdmin_post = async (req, res) => {
+    //console.log("receive:", req.body);
+    let customer = {};
+    try{
+        let account = req.body.account;
+        let email = req.body.email;
+        let password = req.body.password;
+        let checkAccount = await Admin.checkExistAccount(account);
+        let checkEmail = await Admin.checkExistEmail(email);
+        if(checkAccount == true && account != ob_adminBF.account ){
+            customer.state = 'fail';
+            customer.existAccount = true;
+        }
+        else if(checkEmail == true && email != ob_adminBF.email) {
+            customer.state = 'fail';
+            customer.existEmail = true;
+        }
+        else{
+            let obUpdate = {account: account, password:password, email: email};
+            let rs = await Admin.update(ob_adminBF.id, obUpdate);
+            customer.state = 'ok';
+            req.session.admin = account;
+        }
+        res.send(customer);
+    }catch(e){
+        console.log(e +"--tuan: editAdmin in adminControll");
+    }
+    
+};
+// create Admin
+exports.createAdmin_get =  (req, res) => {
+    res.render("../d_views/admin/createAdmin.ejs");
+};
+exports.createAdmin_post = async (req, res) => {
+    let customer = {};
+    try{
+        let account = req.body.account;
+        let email = req.body.email;
+        let password = req.body.password;
+        let checkAccount = await Admin.checkExistAccount(account);
+        let checkEmail = await Admin.checkExistEmail(email);
+        if(checkAccount == true){
+            customer.state = 'fail';
+            customer.existAccount = true;
+        }
+        else if(checkEmail == true) {
+            customer.state = 'fail';
+            customer.existEmail = true;
+        }
+        else{
+            let objectAdmin = {account: account, password:password, email: email};
+            let rs = await Admin.createAdmin(objectAdmin);
+            customer.state = 'ok';
+        }
+        res.send(customer);
+    }catch(e){
+        console.log(e +"--tuan: createAdmin_post in adminControll");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
 // manager
 exports.manager = async (req, res) => {
     // get total record

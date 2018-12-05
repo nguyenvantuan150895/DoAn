@@ -115,6 +115,7 @@ exports.manager = async (req, res) => {
     let count = 0;
     try {
         let domain = fs.readFileSync('domain.txt', 'utf8');
+        domain = domain.trim();
         domain = domain + '/';
         let id_user = await User.getIdByUser(req.session.user);
         let ob_campaign = await Campaign.getArrObUrl(id_user);

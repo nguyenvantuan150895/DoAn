@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | ChartJS</title>
+    <title>Edit Campaign</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -169,11 +169,11 @@
 
         <header class="main-header">
             <!-- Logo -->
-            <a href="../../index2.html" class="logo">
+            <a href="/enterprise/manager" class="logo">
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>A</b>LT</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>Admin</b>LTE</span>
+                <span class="logo-lg"><b>Rutgon</b>.com</span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
@@ -218,11 +218,17 @@
 
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat"><b>Profile</b></a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <a href="/user/logout" class="btn btn-default btn-flat"> <b>Sign out</b> </a>
+                                    <div class="col-md-12">
+                                        <div class="col-md-4" style="margin-left: -21px; margin-right: 10px">
+                                            <a href="#" class="btn btn-default btn-flat" id="idPremium"><b>Upgrade</b></a>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="/enterprise/profile" class="btn btn-default btn-flat" id="profile"><b>Profile</b></a>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="/user/logout" class="btn btn-default btn-flat"> <b>Sign out</b>
+                                            </a>
+                                        </div>
                                     </div>
                                 </li>
                             </ul>
@@ -253,11 +259,12 @@
                     </div>
                 </div>
                 <!-- search form -->
-                <form action="#" method="get" class="sidebar-form">
+                <!-- search form -->
+                <form action="/enterprise/manager" method="get" class="sidebar-form" autocomplete="off">
                     <div class="input-group">
-                        <input type="text" name="q" class="form-control" placeholder="Search...">
-                        <span class="input-group-btn">
-                            <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+                        <input type="text" name="campaign" class="form-control" placeholder="Search campaign..." id="inputSearch">
+                        <span class="input-group-btn" valueSearch="<%=JSON.stringify(valueSearch)%>" id="idValueSearch">
+                            <button type="submit" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
                             </button>
                         </span>
                     </div>
@@ -345,14 +352,14 @@
                     <div class="row">
                         <div class='col-md-12' id="scroll" style="border: 1px solid #d2d6dd; border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 100%; margin-left: auto; margin-right: auto"
                             class="register-box-body">
-                            <i class = "fa fa-fw fa-refresh" style = "font-size: 35px; padding-top: 20px"></i>
-                            <h3 class="login-box-msg" customer = "<%= JSON.stringify(customer) %>" id = "idEditCamp">
+                            <i class="fa fa-fw fa-refresh" style="font-size: 35px; padding-top: 20px"></i>
+                            <h3 class="login-box-msg" customer="<%= JSON.stringify(customer) %>" id="idEditCamp">
                                 Edit Campaign
                             </h3>
 
                             <!-- <form > -->
                             <div class="col-md-12">
-                                <div class="col-md-6"> 
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="firstname">Name Campaign:</label>
                                         <input type="text" class="form-control" id="idname" placeholder="Enter name campaign"

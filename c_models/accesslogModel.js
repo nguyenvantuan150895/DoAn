@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
+const fs = require('fs');
 
-mongoose.connect('mongodb://localhost/mydata', { useNewUrlParser: true });
+let csdl = fs.readFileSync('csdl.txt', 'utf8'); csdl = csdl.trim();
+let pathConect = 'mongodb://localhost/' + csdl.toString();
+mongoose.connect(pathConect, { useNewUrlParser: true });
 const accesslogSchema = new mongoose.Schema({
     ip: {type: String, required: true},
     time_click: {},

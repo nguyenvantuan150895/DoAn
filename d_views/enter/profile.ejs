@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Confrim Campaign</title>
+    <title>Profile</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <!-- Bootstrap 3.3.7 -->
@@ -25,19 +25,26 @@
     <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
     <!-- Google Font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-    <!-- Import jquery.min.js -->
+    <!-- Import chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Import Morris -->
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+    <!-- Import Fusion Charts -->
+    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
 
-    <!-- importdate picker -->
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
     <!-- import slidereveal -->
     <script src="/jquery.slidereveal.min.js"></script>
     <!-- import ajax shortlink va js  -->
     <script src="/js/enter/ajaxShort.js"></script>
-    <!-- import file confirmCamp.js (enterprise) -->
-    <script src="/js/enter/confirmCamp.js"></script>
+
+
+
 
     <style>
         #sticky {
@@ -147,20 +154,11 @@
       overflow-x: hidden;
       overflow-y: scroll;
     }
+  
+   
    
 </style>
-    <style>
-        .group:focus{
-        outline: none;
-    }
-    .group {
-        border: none;
-        background:none;
-        border-bottom:1px solid gray;
-        margin-bottom: 10px;
-    }
-    
-</style>
+
 </head>
 
 <body class="hold-transition skin-blue sidebar-mini">
@@ -272,7 +270,8 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     <li class="header" arrCampaign="<%= JSON.stringify(arrCampaign) %>" id="arr_campaign">MAIN
-                        NAVIGATION</li>
+                        NAVIGATION
+                    </li>
 
 
 
@@ -321,7 +320,6 @@
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
-
             <div id='slider' class="slider">
                 <label for="" style="color: white">PASTE LONG URL</label>
                 <br>
@@ -332,15 +330,30 @@
                 <input type="text" id="newUrlShortLink" autocomplete="off"> <br> <br>
                 <button class="btn btn-primary" id="btnSave">Save</button>
             </div>
-
+            <!--Slider premium -->
+            <div id="sliderPremium" class="slider">
+                <label for="" style="color: white">Please enter your domain name!</label><br>
+                <div class="col-md-10">
+                    <textarea rows="3" cols="19" id="idDomain" style="margin-left: -14px; width: 172px;"></textarea>
+                </div>
+                <div class="col-md-2">
+                    <button style="height: 68px" class="btn btn-primary" id="btnok">OK</button>
+                </div>
+                <label id="labelNotice" style="color:white; display: none;">Everything is almost finished, please point
+                    your domain to the server
+                    ip address provided below. Once completed you can access with the registered domain name!</label>
+                <br>
+                <input type="text" id="idIpServer" autocomplete="off" readonly style="display: none"> <br> <br>
+                <button class="btn btn-primary" id="idUnderstand" style="display: none"> I Understand</button>
+            </div>
 
             <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
             <!-- Content Header (Page header) -->
             <section class="content-header">
-                <!-- <h1>
-          Nguyen Van Tuan
-          <small>Preview sample</small>
-        </h1> -->
+                <h1>
+                    <b>PROFILE</b>
+                    <small>user</small>
+                </h1>
             </section>
 
             <!-- Main content -->
@@ -349,71 +362,37 @@
                 <!-- Main content -->
                 <section class="content">
                     <div class="row">
-                        <div class='col-md-12' id="scroll" style="border: 1px solid #d2d6dd; border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 100%; margin-left: auto; margin-right: auto"
+                        <div class='col-md-12' id="scroll" style="border: 1px solid #d2d6dd; border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 100%; margin-left: auto; margin-right: auto; padding-top:20px"
                             class="register-box-body">
-                            <img src="/createCamp.png" alt="" style="width:30px; height: 30px">
-                            <h1 class="login-box-msg">Confirm Campaign</h1>
+                            <i class="fa fa-fw fa-info-circle" style="font-size: 40px"></i>
+                            <!-- <h1 class="login-box-msg" style="font-weight: bold">
+                                Profile
+                            </h1> -->
 
                             <!-- <form > -->
-                            <div class="col-md-12">
+                            <div class="col-md-12" style="padding-top:20px; padding-bottom: 40px">
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="firstname">Name Campaign:</label>
-                                        <input type="text" class="form-control" id="idname" placeholder="Enter name campaign"
-                                            name="name" autocomplete="off" value="<%=customer.name%>" />
+                                        <p for="firstname">User Name: Enterprise</p>
                                     </div>
                                     <div class="form-group">
-                                        <label>Url Original:</label>
-                                        <input type="text" class="form-control" id="idoldUrl" placeholder="Enter UrlOriginal"
-                                            name="oldUrl" autocomplete="off" value="<%=customer.oldUrl%>" />
+                                        <p>Password: 12345678 </p>
                                     </div>
                                     <div>
-                                        <!-- date picker -->
-                                        <label>Start time:</label>
-                                        <input type="text" id="idstart" name='start' class="form-control col-md-10 datepicker"
-                                            id="datepicker" ng-required="true" placeholder="MM/DD/YYYY" value="<%=customer.start%>">
-                                        <br> <br> <br>
-                                        <label>End time:</label>
-                                        <input type="text" id="idend" name='end' class="form-control col-md-10 datepicker"
-                                            id="datepicker2" ng-required="true" placeholder="MM/DD/YYYY" value="<%=customer.end%>">
-                                        <!-- end date picker -->
+                                        <p>Email: enterprise@gmail.com </p>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <div class="form-group">
-                                            <label>Url for email:</label>
-                                            <input type="text" class="form-control" id="idemail" name="email" value="<%=customer.email%>" />
+                                            <p>Adress: 315 Bach Mai / Hai Ba Trung / Ha Noi</p>
                                         </div>
                                         <div class="form-group">
-                                            <label>Url for sms:</label>
-                                            <input type="text" class="form-control" id="idsms" name="sms" value="<%=customer.sms%>" />
+                                            <p>Join: 01/01/2018</p>
                                         </div>
                                         <div class="form-group">
-                                            <label>Url for other:</label>
-                                            <input type="text" class="form-control" id="idother" name="other" value="<%=customer.other%>" />
+                                            <p>Comapany: HUST</p>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Url for facebook:</label>
-                                        <% for (let i = 0; i < customer.fb.length ;  i++) { %>
-                                        <br>
-                                        <input type="text" value="<%=customer.faGroup[i]%>" class="group" style="color: blue; font-weight: bold">
-                                        <input type="text" class="form-control fb" value="<%=customer.fb[i]%>" name="other" />
-                                        <% } %>
-                                    </div>
-                                </div>
-                                <div class="col-md-12" style="padding-top:30px; padding-bottom:20px">
-                                    <div>
-                                        <div class="col-xs-3"></div>
-                                        <div class="col-xs-3">
-                                            <button id="save" class="btn btn-primary btn-md btn-block btn-md">Save</button>
-                                        </div>
-                                        <div class="col-xs-3">
-                                            <a href="/enterprise/manager" class="btn btn-primary btn-md btn-block  btn-md">Cancel</a>
-
-                                        </div>
-                                        <div class="col-xs-3"></div>
                                     </div>
                                 </div>
                             </div>

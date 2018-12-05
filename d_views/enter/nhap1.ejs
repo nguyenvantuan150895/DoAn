@@ -36,12 +36,16 @@
   <script src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
   <script src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
 
-  <!-- import file js detailCamp.js  -->
-  <script src="/js/admin/detailCamp.js"></script>
+
+
+  <!-- import slidereveal -->
+  <script src="/jquery.slidereveal.min.js"></script>
   <!-- import ajax shortlink va js  -->
-  <!-- <script src="/js/enter/ajaxShort.js"></script> -->
-  <!-- import ajax & js managercampaign -->
-  <script src="/js/enter/managerCampaign.js"></script>
+  <script src="/js/enter/ajaxShort.js"></script>
+  <!-- import js detailCampaing  -->
+  <script src="/js/enter/detailCamp.js"> </script>
+
+
 
   <style>
     #sticky {
@@ -49,15 +53,15 @@
       top: 0;
       font-weight: bold;
       color: white;
-      width: 100px;
+      width: 150px;
       height: 20px;
       margin-left: auto;
       margin-right: auto;
       padding-top: -3px;
       background-color: #3c8dbc;
       border: 2px solid #3c8dbc;
-      border-bottom-left-radius: 15px;
-      border-bottom-right-radius: 15px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
     } 
     #mybtn{
       background: none;
@@ -68,13 +72,20 @@
     }
     #detail{
       padding-top:20px;
+      padding-bottom: 10px;
       border-top: 1px solid #74c0ec;
       width: 100%;
-      height:370px;
+      height:390px;
       background-color: #3c8dbc;
       display: none;
     }
-
+    .slider{
+      height: 300px; 
+      background-color: #222d32; 
+      padding-top: 80px;
+      padding-left: 20px;
+      padding-right: 40px;
+    }
     #oldUrlShortLink{
       color: blue;
       margin-left: -15px;
@@ -85,6 +96,33 @@
       height: 30px;
       font-weight: bold;
       font-style: italic;
+    }
+    #listCampaign{
+      border: 1px dotted black;
+      overflow: auto;
+      padding-left: 15px;
+    }
+
+    /* width */
+    #listCampaign::-webkit-scrollbar {
+        width:10px;
+        height: 1px;
+    }
+
+    /* Track */
+    #listCampaign::-webkit-scrollbar-track {
+        background: #2c3b41; 
+    }
+    
+    /* Handle */
+    #listCampaign::-webkit-scrollbar-thumb {
+        background: #888; 
+        border-radius: 5px;
+    }
+
+    /* Handle on hover */
+    #listCampaign::-webkit-scrollbar-thumb:hover {
+        background: #555; 
     }
     .infoDetail:focus{
     outline: none;
@@ -118,7 +156,12 @@
       overflow-x: hidden;
       overflow-y: scroll;
     }
+  
+   
+   
 </style>
+
+
 
 </head>
 
@@ -128,11 +171,11 @@
 
     <header class="main-header">
       <!-- Logo -->
-      <a href="/admin/manager" class="logo">
+      <a href="/enterprise/manager" class="logo">
         <!-- mini logo for sidebar mini 50x50 pixels -->
         <span class="logo-mini"><b>A</b>LT</span>
         <!-- logo for regular state and mobile devices -->
-        <span class="logo-lg"><b>Rutgon</b>.com</span>
+        <span class="logo-lg"><b>Rutgon.com</b></span>
       </a>
       <!-- Header Navbar: style can be found in header.less -->
       <nav class="navbar navbar-static-top">
@@ -146,20 +189,31 @@
 
         <div class="navbar-custom-menu">
           <ul class="nav navbar-nav">
+            <!-- Create ShortLink & Campaign -->
+            <li>
+              <div class="dropdown" style="margin-top: 7px">
+                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Create
+                  <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                  <li><a href="#" id="btnShort"> <b>Short Link</b> </a></li>
+                  <li><a href="/enterprise/create" id="btnCampaign"> <b>Campaign</b> </a></li>
+                </ul>
+              </div>
+            </li>
 
             <!-- User Account: style can be found in dropdown.less -->
             <li class="dropdown user user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                <img src="/admin.png" class="user-image" alt="User Image">
-                <span class="hidden-xs">ADMIN</span>
+                <img src="/dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+                <span class="hidden-xs">Nguyễn Văn Tuấn</span>
               </a>
               <ul class="dropdown-menu">
                 <!-- User image -->
                 <li class="user-header">
-                  <img src="/admin.png" class="img-circle" alt="User Image">
+                  <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                   <p>
-                    ADMIN
+                    Nguyễn Văn Tuấn
                     <small>Member since Nov. 2012</small>
                   </p>
                 </li>
@@ -175,6 +229,12 @@
                 </li>
               </ul>
             </li>
+            <!-- Create shortlink -->
+
+            <!-- Control Sidebar Toggle Button -->
+            <li>
+              <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+            </li>
 
           </ul>
         </div>
@@ -187,43 +247,74 @@
         <!-- Sidebar user panel -->
         <div class="user-panel">
           <div class="pull-left image">
-            <img src="/admin.png" class="img-circle" alt="User Image">
+            <img src="/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
           </div>
           <div class="pull-left info">
-            <p>ADMIN</p>
+            <p>Nguyễn Văn Tuấn</p>
             <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
           </div>
         </div>
-        <br>
-        <ul>
-          <li style="color : white; ">User name: ADMIN</li>
-          <li style="color : white; ">Email: admin@gmail.com</li>
-          <li style="color : white; ">Phone : 02413 884 999</li>
-          <li style="color : white; ">Address: Hà Nội - Việt Nam</li>
-        </ul>
-
+        <!-- search form -->
+        <form action="#" method="get" class="sidebar-form">
+          <div class="input-group">
+            <input type="text" name="q" class="form-control" placeholder="Search...">
+            <span class="input-group-btn">
+              <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
+              </button>
+            </span>
+          </div>
+        </form>
+        <!-- /.search form -->
+        <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
-          <li class="treeview">
+          <li class="header" id="arr_campaign" arrCampaign="<%= JSON.stringify(arrCampaign) %>" obCamp="<%= JSON.stringify(obCamp) %>"
+            customer="<%= JSON.stringify(customer) %>">
+            MAIN NAVIGATION
+          </li>
+          <li class="treeview active">
             <a href="#">
-              <i class="fa fa-wrench"></i> <span>Tool</span>
+              <i class="fa fa-pie-chart"></i>
+              <span>Campaign Manager</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="/admin/manager/user/1"><i class="fa fa-circle-o"></i> User Manager</a></li>
-              <li><a href="/admin/manager/campaign/1"><i class="fa fa-circle-o"></i> Campaign Manager</a></li>
-              <li><a href="/admin/manager/link/1"><i class="fa fa-circle-o"></i> Link Manager</a></li>
-              <li><a href="/admin/manager/campaign/exportAccess"><i class="fa fa-circle-o"></i> Export Accesslog</a></li>
+              <div id="listCampaign">
+                <% for (var i = 0; i < arrCampaign.length ;  i++) { %>
+                <li style="margin-top: 10px; padding-bottom: 10px">
+                  <% if (obCamp.name == arrCampaign[i].name) { %>
+                    <a href="/enterprise/detailCamp/<%=arrCampaign[i].id %>" class="fa fa-circle-o text-yellow">
+                      <%=arrCampaign[i].name%>
+                    </a>
+                  <% }  else { %>
+                    <a href="/enterprise/detailCamp/<%=arrCampaign[i].id %>" class="fa fa-circle-o text-green">
+                      <%=arrCampaign[i].name%>
+                    </a>
+                  <% } %>
+                </li>
+                <% } %>
+              </div>
             </ul>
           </li>
+
           <li>
-            <a href="/admin/manager/campaign/exportCamp">
-              <i class="fa  fa-print"></i> <span>Export campaign</span>
+            <a href="layout/calendar.html">
+              <i class="fa fa-calendar"></i> <span>Calendar</span>
+              <span class="pull-right-container">
+                <small class="label pull-right bg-red">3</small>
+                <small class="label pull-right bg-blue">17</small>
+              </span>
             </a>
           </li>
-        </ul>
 
+
+          <li id="export">
+            <a href="/enterprise/export"><i class="fa fa-print"></i> <span>Export file excel</span></a>
+          </li>
+          <li class="header"> <b>SHORTEN LINK</b> </li>
+          <li><a href="/enterprise/history/1"><i class="fa fa-circle-o text-red"></i> <span>History</span></a></li>
+        </ul>
       </section>
       <!-- /.sidebar -->
     </aside>
@@ -234,70 +325,81 @@
       <div id="detail">
         <div class="col-md-6">
           <div class=block>
-            <label for="" style="color: white; ">Username:</label>
-            <input type="text" class="infoDetail" value="" readonly id="idUser">
-          </div>
-          <div class=block>
-            <label for="" style="color: white; ">Name Campaign:</label>
+            <label for="" style="color: white">Name:</label>
             <input type="text" class="infoDetail" value="" readonly id="idname">
           </div>
           <div class="block">
-            <label for="" style="color: white;">Url Origin:</label>
+            <label for="" style="color: white">Url Origin:</label>
             <input type="text" class="infoDetail" value="" readonly id="idOldUrl">
           </div>
           <div class="block">
-            <label for="" style="color: white; width:20%">Time Create:</label>
+            <label for="" style="color: white;">Start Time (mm/dd/yy):</label>
+            <input type="text" class="infoDetail" value="" readonly id="start">
+          </div>
+          <div class="block">
+            <label for="" style="color: white;">End Time (mm/dd/yy):</label>
+            <input type="text" class="infoDetail" value="" readonly id="end">
+          </div>
+          <div class="block">
+            <label for="" style="color: white;">Time Create:</label>
             <input type="text" class="infoDetail" value="" readonly id="create">
-          </div>
-          <div class="col-md-6">
-            <div class="block" style="margin-left: -14px">
-              <label for="" style="color: white; ">Start Time (mm/dd/yy):</label>
-              <input type="text" class="infoDetail" value="01/01/2018" readonly id="start">
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="block">
-              <label for="" style="color: white;">End Time (mm/dd/yy):</label>
-              <input type="text" class="infoDetail" value="12/31/2018" readonly id="end">
-            </div>
           </div>
 
         </div>
         <div class="col-md-6">
           <div class="block">
-            <label for="" style="color: white; width:20%">Url Email:</label>
+            <label for="" style="color: white;">Url Email:</label>
             <input type="text" class="infoDetail" readonly value="" id="email">
           </div>
           <div class="block">
-            <label for="" style="color: white; width:20%">Url SMS:</label>
+            <label for="" style="color: white;">Url SMS:</label>
             <input type="text" class="infoDetail" readonly value="" id="sms">
           </div>
           <div class="block">
-            <label for="" style="color: white; width:20%">Url Other:</label>
+            <label for="" style="color: white;">Url Other:</label>
             <input type="text" class="infoDetail" readonly value="" id="other">
           </div>
           <label for="" style="color: white">Url Facebook:</label> <br>
           <% for (let x = 0; x < 1 ;  x++) { %>
-          <div class="block block1" id="block1">
-            <label for="" style="color: white; width:20%">1. Nhom1: </label>
+          <div class="block block1">
+            <label for="" style="color: white; "> </label>
             <input type="text" class="infoDetail" readonly value="">
           </div>
-
           <% } %>
-
         </div>
+        <div class="col-md-1" style = "float:right;">
+          <a href="/enterprise/deleteCamp/<%=obCamp.id%>" onclick="return confirm('Are you sure you want to delete?');">
+            <img style="width: 25px; height: 25px" src="/deleteLink.png" alt="" title="Delete Campaign">
+          </a>
+        </div>
+        <div class="col-md-1" style = "float: right;">
+          <a href="/enterprise/editCamp/<%=obCamp.id%>">
+            <i class="fa fa-w fa-refresh" style="font-size: 25px; color: black" title = "Edit Campaign"> </i>
+          </a>
+        </div>
+       
       </div>
-      <div id="sticky"> <button id="mybtn"> <i id="fa" class="fa fa-angle-double-down"></i> More Info</button>
+      <div id="sticky"> <button id="mybtn"> <i id="fa" class="fa fa-angle-double-down"></i> Campaign detail</button>
       </div>
-
+      <div id='slider' class="slider">
+        <label for="" style="color: white">PASTE LONG URL</label>
+        <br>
+        <div class="col-md-10"><textarea rows="3" cols="19" id="oldUrlShortLink"></textarea></div>
+        <div class="col-md-2"> <button style="height: 68px" class="btn btn-primary" id="btnGo">Go</button></div>
+        <br> <br><br> <br> <br>
+        <label for="" style="color: white">CUSTOMER SHORT LINK</label> <br>
+        <input type="text" id="newUrlShortLink" autocomplete="off"> <br> <br>
+        <button class="btn btn-primary" id="btnSave">Save</button>
+      </div>
 
 
       <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
       <!-- Content Header (Page header) -->
       <section class="content-header">
-        <h1 customer="<%=JSON.stringify(customer)%>" id="idDetailCamp" style="font-weight:bold">
-          Detail Campaign
-          <small>infomation</small>
+        <h1 style="color:#3c8dbc">
+          <b>
+            <%=obCamp.name%></b>
+          <small>Preview </small>
         </h1>
       </section>
 
@@ -661,7 +763,195 @@
       reserved.
     </footer>
 
+    <!-- Control Sidebar -->
+    <aside class="control-sidebar control-sidebar-dark">
+      <!-- Create the tabs -->
+      <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+        <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+        <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+      </ul>
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <!-- Home tab content -->
+        <div class="tab-pane" id="control-sidebar-home-tab">
+          <h3 class="control-sidebar-heading">Recent Activity</h3>
+          <ul class="control-sidebar-menu">
+            <li>
+              <a href="javascript:void(0)">
+                <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                  <p>Will be 23 on April 24th</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <i class="menu-icon fa fa-user bg-yellow"></i>
+
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
+
+                  <p>New phone +1(800)555-1234</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
+
+                  <p>nora@example.com</p>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <i class="menu-icon fa fa-file-code-o bg-green"></i>
+
+                <div class="menu-info">
+                  <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
+
+                  <p>Execution time 5 seconds</p>
+                </div>
+              </a>
+            </li>
+          </ul>
+          <!-- /.control-sidebar-menu -->
+
+          <h3 class="control-sidebar-heading">Tasks Progress</h3>
+          <ul class="control-sidebar-menu">
+            <li>
+              <a href="javascript:void(0)">
+                <h4 class="control-sidebar-subheading">
+                  Custom Template Design
+                  <span class="label label-danger pull-right">70%</span>
+                </h4>
+
+                <div class="progress progress-xxs">
+                  <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <h4 class="control-sidebar-subheading">
+                  Update Resume
+                  <span class="label label-success pull-right">95%</span>
+                </h4>
+
+                <div class="progress progress-xxs">
+                  <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <h4 class="control-sidebar-subheading">
+                  Laravel Integration
+                  <span class="label label-warning pull-right">50%</span>
+                </h4>
+
+                <div class="progress progress-xxs">
+                  <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
+                </div>
+              </a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">
+                <h4 class="control-sidebar-subheading">
+                  Back End Framework
+                  <span class="label label-primary pull-right">68%</span>
+                </h4>
+
+                <div class="progress progress-xxs">
+                  <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+                </div>
+              </a>
+            </li>
+          </ul>
+          <!-- /.control-sidebar-menu -->
+
+        </div>
+        <!-- /.tab-pane -->
+        <!-- Stats tab content -->
+        <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+        <!-- /.tab-pane -->
+        <!-- Settings tab content -->
+        <div class="tab-pane" id="control-sidebar-settings-tab">
+          <form method="post">
+            <h3 class="control-sidebar-heading">General Settings</h3>
+
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Report panel usage
+                <input type="checkbox" class="pull-right" checked>
+              </label>
+
+              <p>
+                Some information about this general settings option
+              </p>
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Allow mail redirect
+                <input type="checkbox" class="pull-right" checked>
+              </label>
+
+              <p>
+                Other sets of options are available
+              </p>
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Expose author name in posts
+                <input type="checkbox" class="pull-right" checked>
+              </label>
+
+              <p>
+                Allow the user to show his name in blog posts
+              </p>
+            </div>
+            <!-- /.form-group -->
+
+            <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Show me as online
+                <input type="checkbox" class="pull-right" checked>
+              </label>
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Turn off notifications
+                <input type="checkbox" class="pull-right">
+              </label>
+            </div>
+            <!-- /.form-group -->
+
+            <div class="form-group">
+              <label class="control-sidebar-subheading">
+                Delete chat history
+                <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+              </label>
+            </div>
+            <!-- /.form-group -->
+          </form>
+        </div>
+        <!-- /.tab-pane -->
+      </div>
+    </aside>
     <!-- /.control-sidebar -->
     <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
