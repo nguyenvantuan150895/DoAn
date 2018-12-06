@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Log in</title>
+  <title>Admin Login</title>
+  <link rel="icon" type="image/png" href="/iconLogo.jpeg"/>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.7 -->
@@ -19,15 +20,33 @@
   <link rel="stylesheet" href="/plugins/iCheck/square/blue.css">
   <!-- jQuery 3 -->
   <script src="/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <!-- Bootstrap 3.3.7 -->
   <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
   <!-- iCheck -->
   <script src="/plugins/iCheck/icheck.min.js"></script>
   <!-- import ajax authentication admin login -->
-  <script src = "/js/admin/ajaxAuthen.js"></script>
+  <script src="/js/admin/ajaxAuthen.js"></script>
 
   <!-- Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <!-- show password -->
+  <script>
+    $(function () {
+      $("#showpass").click(function () {
+        // console.log("click");
+        let type = $("#idPassword").attr('type');
+        if (type == 'password') {
+          $("#idPassword").attr("type", "text");
+          $("#showpass").text("Hiden pass");
+        }
+        else {
+          $("#idPassword").attr("type", "password");
+          $("#showpass").text("Show pass");
+        }
+      })
+    })
+  </script>
 </head>
 
 <body class="hold-transition login-page">
@@ -40,34 +59,29 @@
       <p class="login-box-msg">Login in to start your session</p>
 
       <!-- <form> -->
-        <div class="form-group has-feedback">
-          <input type="text" class="form-control" placeholder="Admin account" id="idAccount" name="username">
-          <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      <div class="form-group has-feedback">
+        <input type="text" class="form-control" placeholder="Admin account" id="idAccount" name="username">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" class="form-control" placeholder="Password" id="idPassword" name="password">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-8">
+          <button id="showpass">Show pass</button>
         </div>
-        <div class="form-group has-feedback">
-          <input type="password" class="form-control" placeholder="Password" id="idPassword" name="password">
-          <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+        <!-- /.col -->
+        <div class="col-xs-4">
+          <button class="btn btn-primary btn-block btn-flat" id="login">Log In</button>
         </div>
-        <div class="row">
-          <div class="col-xs-8">
-            <div class="checkbox icheck">
-              <label>
-                <input type="checkbox"> Remember Me
-              </label>
-            </div>
-          </div>
-          <!-- /.col -->
-          <div class="col-xs-4">
-            <button class="btn btn-primary btn-block btn-flat" id="login">Log In</button>
-          </div>
-          <!-- /.col -->
-        </div>
-        <br>
-        <p style="color: red;display: none" id="error">Account or password invalid. Please try again!</p>
+        <!-- /.col -->
+      </div>
+      <br>
+      <p style="color: red;display: none" id="error">Account or password invalid. Please try again!</p>
       <!-- </form> -->
 
       <!-- /.social-auth-links -->
-
       <a href="#">I forgot my password</a><br>
 
     </div>
@@ -83,6 +97,7 @@
       });
     });
   </script>
+
 </body>
 
 </html>

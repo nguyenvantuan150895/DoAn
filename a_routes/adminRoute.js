@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/login', adminControll.login_get);
 router.post('/login', adminControll.login_post);
 router.get('/logout', adminControll.logout);
-router.get('/profile', adminControll.profile);
+router.get('/profile', adminControll.getProfile);
 router.get('/editAdmin/:id', adminControll.editAdmin_get);
 router.post('/editAdmin', adminControll.editAdmin_post);
 router.get('/createAdmin', adminControll.createAdmin_get);

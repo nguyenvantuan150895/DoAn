@@ -17,15 +17,7 @@ $(function () {
 		}
 	});
 	
-	//slide reveal
-	$('#slider').slideReveal({
-		trigger: $("#btnShort"),
-		position: "right",
-		push: false,
-		// width: 300,
-		overlay: true,
-		autoEscape: false,
-	});
+//////////////////////////////////////////////////////////////////////////////////////////////////
 	// upgrade premium
 	$('#sliderPremium').slideReveal({
 		trigger: $("#idPremium"),
@@ -35,24 +27,37 @@ $(function () {
 		overlay: true,
 		autoEscape: false,
 	});
-	//btnok
+	//btnok (upgrade)
 	$("#btnok").click(() => {
 		let domain = $("#idDomain").val(); domain = domain.trim();
 		console.log("lengthDomain:", domain.length);
 		if (domain.length != 0) {
 			$("#labelNotice").show();
-			$("#idIpServer").show();
 			$("#idUnderstand").show();
-			$.post("/enterprise/upgrade", {domain: domain}).done(function ({ipServer}) {
-				$('#idIpServer').val(ipServer);
+			$.post("/enterprise/upgrade", {domain: domain}).done(function ({email}) {
+				//do sth
 			})
 		} else {
 			alert("Domain name can not be left blank!")
 		}
 	})
+	// btn iUnderstand
+	$("#idUnderstand").click(function(){
+		$("#sliderPremium").slideReveal("hide");
+	})
+
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-	
+	//slide reveal (short link)
+	$('#slider').slideReveal({
+		trigger: $("#btnShort"),
+		position: "right",
+		push: false,
+		// width: 300,
+		overlay: true,
+		autoEscape: false,
+	});
 	// Button Go
 	$("#btnGo").click(() => {
 		let oldUrl1 = $("#oldUrlShortLink").val(); oldUrl1 = oldUrl1.trim();

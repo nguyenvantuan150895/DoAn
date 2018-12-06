@@ -9,6 +9,7 @@ const AccessModul = require('../public/modul/accessModul.js');
 const ExportModul = require('../public/modul/exportModul.js');
 const CampaignModul = require('../public/modul/campaignModul.js');
 const LinkModul = require('../public/modul/linkModul.js');
+const fs = require('fs');
 /*CRUD admin*/
 let ob_adminBF;
 /*manager link */
@@ -28,10 +29,13 @@ let accessS_Pl;
 let accessO_Pl;
 let ob_userPl;
 /*end export*/
+/*Domain head, foot*/
+let domainH, domainF;
+
 
 //Handle login
 exports.login_get = (req, res) => {
-    res.render("../d_views/admin/login.ejs");
+    res.render("../d_views/admin/login.ejs",{domainH: domainH, domainF: domainF});
 };
 exports.login_post = async (req, res) => {
     let state;
@@ -49,17 +53,17 @@ exports.logout = (req, res) => {
     res.redirect("/admin/login");
 }
 // profile
-exports.profile = async (req, res) => {
+exports.getProfile = async (req, res) => {
     let admin = req.session.admin; //console.log("Admin:", admin);
     let ob_admin = await Admin.getObAdminByAccount(admin);
-    res.render("../d_views/admin/profile.ejs", {admin: ob_admin});
+    res.render("../d_views/admin/profile.ejs", {ob_admin: ob_admin, domainH: domainH, domainF: domainF});
 };
 //edit admin
 exports.editAdmin_get = async (req, res) => {
     let id_admin = req.params.id;
     let ob_admin = await Admin.getObAdminById(id_admin);
     ob_adminBF = ob_admin; //don't care
-    res.render("../d_views/admin/editAdmin.ejs", {admin: ob_admin});
+    res.render("../d_views/admin/editAdmin.ejs", {ob_admin: ob_admin, domainH: domainH, domainF: domainF});
 };
 exports.editAdmin_post = async (req, res) => {
     //console.log("receive:", req.body);
@@ -120,17 +124,6 @@ exports.createAdmin_post = async (req, res) => {
         console.log(e +"--tuan: createAdmin_post in adminControll");
     }
 }
-
-
-
-
-
-
-
-
-
-
-
 // manager
 exports.manager = async (req, res) => {
     // get total record
@@ -138,9 +131,10 @@ exports.manager = async (req, res) => {
     let totalUser = await User.getTotalRecord();
     let totalCamp = await Campaign.getTotalRecord();
     let totalClick = await Access.getTotalRecord();
+    let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
     let data = { totalLink: totalLink, totalUser: totalUser, totalCamp: totalCamp, totalClick: totalClick };
     // let data = {totalLink: 60, totalUser: 5, totalCamp: 1300, totalClick: 80000};    
-    res.render("../d_views/admin/manager.ejs", { data: data });
+    res.render("../d_views/admin/manager.ejs", { data: data, domainH: domainH, domainF: domainF, ob_admin: ob_admin});
 }
 // admin manager user
 exports.managerUser = async (req, res) => {
@@ -149,6 +143,7 @@ exports.managerUser = async (req, res) => {
     let totalUser;
     let users;//array
     let valueSearch = "";
+    let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
     try {
         if (userSearch == undefined) {
             totalUser = await User.getTotalRecord();
@@ -160,7 +155,8 @@ exports.managerUser = async (req, res) => {
         }
         res.render('../d_views/admin/managerUser.ejs', {
             users: users, admin: "ADMIN", page: page_current,
-            totalUser: totalUser, valueSearch: valueSearch
+            totalUser: totalUser, valueSearch: valueSearch,
+            ob_admin: ob_admin, domainH: domainH, domainF: domainF
         });
 
     } catch (e) {
@@ -169,7 +165,8 @@ exports.managerUser = async (req, res) => {
 };
 // add new user
 exports.addUser_get = async (req, res) => {
-    res.render("../d_views/admin/addUser.ejs", { admin: "ADMIN" });
+    let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
+    res.render("../d_views/admin/addUser.ejs", { ob_admin: ob_admin, domainH: domainH, domainF: domainF });
 };
 exports.addUser_post = async (req, res) => {
     let customer = {};
@@ -209,8 +206,10 @@ exports.addUser_post = async (req, res) => {
 exports.updateUser_get = async (req, res) => {
     id = req.params.id;
     try {
+        let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
         let user = await User.findByID(id);
-        res.render("../d_views/admin/updateUser.ejs", { admin: "ADMIN", user: user });
+        res.render("../d_views/admin/updateUser.ejs", { ob_admin: ob_admin, user: user, 
+            domainH: domainH, domainF: domainF });
     } catch (e) {
         console.log(e + "--tuan: updateUser_get");
     }
@@ -263,8 +262,10 @@ exports.deleteUser = async (req, res) => {
 exports.detailUser = async (req, res) => {
     id = req.params.id;
     try {
+        let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
         let user = await User.findByID(id, req.body);
-        res.render("../d_views/admin/detailUser.ejs", { admin: "ADMIN", user: user, page: page_current });
+        res.render("../d_views/admin/detailUser.ejs", {user: user, page: page_current ,
+        ob_admin: ob_admin, domainH: domainH, domainF: domainF});
     } catch (e) {
         console.log(e + "--tuan: detailUser");
     }
@@ -278,6 +279,7 @@ exports.managerLink = async (req, res) => {
     let totalLink;
     let arr_short;//array
     let valueSearch = "";
+    let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
     try {
         if (linkSearch == undefined) {
             arr_short = await Shorten.getAllShort(pageUrl);
@@ -289,8 +291,9 @@ exports.managerLink = async (req, res) => {
         }
         arr_short = await LinkModul.allJoinArrShort(arr_short);
         arr_shortP = arr_short; //don't care
-        let data = { arr_short: arr_short, admin: 'ADMIN', page: pageUrl, totalLink: totalLink, 
-        valueSearch: valueSearch };
+        let data = { arr_short: arr_short, page: pageUrl, totalLink: totalLink, 
+        valueSearch: valueSearch, ob_admin: ob_admin, domainH: domainH, domainF: domainF 
+        };
         res.render('../d_views/admin/managerLink.ejs', data);
     } catch (e) {
         console.log(e + "--tuan: err managerLink");
@@ -300,7 +303,8 @@ exports.managerLink = async (req, res) => {
 /* End manager link*/
 // Add link
 exports.addLink_get = async (req, res) => {
-    res.render("../d_views/admin/addLink.ejs", { admin: 'ADMIN' });
+    let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
+    res.render("../d_views/admin/addLink.ejs", { ob_admin: ob_admin, domainH: domainH, domainF: domainF });
 };
 exports.addLink_post = async (req, res) => {
     // console.log("receive:", req.body);
@@ -320,6 +324,7 @@ exports.updateLink_get = async (req, res) => {
     id = req.params.id;
     let ob_urlShort;
     try {
+        let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
         for (let i = 0; i < arr_shortP.length; i++) {
             if (id == arr_shortP[i].id) {
                 ob_urlShort = arr_shortP[i];
@@ -327,7 +332,8 @@ exports.updateLink_get = async (req, res) => {
             }
         }
         obShortBefore = ob_urlShort;//don't care
-        let data = { admin: 'ADMIN', ob_urlShort: ob_urlShort, page_current: pageUrl };
+        let data = { ob_urlShort: ob_urlShort, page_current: pageUrl, 
+        ob_admin: ob_admin,  domainH: domainH, domainF: domainF};
         res.render("../d_views/admin/updateLink.ejs", data);
     } catch (e) {
         console.log(e + "--tuan: updateLink_get adminControll");
@@ -385,13 +391,15 @@ exports.detailLink = async (req, res) => {
     id = req.params.id;
     let ob_urlShort;
     try {
+        let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
         for (let i = 0; i < arr_shortP.length; i++) {
             if (id == arr_shortP[i].id) {
                 ob_urlShort = arr_shortP[i];
                 break;
             }
         }
-        let data = { admin: 'ADMIN', ob_urlShort: ob_urlShort, page_current: pageUrl };
+        let data = { ob_urlShort: ob_urlShort, page_current: pageUrl, ob_admin: ob_admin,
+        domainH: domainH, domainF: domainF };
         res.render("../d_views/admin/detailLink.ejs", data);
     } catch (e) {
         console.log(e + "--tuan: detailLink_get adminControll");
@@ -435,6 +443,7 @@ exports.managerCamp = async (req, res) => {
     let totalCamp;
     let arrCamp;//array
     let valueSearch = "";
+    let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
     try {
         if(campaignSearch == undefined) {
             arrCamp = await Campaign.getCampaignOtherNull(pageCamp);
@@ -448,7 +457,9 @@ exports.managerCamp = async (req, res) => {
         arrCampPl = arrCamp; //don't care
         totalCampPl = totalCamp;//don't care
         res.render("../d_views/admin/managerCamp.ejs", { arrCamp: arrCamp, page: pageCamp, 
-            admin: "ADMIN", totalCamp: totalCamp, valueSearch: valueSearch });
+            totalCamp: totalCamp, valueSearch: valueSearch,ob_admin: ob_admin, domainH: domainH,
+            domainF: domainF
+        });
     } catch (e) {
         console.log(e + "--tuan: managerCamp in adminControll");
     }
@@ -459,6 +470,7 @@ exports.detailCamp = async (req, res) => {
     idCamp = req.params.id;
     let customer = {};
     try {
+        let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
         let ob_campaign = await Campaign.getCampaignById(idCamp); ob_campaignPl = ob_campaign;
         let ob_user = await User.findByID(ob_campaign.id_user); ob_userPl = ob_user;
         let start_time = ob_campaign.start_time; let end_time = ob_campaign.end_time;
@@ -518,7 +530,8 @@ exports.detailCamp = async (req, res) => {
         customer.osPhone = objInfo.osPhone;
         customer.objLocation = objInfo.objLocation;
         // console.log("test:", customer);
-        res.render("../d_views/admin/detailCamp.ejs", { customer });
+        res.render("../d_views/admin/detailCamp.ejs", {customer : customer, ob_admin: ob_admin,
+         domainH: domainH, domainF: domainF});
     } catch (e) {
         console.log(e + "--tuan: detailCamp admin controller");
     }
@@ -547,9 +560,11 @@ exports.exportAccessLog = async (req, res) => {
 }
 // add Campaign
 exports.addCampaign_get = async (req, res) => {
-    res.render("../d_views/admin/addCamp.ejs", { admin: 'ADMIN' });
+    let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
+    res.render("../d_views/admin/addCamp.ejs", { ob_admin: ob_admin, domainH: domainH, domainF: domainF });
 };
 exports.addCampaign_post = async (req, res) => {
+    let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
     let data = req.body;
     let domain = 'dontcare.com';
     let sms = seedUrl.createShortUrl(domain);
@@ -571,10 +586,12 @@ exports.addCampaign_post = async (req, res) => {
         sms: sms, email: email, other: other, fb: fb, start: data.start, end: data.end
     }
 
-    res.render('../d_views/admin/confirmCamp.ejs', customer);
+    res.render('../d_views/admin/confirmCamp.ejs', {customer: customer, ob_admin: ob_admin,
+    domainH: domainH, domainF: domainF});
 };
 //confirm Campaign
 exports.confirmCampaign = async (req, res) => {
+    
     let rq = req.body;
     try {
         let customer = await CampaignModul.validateConfirm(rq);
@@ -608,6 +625,7 @@ exports.updateCamp_get = async (req, res) => {
         }
     }
     try {
+        let ob_admin = await Admin.getObAdminByAccount(req.session.admin);
         let arrShort = ob_camp.arrShort;
         arrShort = seedUrl.converArrShort(arrShort);
         let arrFb = arrShort.fb;
@@ -640,7 +658,8 @@ exports.updateCamp_get = async (req, res) => {
         }
         ob_campUpdateCamp_get = customer; //don't care
         // console.log("Send:",customer);
-        res.render('../d_views/admin/updateCamp.ejs', customer);
+        res.render('../d_views/admin/updateCamp.ejs', {customer: customer, ob_admin: ob_admin,
+           domainH: domainH, domainF: domainF});
     } catch (e) {
         console.log(e + "--tuan: updateCamp_get adminControll");
     }
@@ -680,23 +699,29 @@ exports.deleteCamp = async (req, res) => {
     }
 };
 
-
-
-//TEST
-// exports.test = async (req, res) => {
-//     try {
-//         let a = [1, 2, '3'];
-//         let b = [1, 2, '3'];
-//         // let compare = compareArr(a,b);
-//         // console.log("compare:", compare);
-
-//         res.send("Testing");
-//     } catch (e) {
-//         console.log(e);
-//     }
-// }
-
-
+let getDomain = () => {
+    let domain = fs.readFileSync('domain.txt', 'utf8');
+    domain = domain.trim();
+    let arr = domain.split(".");
+    if(arr.length == 3) {
+        domainH = arr[1];
+        domainF = arr[2];
+    } else {
+        domainH = arr[0];
+        domainF = arr[1];
+    }
+    domainH = standardDomainH(domainH);
+    domainF = "." + domainF.toString();
+}
+let standardDomainH = (domainH) => {
+    let letterFirst = domainH.slice(0,1);
+    letterFirst = letterFirst.toUpperCase();
+    let stringRemain = domainH.slice(1, domainH.length);
+    let temp = letterFirst.toString() + stringRemain.toString();
+    return temp;
+}
+//get domain
+getDomain();
 
 
 

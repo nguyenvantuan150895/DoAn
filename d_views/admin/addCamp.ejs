@@ -12,8 +12,8 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Campaign Manager</title>
-    <link rel="icon" type="image/png" href="/icons/shortLink.jpeg" />
+    <title>Add Campaign</title>
+    <link rel="icon" type="image/png" href="/iconLogo.jpeg" />
 
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -50,7 +50,9 @@
                 <!-- mini logo for sidebar mini 50x50 pixels -->
                 <span class="logo-mini"><b>A</b>LT</span>
                 <!-- logo for regular state and mobile devices -->
-                <span class="logo-lg"><b>Rutgon</b>.com</span>
+                <span class="logo-lg">
+                    <b><%=domainH%></b><%=domainF%>
+                </span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
             <nav class="navbar navbar-static-top">
@@ -73,7 +75,7 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="/admin.png" class="user-image" alt="User Image">
-                                <span class="hidden-xs">ADMIN</span>
+                                <span class="hidden-xs"><%= ob_admin.account%></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
@@ -81,7 +83,7 @@
                                     <img src="/admin.png" class="img-circle" alt="User Image">
 
                                     <p>
-                                        ADMIN>
+                                        <%= ob_admin.account%>
                                         <small>administrator account</small>
                                     </p>
                                 </li>
@@ -89,7 +91,9 @@
 
                                 <!-- Menu Footer-->
                                 <li class="user-footer" style="border: 1px solid #bdbbbb;">
-
+                                        <div class="pull-left">
+                                            <a href="/admin/profile" class="btn  "><b>Profile</b> </a>
+                                        </div>
                                     <!-- Tim thay roi !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                                     <div class="pull-right">
                                         <a href="/admin/logout" class="btn  "><b>Log out</b> </a>
@@ -119,8 +123,8 @@
                 </div>
                 <br>
                 <ul>
-                    <li style="color : white; ">User name: ADMIN</li>
-                    <li style="color : white; ">Email: admin@gmail.com</li>
+                    <li style="color : white; ">User name: <%= ob_admin.account%></li>
+                    <li style="color : white; ">Email: <%= ob_admin.email%></li>
                     <li style="color : white; ">Phone : 02413 884 999</li>
                     <li style="color : white; ">Address: Hà Nội - Việt Nam</li>
                 </ul>

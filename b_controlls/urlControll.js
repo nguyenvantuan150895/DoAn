@@ -41,6 +41,8 @@ exports.shortUrl_post = async (req, res) => {
 exports.redirectUrlOrigin = async (req, res) => {
     // get shortUrl from address bar
     let urlShort =  req.get('host') + req.originalUrl;
+    let arr = urlShort.split('?');
+    urlShort = arr[0];
     try{
         const agent = useragent.parse(req.headers['user-agent']);
         let urlOrigin = await getUrlOrigin(urlShort);

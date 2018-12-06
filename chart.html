@@ -4,132 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 
   <title>Document</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="public/library/jquery.slidereveal.min.js"></script>
-    
-   
 </head>
-<script>
-    $(document).ready(function() {
-      var slider = $('#slider').slideReveal({
-          trigger: $("#trigger"),
-          position: "right",
-          push: false,
-          width: 300,
-          overlay: true
-      });
-    })
-  </script>
 <body>
-    
-    <button id="trigger">Click me</button>
-    <div id='slider' class="slider" style = "height: 300px; background-color: mediumturquoise">
-       hello
-    </div>
+  <h1 style = "color: blue">Welcome</h1>
+  <p>Everything is almost finished, please point your domain name to the server ip address provided below. Once completed, you can visit with the registered domain name.</p>
+  <label for="">Your Domain:</label>
+  <span style = "color: #f3840b"><b>rutgon.com</b></span> <br>
+  <label for="">Ip Server:</label>
+  <span style = "color: #f3840b"><b>192.169.1.1</b></span>
+  <p style = "color: blue"> <b>Info account admin:</b></p>
+  <label for="">Account:</label>
+  <span style ="color: #f3840b;"> <b>ADMIN</b> </span> <br>
+  <label for="">Password:</label>
+  <span style = "color: #f3840b"><b>1234</b></span>
 </body>
 </html>
-
-
-
-
-
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-</head>
-
-<script>
-    $(function(){
-        new Chart(document.getElementById("doughnut-chart"), {
-    type: 'doughnut',
-    data: {
-      labels: ["Africa", "Asia", "Europe", "Latin America", "North America"],
-      datasets: [
-        {
-          label: "Population (millions)",
-          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","green"],
-          data: [2478,5267,734,784,433]
-        }
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Predicted world population (millions) in 2050',
-      },
-      
-    }
-  });
-})
-    
-</script>
-<body>
-    <canvas id="doughnut-chart" height="40vh" width="100vw"></canvas>
-</body>
-</html> -->
-
-
-
-
-<!-- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script>
-    $(function(){
-      new Chart(document.getElementById("bar-chart-grouped"), {
-    type: 'bar',
-    data: {
-      labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23', '24', '25', '26', '27', '28', '29', '30'],
-      datasets: [
-        {
-          label: "Africa",
-          backgroundColor: "#3e95cd",
-          data: [28, 48, 40, 19, 86, 27, 90, 28, 48, 40, 19, 86, 27, 90,40, 19, 86, 27, 90, 28, 48,40, 19, 86, 27, 90, 28, 48,31,45]
-        },
-        {
-          label: "Europe",
-          backgroundColor: "#8e5ea2",
-          data:  [65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 65, 59, 80, 81, 56, 55, 40, 19, 30]
-        },
-        {
-          label: "Gigido ",
-          backgroundColor: "green",
-          data:  [30, 78, 60, 51, 32, 57, 10, 30, 78, 60, 51, 32, 57, 10, 30, 78, 60, 51, 32, 57, 10, 30, 78, 60, 51, 32, 57, 10, 34, 54]
-        },
-        {
-          label: "nguyen tuan ",
-          backgroundColor: "red",
-          data:  [30, 78, 60, 51, 32, 57, 10, 30, 78, 60, 51, 32, 57, 10, 30, 78, 60, 51, 32, 57, 10, 30, 78, 60, 51, 32, 57, 10, 34, 54]
-        }
-      ]
-    },
-    options: {
-      title: {
-        display: true,
-        text: 'Population growth (millions)'
-      }
-    }
-});
-    })
-  </script>
-</head>
-<body>
-    <canvas id="bar-chart-grouped"  height="80vh" width="300vw"></canvas>
-</body>
-</html> -->

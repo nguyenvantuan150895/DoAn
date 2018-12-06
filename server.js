@@ -57,7 +57,7 @@ var authenSession = function (req, res, next) {
         else res.render("../d_views/user/userEOS.ejs");
     } else next();
   }
-// app.use(authenSession);
+app.use(authenSession);
 
 
 //path redirections

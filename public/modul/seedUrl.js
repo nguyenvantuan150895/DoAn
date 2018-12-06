@@ -31,6 +31,7 @@ let mapping = (arr) => {
 // Create short Url
 let createShortUrl = (domain1) => {
     let domain = fs.readFileSync('domain.txt', 'utf8');
+    domain = domain.trim();
     // console.log("DOMAIN read:", domain);
     //let domain = "localhost:3000/";
     domain = domain + '/';

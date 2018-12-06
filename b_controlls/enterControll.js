@@ -48,22 +48,6 @@ exports.manager = async (req, res) => {
     }
 }
 
-// Search campaign
-// exports.search = async (req, res) => {
-//     try {
-//         let nameCamp = req.query.campaign;
-//         let idUser = await User.getIdByUser(req.session.user);
-//         let arr_campaign = await Campaign.searchCamp(idUser, nameCamp);
-//         // console.log("ArrCamp:", arrCamp);
-//         arr_campaignPl = arr_campaign;//don't care
-//         res.render("../d_views/enter/homeEnter.ejs", { arrCampaign: arr_campaign });
-//     } catch (e) {
-//         console.log(e + "--tuan: search in entercontroll");
-//     }
-// }
-
-
-
 // detail campaign
 exports.getDetailCamp = async (req, res) => {
     let id = req.params.id;
@@ -430,13 +414,12 @@ exports.deleteLink = async (req, res) => {
 // Upgrade premium
 exports.upgrade = async (req, res) => {
     try {
-        console.log("receive:", req.body);
-        let ipServer = fs.readFileSync('ipServer.txt', 'utf8');
-        // console.log("ipServer:", ipServer);
+        let ob_user = await User.getObUserByName(req.session.user);
+        let email = ob_user.email;
         let domain = req.body.domain; domain = domain.toString();
-        let command = "cd ~ && cd tool && sudo node index.js " + domain;
-        cmd.run(command);
-        res.send({ipServer: ipServer});
+        let command = "cd ~ && cd tool && sudo node index.js "+domain+" "+email;
+        // cmd.run(command);
+        res.send({email: email});
     } catch (e) {
         console.log(e + "--tuan: upgrade in entercontroll"); 
     }
