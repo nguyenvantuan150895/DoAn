@@ -109,6 +109,18 @@ module.exports.checkExistUser = (user_name) => {
         })
     })
 }
+// Check exist email
+module.exports.checkExistEmail = (email) => {
+    return new Promise((resolve, reject) => {
+        user.find({ email: email }, (err, result) => {
+            if (err) reject(err);
+            else {
+                if (result.length > 0) resolve(true);
+                else resolve(false);
+            }
+        })
+    })
+}
 // get obj User by username
 module.exports.getObUserByName = (username) => {
     return new Promise((resolve, reject) => {

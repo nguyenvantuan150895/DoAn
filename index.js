@@ -1,13 +1,61 @@
 
-let obj = {'Hà Nội': 1, 'Hồ Chí Minh':0, "Đà Nẵng":1};
-let filterLocation = (objLocation) => {
-    for (const key of Object.keys(objLocation)) {
-        if(objLocation[key] == 0) delete objLocation[key];
-    }
-    return objLocation;
+
+
+/*  Return number of days between d0 and d1.
+**  Returns positive if d0 < d1, otherwise negative.
+**
+**  e.g. between 2000-02-28 and 2001-02-28 there are 366 days
+**       between 2015-12-28 and 2015-12-29 there is 1 day
+**        
+**  @param {Date} d0  - start date
+**  @param {Date} d1  - end date
+**  @returns {number} - whole number of days between d0 and d1
+**
+*/
+
+let daysDifference = (d0, d1) => {
+    var diff = new Date(+d1).setHours(12) - new Date(+d0).setHours(12);
+    return Math.round(diff / 8.64e7);
 }
-let a = filterLocation(obj);
+
+// Simple formatter
+let formatDate = (date) => {
+    return [date.getFullYear(), ('0' + (date.getMonth() + 1)).slice(-2), ('0' + date.getDate()).slice(-2)].join('-');
+}
+
+// Examples
+let checkOneYear = (ys, ms, ds, ye, me, de) => {
+    // let arrDate = [new Date(ys, ms, ds), new Date(ye, me, de)]
+    let start = new Date(ys, ms, ds);
+    let end =  new Date(ye, me, de);
+    let distance = daysDifference(start, end);
+    if( (Number(ys)+1) == Number(ye) && ms == me && ds == de){
+        if(Number(distance) == 366 || Number(distance) == 365) return true;
+        else return false;
+    }
+    else if(Number(distance) > 365 ) return false;
+    else return true;
+}
+
+let a = checkOneYear('2002', '1', '28', '2003', '1', '29');
 console.log(a);
+
+
+
+
+
+
+
+
+// let obj = {'Hà Nội': 1, 'Hồ Chí Minh':0, "Đà Nẵng":1};
+// let filterLocation = (objLocation) => {
+//     for (const key of Object.keys(objLocation)) {
+//         if(objLocation[key] == 0) delete objLocation[key];
+//     }
+//     return objLocation;
+// }
+// let a = filterLocation(obj);
+// console.log(a);
 
 
 
@@ -165,7 +213,7 @@ console.log(a);
 //     //want time_access <= end_time => rs2 = true;
 //     console.log("rs1:", rs1); console.log("rs2:", rs2);
 //     if(rs1 == true && rs2 == true) return true;
-    
+
 //     else return false;
 // }
 
@@ -292,7 +340,7 @@ console.log(a);
 //     let agent2 = useragent.parse(req.headers["user-agent"], req.query.jsuseragent);
 //     var agent3 = useragent.lookup(req.headers["user-agent"]);
 //     var agent = useragent.parse(req.headers["user-agent"]);// agent.toAgent() ; agent.os.toString();agent.os.toVersion()
-   
+
 //     console.log("User agent:",  agent.device.toJSON());
 
 //     //get khu vuc 
@@ -303,13 +351,13 @@ console.log(a);
 //     const geo = geoip.lookup(ip);
 //     //const type = typeof geo;
 //     const device = req.device.type;
-    
+
 
 //     var agent = useragent.parse(req.headers["user-agent"]); 
 //     let info = agent.toString();
 //     res.send("--> your ip: " + ip + ",  --> geo: " + JSON.stringify(geo) + "  --> Device:  " + thietbi + "   -->info: " + info + "  --> nameDevice: "+ agent.device.toString());
 
-    
+
 // })
 
 

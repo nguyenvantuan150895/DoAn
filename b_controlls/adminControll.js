@@ -698,7 +698,7 @@ exports.deleteCamp = async (req, res) => {
         console.log(e + '--tuan: deleteCamp in AdminControll');
     }
 };
-
+///////////////////////////////
 let getDomain = () => {
     let domain = fs.readFileSync('domain.txt', 'utf8');
     domain = domain.trim();

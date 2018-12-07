@@ -31,6 +31,7 @@ $(function () {
             else if (start.length == 0) { alert("Start time must be filled out "); return false }
             else if (end.length == 0) { alert("End time must be filled out "); return false }
             else if (compareDate(start, end) == false) { alert("End time must be greater than start time "); return false }
+            else if(checkOneYear(start, end) == false) {alert("Campaign limit is only one year!"); return false}
             else if (lenGroup == 0) { alert("Must have at least one face group "); return false }
             else if (lenGroup > 0) {
                 for (let j = 0; j < lenGroup; j++) {
@@ -73,3 +74,32 @@ let compareDate = (start, end) => {
     }
 }
 
+let daysDifference = (d0, d1) => {
+    var diff = new Date(+d1).setHours(12) - new Date(+d0).setHours(12);
+    return Math.round(diff / 8.64e7);
+}
+// Simple formatter
+let formatDate = (date) => {
+    return [date.getFullYear(), ('0' + (date.getMonth() + 1)).slice(-2), ('0' + date.getDate()).slice(-2)].join('-');
+}
+
+// Examples
+let checkOneYear = (start, end) => {
+     //format : 10/08/2018 => 08/october/2018
+     let ds = start.slice(3, 5);
+     let ms = start.slice(0, 2);
+     let ys = start.slice(6, 10);
+ 
+     let de = end.slice(3, 5);
+     let me = end.slice(0, 2);
+     let ye = end.slice(6, 10);
+    let start1 = new Date(ys, ms, ds);
+    let end1 =  new Date(ye, me, de);
+    let distance = daysDifference(start1, end1);
+    if( (Number(ys)+1) == Number(ye) && ms == me && ds == de){
+        if(Number(distance) == 366 || Number(distance) == 365) return true;
+        else return false;
+    }
+    else if(Number(distance) > 365 ) return false;
+    else return true;
+}

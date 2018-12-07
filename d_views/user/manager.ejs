@@ -1,274 +1,535 @@
-
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <link href="https://fonts.googleapis.com/css?family=Dancing+Script|Gloria+Hallelujah" rel="stylesheet">
-    <title domain = "<%=domain%>" id = "domain">Shorten Url</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script src="/js/user/ajaxAddLink.js"></script>
-    <link rel="stylesheet" href="/css/user/userManager.css">
-      <!-- import library click copy -->
-      <link rel="icon" type="image/png" href="/iconLogo.jpeg"/>
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-      <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
-      <!-- end import -->
+<html>
 
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Home Page User</title>
+    <link rel="icon" type="image/png" href="/iconLogo.jpeg" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.7 -->
+    <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/bower_components/font-awesome/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="/bower_components/Ionicons/css/ionicons.min.css">
+    <!-- Morris charts -->
+    <link rel="stylesheet" href="/bower_components/morris.js/morris.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/dist/css/AdminLTE.min.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="/dist/css/skins/_all-skins.min.css">
+    <!-- Google Font -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+    <!-- Import jquery/3.3.1/min.js -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- import library click copy -->
+    <link rel="icon" type="image/png" href="/iconLogo.jpeg" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/clipboard.js/1.5.12/clipboard.min.js"></script>
+    <!-- end import -->
     <!-- import  sweetalert-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link rel='stylesheet' href='/css/user/sweetalert2.min.css'>
     <script src='/js/user/sweetalert2.all.min.js'></script>
     <!-- end import -->
+    <!-- import file js manager user personale & ajax add Link -->
+    <script src='/js/user/managerPersonal.js'></script>
+    <script src='/js/user/ajaxAddLink.js'></script>
 
-  
-      <script>
-        $(function(){
-            new Clipboard('.copy-text');
-        });
-    </script>
-<!-- ####################################################################################################### -->
-      <script>
-        $(function(){
-            let call = () => {
-                const domain = $("#domain").attr("domain");
-                const {value: formValues} =  swal({
-                title: 'Create your own link',
-                html:
-                    '<label for="">Url Original</label>' +
-                    '<input id="oldUrl" class="swal2-input" placeholder = "Enter Url nedd to shorten" >' +
-                    '<label for="">Url Shorten</label>' +
-                    '<input id="newUrl" class="swal2-input" value=' +domain+ '>' +
-                    '<p style = "display: none; color: red" id="idErr" >Url shorten invalid!</p>',
-                    
-                focusConfirm: false,
-                showCancelButton: true,
-                }).then((result) => {
-                    if (result.value) {
-                        // call ajax here when click confirm
-                        let oldUrl = $("#oldUrl").val();
-                        let newUrl = $("#newUrl").val();
-                        $.post("/user/createLink", {oldUrl: oldUrl, newUrl: newUrl})
-                        .done(function(customer){
-                            if(customer.state == "ok"){
-                                swal(
-                                    'successfully created',
-                                    'success'
-                                ).then((result) => {
-                                    if(result.value) {
-                                        window.location = "/user/manager/" + customer.last_page;
-                                    }
-                                })
-
-                            } else if(customer.state == "fail"){
-                                swal(
-                                    'Invalid Url Shorten',
-                                    'example: yourdomain/balabala',
-                                    'error'
-                                ).then((result) => {
-                                    if(result.value) {
-                                        call();
-                                    }
-                                })
-                            }
-                        })
-                    } else if (result.dismiss === swal.DismissReason.cancel ) {
-                        //do sth when cancle
-                    }
-                })
-            }
-
-            $("#btnCreate").click(() => {
-                call();
-            })
-        });     
-      </script>
-<!-- ####################################################################################################### -->
-    <script>
-        $(function() {
-            //handle click edit button
-            
-            $(".idEdit").click( function() {
-                let call = () => {
-                const {value: formValues} =  swal({
-                title: 'Edit your own link',
-                html:
-                    '<label for="">Url Original</label>' +
-                    '<input id="oldUrle" class="swal2-input" readonly >' +
-                    '<label for="">Url Shorten</label>' +
-                    '<input id="newUrle" class="swal2-input">',  
-                focusConfirm: false,
-                showCancelButton: true,
-                }).then((result) => {
-                    if (result.value) {
-                        // call ajax here when click confirm
-                        let id = $(this).attr('id_e');
-                        let oldUrl = $("#oldUrle").val();
-                        let newUrl = $("#newUrle").val();
-                        let urlPreEdit = $(this).attr('newUrl_e');
-                        let idShortUrl = $(this).attr('idShortUrl');
-                        let object_edit = {id:id, oldUrl : oldUrl, newUrl : newUrl, idShortUrl: idShortUrl, urlPreEdit: urlPreEdit};
-                        $.post("/user/editLink", object_edit)
-                        .done(function(customer){
-                            if(customer.state == "ok"){
-                                swal(
-                                    'successfully created',
-                                    'success'
-                                ).then((result) => {
-                                    if(result.value) {
-                                        window.location.reload(true);
-                                    }
-                                })
-
-                            } else if(customer.state == "fail"){
-                                swal(
-                                    'Invalid Url Shorten',
-                                    'url already exists or invalid',
-                                    'error'
-                                ).then((result) => {
-                                    if(result.value) {
-                                        call();
-                                        $("#oldUrle").val(oldUrle);
-                                        $("#newUrle").val(newUrle);
-                                    }
-                                })
-                            }
-                        })
-                    } else if (result.dismiss === swal.DismissReason.cancel ) {
-                        //do sth when cancle
-                    }
-                })
-            }//end call function
-                call();
-                let oldUrle = $(this).attr('oldUrl_e');
-                let newUrle = $(this).attr('newUrl_e');
-                $("#oldUrle").val(oldUrle);
-                $("#newUrle").val(newUrle);
-
-            }) 
-        })
-    </script>
-<!--##################################################################################################### -->
-<script>
-    $(function(){
-        $("#clickUrl").click(function(){
-            window.location.reload(true);
-        })
-    })
-</script>
 
 </head>
-<body>
-    <div class="content">
-        <div class="head1">
-            <h1>Shorten url</h1>
-            <div class="inout">
-                <img style = "width: 50px; height: 50px; margin-top: -7px" src="/user.png" alt="">
-                <h4 style = "font-family: Dancing Script; padding-right: 20px; font-weight: bold"><%=user%></h4>
-                <a href="/user/logout" style="color: blue"><b>LOG OUT</b>  </a>
+
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+
+
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="/user/manager/1" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>A</b>LT</span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg">
+                    <b>
+                        <%=domainH%></b>
+                    <%=domainF%>
+                </span>
+            </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <img src="/user.png" class="user-image" alt="User Image">
+                                <span class="hidden-xs">
+                                    <%=ob_user.username%></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img src="/user.png" class="img-circle" alt="User Image">
+
+                                    <p>
+                                        <%=ob_user.username%>
+                                        <small>Member since Nov. 2012</small>
+                                    </p>
+                                </li>
+
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="col-md-12">
+
+                                        <div class="pull-left">
+                                            <a href="/user/profile" class="btn  "><b>Profile</b> </a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <a href="/user/logout" class="btn  "><b>Log out</b> </a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Create shortlink -->
+
+                        <!-- Control Sidebar Toggle Button -->
+                        <li>
+                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                        </li>
+
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img src="/user.png" class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        <p>
+                            <%=ob_user.username%>
+                        </p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    </div>
+                </div>
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <br>
+                <br>
+                <ul>
+                    <li style="color : white; ">User name:
+                        <%= ob_user.username%>
+                    </li>
+                    <li style="color : white; ">Email:
+                        <%= ob_user.email%>
+                    </li>
+                    <li style="color : white; ">Phone : 02413 884 999</li>
+                    <li style="color : white; ">Address: Hà Nội - Việt Nam</li>
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
+
+
+
+
+            <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h1 style="color:#3c8dbc">
+                    <b>
+                        Hello</b>
+                    <small>
+                        <%= ob_user.username%> </small>
+                </h1>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <!-- ******************************************************************8 -->
+                <!-- Main content -->
+                <section class="content">
+                    <div class="row">
+                        <div class="content2">
+                            <form id="inputOldUrl" autocomplete="off">
+                                <div class="shorten">
+                                    <div class="col-md-11">
+                                        <input type="text" class="form-control" id="idOldUrl" placeholder="Paste a link to shorten it..."
+                                            name="url">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button type="submit" class="btn btn-default" style="margin-left: -36px">Go</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="result">
+                                <div class="col-md-12" style="margin-top: 20px">
+                                    <label for="" class="lable_short">Short link</label>
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <input type="text" class="form-control" id="idNewUrl" placeholder="" name="url"
+                                                readonly>
+                                        </div>
+                                        <div class="col-md-2" style="margin-left: -31px">
+                                            <button type="submit" class="btn btn-default btn_coppy copy-text"
+                                                data-clipboard-target="#idNewUrl">Copy</button>
+                                        </div>
+                                        <div class="col-md-2" style="margin-left: -25px">
+                                            <button type="submit" class="btn" id="btnCreate" style=" background-color: #7490dc; color: white;;">
+                                                Create & Customer </button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="margin-top: 30px; margin-left: -13px">
+                            <h2 style="font-family: Dancing Script" domain="<%=JSON.stringify(domain)%>" id="domain">
+                                History
+                            </h2>
+                        </div>
+
+                        <!-- <p><%=url%></p> -->
+                        <!-- TABLE -->
+                        <div class="table1">
+                            <table id="paging" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>STT</th>
+                                        <th>Url Original </th>
+                                        <th>Url Shorten</th>
+                                        <th>Total click</th>
+                                        <th>Time Create</th>
+                                        <th colspan="2">Tool</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% for (var i = 0; i < url.length ;  i++) { %>
+                                    <tr>
+                                        <td id="stt">
+                                            <%= ((i+1) + (page-1)*5) %>
+                                        </td>
+                                        <%if((url[i].oldUrl).length > 50){ %>
+                                        <td><a href='<%= url[i].oldUrl %>' title="<%= url[i].oldUrl %>">
+                                                <%= (url[i].oldUrl).slice(0,50) +"..."%></a></td>
+                                        <% } else { %>
+                                        <td><a href='<%= url[i].oldUrl %>' title="<%= url[i].oldUrl %>">
+                                                <%= url[i].oldUrl%></a></td>
+                                        <% } %>
+                                        <td><a href='<%= url[i].newUrl%>' title="<%=url[i].newUrl%>" class="clickUrl"
+                                                target="_blank">
+                                                <%= url[i].newUrl%></a></td>
+                                        <td>
+                                            <%=url[i].totalClick%>
+                                        </td>
+                                        <td>
+                                            <%=url[i].timeCreate%>
+                                        </td>
+                                        <td><a class="btn idEdit" id_e="<%=url[i].id%>" oldUrl_e="<%=url[i].oldUrl%>"
+                                                newUrl_e="<%=url[i].newUrl%>" user="<%=url[i].user%>" idShortUrl="<%=url[i].idShortUrl%>">
+                                                <img style="width: 20px; height: 20px" src="/updateLink.jpeg" alt=""
+                                                    title="Edit"></a></td>
+                                        <td><a class="my_link" href="/user/delete/<%=url[i].id %>" onclick="return confirm('Are you sure you want to delete?');"
+                                                title="Delete"><img style="width: 25px; height: 25px" src="/deleteLink.png"
+                                                    alt=""></a></td>
+                                    </tr>
+                                    <% } %>
+
+                                </tbody>
+                            </table>
+                            <div class="container1" style="float: right">
+                                <% var pages  = Math.ceil(count/5)%>
+                                <% if (pages > 0) { %>
+                                <ul class="pagination text-center">
+                                    <% if (page == 1) { %>
+                                    <li class="disabled"><a>Previous</a></li>
+                                    <% } else { %>
+                                    <li><a href="/user/manager/<%=page-1%>">Previous</a></li>
+                                    <% } %>
+                                    <% var j = (Number(page) > 4 ? Number(page) - 3 : 1) %>
+                                    <% if (j !== 1) { %>
+                                    <li class="disabled"><a>...</a></li>
+                                    <% } %>
+                                    <% for (; j <= (Number(page) + 3) && j <= pages; j++) { %>
+                                    <% if (j == page) { %>
+                                    <li class="active"><a>
+                                            <%= j %></a></li>
+                                    <% } else { %>
+                                    <li><a href="/user/manager/<%= j %>">
+                                            <%= j %></a></li>
+                                    <% } %>
+                                    <% if (j == Number(page) + 3 && j < pages) { %>
+                                    <li class="disabled"><a>...</a></li>
+                                    <% } %>
+                                    <% } %>
+                                    <% if (page == pages) { %>
+                                    <li class="disabled"><a>Next</a></li>
+                                    <% } else { %>
+                                    <li><a href="/user/manager/<%=(Number(page)+1)%>">Next</a></li>
+                                    <% } %>
+                                </ul>
+                                <% } %>
+                            </div>
+
+                            <p style="font-weight: lighter;margin-top: 26px;">Showing
+                                <%= (1 + (page-1)*5) %> to
+                                <%= (url.length + (page-1)*5) %> of
+                                <%=count%> entries</p>
+                            <b>Page current:
+                                <%=page%></b>
+                        </div>
+
+
+                    </div>
+                    <!-- /.row -->
+
+                    <!-- *************************************************************************** -->
+                </section>
+                <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                <b>Version</b> 2.4.0
             </div>
-        </div>
-        <div class="content2">
-            <form id="inputOldUrl" autocomplete="off"> 
-                <div class="shorten">
-                    <div class="col-md-11">
-                        <input type="text" class="form-control" id="idOldUrl" placeholder="Paste a link to shorten it..." name="url">
-                    </div>
-                    <div class="col-md-1">
-                        <button type="submit" class="btn btn-default" style = "margin-left: -36px">Go</button>
-                    </div> 
-                </div> 
-            </form>  
-            <div class="result">
-                <div class="col-md-8">
-                    <label for="" class = "lable_short">Short link</label>
-                    <input type="text" class="form-control" id="idNewUrl" placeholder="" name="url" readonly>
-                </div>
-                <div class="col-md-2">
-                    <button type="submit" class="btn btn-default btn_coppy copy-text" data-clipboard-target="#idNewUrl" >Coppy</button>
-                </div> 
-                <div class="col-md-2">
-                    <button type="submit" class="btn" id="btnCreate" style ="margin-left: -55px; background-color: #7490dc; color: white; margin-top: 24px;" >Create your own link </button>
-                </div>
-            </div>  
-        </div>  
-        <h2 style = "font-family: Dancing Script; margin-left: 20px">History</h2>
-        <!-- <p><%=url%></p> -->
-        <!-- TABLE -->
-        <div class="table1">
-                <table id="paging" class="table table-bordered table-hover">
-                    <thead>
-                        <tr>
-                            <th >STT</th>
-                            <th>Url Original </th>
-                            <th>Url Shorten</th>
-                            <th>Total click</th>
-                            <th>Time Create</th>
-                            <th colspan="2">Tool</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% for (var i = 0; i < url.length ;  i++) { %>
-                            <tr>
-                            <td id = "stt"><%= ((i+1) + (page-1)*5) %></td>
-                            <%if((url[i].oldUrl).length > 50){ %>
-                                <td><a href='<%= url[i].oldUrl %>' title="<%= url[i].oldUrl %>"><%= (url[i].oldUrl).slice(0,50) +"..."%></a></td>
-                            <% } else { %>
-                                <td><a href='<%= url[i].oldUrl %>' title="<%= url[i].oldUrl %>"><%= url[i].oldUrl%></a></td>
-                            <% } %>
-                            <td><a href='<%= url[i].newUrl%>' title ="<%=url[i].newUrl%>" class = "clickUrl" target="_blank"><%= url[i].newUrl%></a></td>
-                            <td><%=url[i].totalClick%></td>
-                            <td><%=url[i].timeCreate%></td>
-                            <td><a class = "btn idEdit" id_e = "<%=url[i].id%>"  oldUrl_e = "<%=url[i].oldUrl%>" newUrl_e = "<%=url[i].newUrl%>" user = "<%=url[i].user%>" idShortUrl = "<%=url[i].idShortUrl%>"
-                                > <img style = "width: 20px; height: 20px"src="/updateLink.jpeg" alt="" title="Edit"></a></td> 
-                            <td><a  class = "my_link" href="/user/delete/<%=url[i].id %>" onclick="return confirm('Are you sure you want to delete?');" title="Delete"><img style = "width: 25px; height: 25px" src="/deleteLink.png" alt=""></a></td> 
-                        </tr>     
-                        <% } %>
-                
-                    </tbody>
-             </table>
-             <div class="container1" style = "float: right">
-                    <% var pages  = Math.ceil(count/5)%>
-                    <% if (pages > 0) { %>
-                      <ul class="pagination text-center">
-                          <% if (page == 1) { %>
-                              <li class="disabled"><a>Previous</a></li>
-                          <% } else { %>
-                              <li><a href="/user/manager/<%=page-1%>">Previous</a></li>
-                          <% } %>
-                          <% var j = (Number(page) > 4 ? Number(page) - 3 : 1) %>
-                          <% if (j !== 1) { %>
-                              <li class="disabled"><a>...</a></li>
-                          <% } %>
-                          <% for (; j <= (Number(page) + 3) && j <= pages; j++) { %>
-                              <% if (j == page) { %>
-                                  <li class="active"><a><%= j %></a></li>
-                              <% } else { %>
-                                  <li><a href="/user/manager/<%= j %>"><%= j %></a></li>
-                              <% } %>
-                              <% if (j == Number(page) + 3 && j < pages) { %>
-                                  <li class="disabled"><a>...</a></li>
-                              <% } %>
-                          <% } %>
-                          <% if (page == pages) { %>
-                              <li class="disabled"><a>Next</a></li>
-                          <% } else { %>
-                            <li><a href="/user/manager/<%=(Number(page)+1)%>">Next</a></li>
-                          <% } %>
-                      </ul>
-                    <% } %>
-                    </div>
-    
-                  <p style = "font-weight: lighter;margin-top: 26px;">Showing <%= (1 + (page-1)*5) %> to <%= (url.length + (page-1)*5) %> of  <%=count%>  entries</p>
-                  <b>Page current: <%=page%></b>
-                </div>
-        </div>
-    </div>           
+            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+            reserved.
+        </footer>
 
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Create the tabs -->
+            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
+                <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- Home tab content -->
+                <div class="tab-pane" id="control-sidebar-home-tab">
+                    <h3 class="control-sidebar-heading">Recent Activity</h3>
+                    <ul class="control-sidebar-menu">
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
- 
+                                <div class="menu-info">
+                                    <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+
+                                    <p>Will be 23 on April 24th</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon fa fa-user bg-yellow"></i>
+
+                                <div class="menu-info">
+                                    <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
+
+                                    <p>New phone +1(800)555-1234</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+
+                                <div class="menu-info">
+                                    <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
+
+                                    <p>nora@example.com</p>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <i class="menu-icon fa fa-file-code-o bg-green"></i>
+
+                                <div class="menu-info">
+                                    <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
+
+                                    <p>Execution time 5 seconds</p>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.control-sidebar-menu -->
+
+                    <h3 class="control-sidebar-heading">Tasks Progress</h3>
+                    <ul class="control-sidebar-menu">
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h4 class="control-sidebar-subheading">
+                                    Custom Template Design
+                                    <span class="label label-danger pull-right">70%</span>
+                                </h4>
+
+                                <div class="progress progress-xxs">
+                                    <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h4 class="control-sidebar-subheading">
+                                    Update Resume
+                                    <span class="label label-success pull-right">95%</span>
+                                </h4>
+
+                                <div class="progress progress-xxs">
+                                    <div class="progress-bar progress-bar-success" style="width: 95%"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h4 class="control-sidebar-subheading">
+                                    Laravel Integration
+                                    <span class="label label-warning pull-right">50%</span>
+                                </h4>
+
+                                <div class="progress progress-xxs">
+                                    <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)">
+                                <h4 class="control-sidebar-subheading">
+                                    Back End Framework
+                                    <span class="label label-primary pull-right">68%</span>
+                                </h4>
+
+                                <div class="progress progress-xxs">
+                                    <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.control-sidebar-menu -->
+
+                </div>
+                <!-- /.tab-pane -->
+                <!-- Stats tab content -->
+                <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+                <!-- /.tab-pane -->
+                <!-- Settings tab content -->
+                <div class="tab-pane" id="control-sidebar-settings-tab">
+                    <form method="post">
+                        <h3 class="control-sidebar-heading">General Settings</h3>
+
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Report panel usage
+                                <input type="checkbox" class="pull-right" checked>
+                            </label>
+
+                            <p>
+                                Some information about this general settings option
+                            </p>
+                        </div>
+                        <!-- /.form-group -->
+
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Allow mail redirect
+                                <input type="checkbox" class="pull-right" checked>
+                            </label>
+
+                            <p>
+                                Other sets of options are available
+                            </p>
+                        </div>
+                        <!-- /.form-group -->
+
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Expose author name in posts
+                                <input type="checkbox" class="pull-right" checked>
+                            </label>
+
+                            <p>
+                                Allow the user to show his name in blog posts
+                            </p>
+                        </div>
+                        <!-- /.form-group -->
+
+                        <h3 class="control-sidebar-heading">Chat Settings</h3>
+
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Show me as online
+                                <input type="checkbox" class="pull-right" checked>
+                            </label>
+                        </div>
+                        <!-- /.form-group -->
+
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Turn off notifications
+                                <input type="checkbox" class="pull-right">
+                            </label>
+                        </div>
+                        <!-- /.form-group -->
+
+                        <div class="form-group">
+                            <label class="control-sidebar-subheading">
+                                Delete chat history
+                                <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
+                            </label>
+                        </div>
+                        <!-- /.form-group -->
+                    </form>
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+        </aside>
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+       immediately after the control sidebar -->
+        <div class="control-sidebar-bg"></div>
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- jQuery 3 -->
+    <!-- <script src="/bower_components/jquery/dist/jquery.min.js"></script> -->
+    <!-- Bootstrap 3.3.7 -->
+    <script src="/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- ChartJS -->
+
+    <!-- FastClick -->
+    <script src="/bower_components/fastclick/lib/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/dist/js/adminlte.min.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="/dist/js/demo.js"></script>
+    <!-- page script -->
+
 </body>
+
 </html>

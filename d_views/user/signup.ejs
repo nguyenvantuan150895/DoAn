@@ -12,12 +12,25 @@
 	<link href="https://fonts.googleapis.com/css?family=Dancing+Script|Gloria+Hallelujah" rel="stylesheet">
 	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 	<script src="/js/user/ajaxSignup.js"></script>
+	<script>
+		$(function () {
+			$("#showpass").click(function () {
+				let type = $("#password").attr('type');
+				if (type == 'password') $("#password").attr("type", "text");
+				else $("#password").attr("type", "password");
+			})
+		})
+	</script>
 </head>
 
 <body>
 	<div class="container" style="padding-top: 70px; padding-bottom: 40px; background-color: #d2d2d2">
-		<div class="col-md-4">
-			<h1 style="font-family: 'Dancing Script'">Wellcome rutgon.ml</h1>
+		<div class="col-md-5">
+			<h1 style="font-family: 'Dancing Script'">
+				Wellcome to
+				<a href="/">
+					<%=domain%></a>
+			</h1>
 			<br>
 			<br>
 			<div>
@@ -32,6 +45,7 @@
 						<label for="password">Password:</label>
 						<input type="password" class="form-control" id="password" placeholder="Enter Password" name="password" />
 					</div>
+					<input type="checkbox" id="showpass"> Show Password
 					<p style="color:red; display: none" id="errPassBlank">Password can not be left blank.</p>
 					<div class="form-group">
 						<label for="email">Email:</label>

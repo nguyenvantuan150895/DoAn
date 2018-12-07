@@ -4,67 +4,68 @@ const Shorten = require('../c_models/shortenModel');
 const Campaign = require('../c_models/campaignModel');
 const seedUrl = require('../public/modul/seedUrl');
 const fs = require('fs');
-//const md5 = require('md5');
+/*Domain head, foot*/
+let domainH, domainF;
 
 
 let totalRecord = 0;
 //Handle user login
 exports.login_get = (req, res) => {
-   res.render("../d_views/user/login.ejs");
+    res.render("../d_views/user/login.ejs", { domain: domainH + domainF });
 }
 exports.login_post = async (req, res) => {
-    let customer ={};
+    let customer = {};
     try {
         let result = await User.authentication(req.body.username, req.body.password);
         // console.log("result:", result);
-        if(result) {
+        if (result) {
             customer.state = "ok";
             customer.role = result.role;
             req.session.user = req.body.username;
             res.send(customer);
             // console.log("customer:", customer);
         }
-    } catch(e) {
+    } catch (e) {
         customer.state = "fail";
         res.send(customer);
         //console.log(e + "--tuan:Error login_post");
     }
-   
+
 }
 //Handle user sign up
-exports.signup_get = (req, res) => { 
-    res.render("../d_views/user/signup.ejs");
+exports.signup_get = (req, res) => {
+    res.render("../d_views/user/signup.ejs", { domain: domainH + domainF });
 }
 exports.signup_post = async (req, res) => {
     let customer = {};
-    try{
+    try {
         let rs = await User.add(req.body);
         // console.log("Req.body:", req.body);
-        if(rs.id) {
+        if (rs.id) {
             customer.state = "ok";
             customer.role = req.body.role;
             req.session.user = req.body.username;
         }
         return res.send(customer);
-        
-    }catch(err){
+
+    } catch (err) {
         let e = err.toString();
         customer.state = 'fail';
-        if(e.search("`username` is required") != -1) customer.userBlank = true;
+        if (e.search("`username` is required") != -1) customer.userBlank = true;
         else customer.userBlank = false;
-        
-        if(e.search("`password` is required") != -1) customer.passBlank = true;
+
+        if (e.search("`password` is required") != -1) customer.passBlank = true;
         else customer.passBlank = false;
-        
-        if(e.search("`email` is required") != -1) customer.emailBlank = true;
+
+        if (e.search("`email` is required") != -1) customer.emailBlank = true;
         else customer.emailBlank = false;
-        
-        if(e.search("email_1 dup key") != -1) customer.emailDup = true;
+
+        if (e.search("email_1 dup key") != -1) customer.emailDup = true;
         else customer.emailDup = false;
-       
-        if(e.search("username_1 dup key") != -1) customer.userDup = true;
+
+        if (e.search("username_1 dup key") != -1) customer.userDup = true;
         else customer.userDup = false;
-        
+
         res.send(customer);
         //console.log(e + "----tuan: error signup_post!");
     }
@@ -75,31 +76,31 @@ exports.userLogout = (req, res) => {
     res.redirect('/user/login');
 }
 // user add link
-exports.addLink = async (req, res) => { 
+exports.addLink = async (req, res) => {
     let data = {};
     let domain = "dontcare.com";
     data.urlOrigin = req.body.urlOrigin;
     let shortUrl = seedUrl.createShortUrl(domain);
-    try{
-        let ob_shortUrl = await Shorten.save({url: shortUrl});
-        let object_url = {url:req.body.urlOrigin , short_urls : [ob_shortUrl.id]};
+    try {
+        let ob_shortUrl = await Shorten.save({ url: shortUrl });
+        let object_url = { url: req.body.urlOrigin, short_urls: [ob_shortUrl.id] };
         let ob_url = await Url.save(object_url);
-        if(req.session.user) {// if req.session.user , gs : = user1
+        if (req.session.user) {// if req.session.user , gs : = user1
             let id_user = await User.getIdByUser(req.session.user);//req.session.user
             let checkUser = await Campaign.checkUserExist(id_user);
-            let ob_camp = await Campaign.getCampaignNull(id_user); 
-            if(checkUser) {
+            let ob_camp = await Campaign.getCampaignNull(id_user);
+            if (checkUser) {
                 ob_camp = ob_camp[0];
-                let rs = await Campaign.addIdUrlInCamp(ob_camp.id,ob_url.id);
+                let rs = await Campaign.addIdUrlInCamp(ob_camp.id, ob_url.id);
             } else {
-                let ob_campaign = {id_user: id_user, id_urls :[ob_url.id]};
+                let ob_campaign = { id_user: id_user, id_urls: [ob_url.id] };
                 await Campaign.save(ob_campaign);
             }
         }
-        if(ob_url) data.urlShort = shortUrl;
+        if (ob_url) data.urlShort = shortUrl;
         res.send(data);
-    }catch(e) {
-        console.log(e +"--- Tuan: Error addLink" );
+    } catch (e) {
+        console.log(e + "--- Tuan: Error addLink");
     }
 };
 
@@ -114,6 +115,7 @@ exports.manager = async (req, res) => {
     let arr_url = [];
     let count = 0;
     try {
+        let ob_user = await User.getObUserByName(req.session.user);
         let domain = fs.readFileSync('domain.txt', 'utf8');
         domain = domain.trim();
         domain = domain + '/';
@@ -122,38 +124,41 @@ exports.manager = async (req, res) => {
         if (ob_campaign != undefined) {
             let arr_idUrl = ob_campaign.id_urls; // get array oldUrl
             // get total url created by user
-            if(arr_idUrl != undefined) {
+            if (arr_idUrl != undefined) {
                 count = arr_idUrl.length;
                 totalRecord = count; // don't care 
                 let limit = (limit1 > count) ? count : limit1;
                 //Get 5 records(url & urlshort) per page
-                for(i ; i < limit ; i ++ ) {
+                for (i; i < limit; i++) {
                     let result1 = await Url.getObUrlById(arr_idUrl[i]);
-                            //console.log("Result1:", result1);
-                            //console.log("short_urls:", result1.short_urls[0]);
-                    if(result1 != undefined) {
+                    //console.log("Result1:", result1);
+                    //console.log("short_urls:", result1.short_urls[0]);
+                    if (result1 != undefined) {
                         let result2 = await Shorten.getObUrlShorten(result1.short_urls[0]);
-                        if(result2 != undefined) {
-                            arr_url.push({id:arr_idUrl[i] ,oldUrl: result1.url, newUrl: result2.url, totalClick: result2.totalClick,timeCreate: result1.timeCreate, idShortUrl : result2.id});
-                        } 
-                    } 
+                        if (result2 != undefined) {
+                            arr_url.push({ id: arr_idUrl[i], oldUrl: result1.url, newUrl: result2.url, totalClick: result2.totalClick, timeCreate: result1.timeCreate, idShortUrl: result2.id });
+                        }
+                    }
                 }
             }
-                    //console.log("arr_url:", arr_url[0]);
+            //console.log("arr_url:", arr_url[0]);
         }
-        let data3 = {url:arr_url, page:page_current, count: count, user: req.session.user,domain:domain }
-        res.render("../d_views/user/manager.ejs",data3 );
+        let data3 = {
+            url: arr_url, page: page_current, count: count, domain: domain,
+            domainH: domainH, domainF: domainF, ob_user: ob_user
+        }
+        res.render("../d_views/user/manager.ejs", data3);
     } catch (e) {
         console.log(e + "--tuan: error Manager");
     }
- }
+}
 // user delete
 exports.delete = async (req, res) => {
     let id = req.params.id;// id cua url trong id_urls cua bang campaign
-            //console.log("id receive:", id);
+    //console.log("id receive:", id);
     try {
         let ob_url = await Url.getObUrlById(id);
-                //console.log("ob_url:", ob_url);
+        //console.log("ob_url:", ob_url);
         let ob_shorten = await Shorten.getObUrlShorten(ob_url.short_urls[0]);//by id
         let id_user = await User.getIdByUser(req.session.user);
         let ob_camp = await Campaign.getCampaignNull(id_user); ob_camp = ob_camp[0];
@@ -165,7 +170,7 @@ exports.delete = async (req, res) => {
         let rs1 = await Shorten.delete(ob_shorten.id); //console.log("rs1:", rs1);
         let rs2 = await Url.delete(ob_url.id);
         let rs3 = await Campaign.removeIdUrlInCamp(ob_camp.id, ob_url.id);
-        
+
     } catch (e) {
         console.log(e + "--tuan: error delete in urlControll.")
     }
@@ -182,7 +187,7 @@ exports.userCreateLink = async (req, res) => {
         let newUrl = req.body.newUrl;
         let oldUrl = req.body.oldUrl;
         let checkShort = seedUrl.checkFormatUrlShort(newUrl, domain);
-        if(checkShort) {
+        if (checkShort) {
             let tuan = await addLink1(oldUrl, newUrl, req.session.user);
             let last_page = lastPaste((totalRecord + 1), 5);
             customer.last_page = last_page;
@@ -190,7 +195,7 @@ exports.userCreateLink = async (req, res) => {
         } else {
             customer.state = 'fail';
         }
-        return res.send(customer); 
+        return res.send(customer);
     } catch (e) {
         console.log(e + "--tuan: Error UserCreateLink");
     }
@@ -205,41 +210,89 @@ exports.userEditLink = async (req, res) => {
         let newUrl = req.body.newUrl;
         let check_format = seedUrl.checkFormatUrlShort(newUrl, domain);
         let checkExist = await Shorten.checkExist(newUrl);
-        if(check_format){
-            if(checkExist && (req.body.newUrl != req.body.urlPreEdit)) {
+        if (check_format) {
+            if (checkExist && (req.body.newUrl != req.body.urlPreEdit)) {
                 customer.state = "fail";
             } else {
-                await Shorten.update(req.body.idShortUrl, {url: req.body.newUrl});
+                await Shorten.update(req.body.idShortUrl, { url: req.body.newUrl });
                 customer.state = "ok";
             }
-        }else customer.state = 'fail';
-        return res.send(customer); 
+        } else customer.state = 'fail';
+        return res.send(customer);
     } catch (e) {
-        console.log(e +"--tuan: Error userEditLink");
+        console.log(e + "--tuan: Error userEditLink");
     }
 }
+// Profile User
+exports.profile_get = async (req, res) => {
+    let ob_user = await User.getObUserByName(req.session.user);
+    res.render("../d_views/user/profileUser.ejs", { domainH: domainH, domainF: domainF, ob_user: ob_user });
+}
+exports.editUser_get = async (req, res) => {
+    let idUser = req.params.id;
+    let ob_user = await User.getObUserByName(req.session.user);
+    res.render("../d_views/user/editUser.ejs", { domainH: domainH, domainF: domainF, ob_user: ob_user });
+}
+exports.editUser_post = async (req, res) => {
+    //console.log("receive:", req.body);
+    let customer = {};
+    try {
+        let ob_user = await User.getObUserByName(req.session.user);
+        let username = req.body.username;
+        let email = req.body.email;
+        let password = req.body.password;
+        let checkUser = await User.checkExistUser(username);
+        let checkEmail = await User.checkExistEmail(email);
+        if (checkUser == true && username != ob_user.username) {
+            customer.state = 'fail';
+            customer.existUser = true;
+        }
+        else if (checkEmail == true && email != ob_user.email) {
+            customer.state = 'fail';
+            customer.existEmail = true;
+        }
+        else {
+            let obUpdate = { username: username, password: password, email: email };
+            let rs = await User.update(ob_user.id, obUpdate);
+            customer.state = 'ok';
+            req.session.user = username;
+        }
+        res.send(customer);
+    } catch (e) {
+        console.log(e + "--tuan: editUser in userControll");
+    }
 
+}
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////
 //add Link1
-let addLink1 = async (oldUrl, newUrl, user) => { 
-    try{
-        let ob_shortUrl = await Shorten.save({url: newUrl}); 
-        let object_url = {url:oldUrl , short_urls : [ob_shortUrl.id]};
+let addLink1 = async (oldUrl, newUrl, user) => {
+    try {
+        let ob_shortUrl = await Shorten.save({ url: newUrl });
+        let object_url = { url: oldUrl, short_urls: [ob_shortUrl.id] };
         let ob_url = await Url.save(object_url);
-        
+
         //get id_user by user 
         let id_user = await User.getIdByUser(user);//req.session.user
         let checkUser = await Campaign.checkUserExist(id_user);
-        let ob_camp = await Campaign.getCampaignNull(id_user); 
-        if(checkUser) {
+        let ob_camp = await Campaign.getCampaignNull(id_user);
+        if (checkUser) {
             ob_camp = ob_camp[0];
-            let rs = await Campaign.addIdUrlInCamp(ob_camp.id,ob_url.id);
+            let rs = await Campaign.addIdUrlInCamp(ob_camp.id, ob_url.id);
         } else {
-            let ob_campaign = {id_user: id_user, id_urls :[ob_url.id]};
+            let ob_campaign = { id_user: id_user, id_urls: [ob_url.id] };
             await Campaign.save(ob_campaign);
         }
         return true;
-    }catch(e) {
-        console.log(e +"--- Tuan: Error addLink1" );
+    } catch (e) {
+        console.log(e + "--- Tuan: Error addLink1");
         return (e);
     }
 };
@@ -248,6 +301,26 @@ let lastPaste = (totalRecord, page_size) => {
     let last = Math.ceil(Number(totalRecord) / Number(page_size));
     return last;
 }
-
-
-
+let getDomain = () => {
+    let domain = fs.readFileSync('domain.txt', 'utf8');
+    domain = domain.trim();
+    let arr = domain.split(".");
+    if (arr.length == 3) {
+        domainH = arr[1];
+        domainF = arr[2];
+    } else {
+        domainH = arr[0];
+        domainF = arr[1];
+    }
+    domainH = standardDomainH(domainH);
+    domainF = "." + domainF.toString();
+}
+let standardDomainH = (domainH) => {
+    let letterFirst = domainH.slice(0, 1);
+    letterFirst = letterFirst.toUpperCase();
+    let stringRemain = domainH.slice(1, domainH.length);
+    let temp = letterFirst.toString() + stringRemain.toString();
+    return temp;
+}
+//get domain
+getDomain();

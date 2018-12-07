@@ -51,7 +51,8 @@
                 <span class="logo-mini"><b>A</b>LT</span>
                 <!-- logo for regular state and mobile devices -->
                 <span class="logo-lg">
-                    <b><%=domainH%></b><%=domainF%>
+                    <b>
+                        <%=domainH%></b><%=domainF%>
                 </span>
             </a>
             <!-- Header Navbar: style can be found in header.less -->
@@ -75,7 +76,8 @@
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="/admin.png" class="user-image" alt="User Image">
-                                <span class="hidden-xs"><%= ob_admin.account%></span>
+                                <span class="hidden-xs">
+                                    <%= ob_admin.account%></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <!-- User image -->
@@ -91,9 +93,9 @@
 
                                 <!-- Menu Footer-->
                                 <li class="user-footer" style="border: 1px solid #bdbbbb;">
-                                        <div class="pull-left">
-                                            <a href="/admin/profile" class="btn  "><b>Profile</b> </a>
-                                        </div>
+                                    <div class="pull-left">
+                                        <a href="/admin/profile" class="btn  "><b>Profile</b> </a>
+                                    </div>
                                     <!-- Tim thay roi !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! -->
                                     <div class="pull-right">
                                         <a href="/admin/logout" class="btn  "><b>Log out</b> </a>
@@ -123,8 +125,12 @@
                 </div>
                 <br>
                 <ul>
-                    <li style="color : white; ">User name: <%= ob_admin.account%></li>
-                    <li style="color : white; ">Email: <%= ob_admin.email%></li>
+                    <li style="color : white; ">User name:
+                        <%= ob_admin.account%>
+                    </li>
+                    <li style="color : white; ">Email:
+                        <%= ob_admin.email%>
+                    </li>
                     <li style="color : white; ">Phone : 02413 884 999</li>
                     <li style="color : white; ">Address: Hà Nội - Việt Nam</li>
                 </ul>
@@ -162,89 +168,86 @@
             <!-- Main content -->
             <section class="content">
                 <div class="row">
-                    <div class="col-xs-12">
-                        <div class="box">
-                            <div class="box-header">
 
-                            </div>
-                            <!-- /.box-header -->
 
-                            <!-- *************************************** -->
-                            <div class="box-body">
-                                <div class="col-md-12" style="border: 1px solid #d2d6dd; border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 100%; margin-left: auto; margin-right: auto"
-                                    class="register-box-body">
-                                    <img src="/createCamp.png" alt="" style="width:30px; height: 30px" title="">
-                                    <h3 class="login-box-msg">Create Campaign</h3>
 
-                                    <form action="/admin/manager/campaign/add" method="post" autocomplete="off" id="formSubmit">
+                    <!-- /.box-header -->
+
+                    <!-- *************************************** -->
+                    <div class="box-body">
+                        <div class="col-md-12" style="border: 1px solid #d2d6dd; border-top: 4px solid #337ab7; border-radius: 4px; width: 100%;height: 100%; margin-left: auto; margin-right: auto"
+                            class="register-box-body">
+                            <img src="/createCamp.png" alt="" style="width:30px; height: 30px" title="">
+                            <h3 class="login-box-msg">Create Campaign</h3>
+
+                            <form action="/admin/manager/campaign/add" method="post" autocomplete="off" id="formSubmit">
+                                <div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="firstname">User Name:</label>
+                                            <input type="text" class="form-control" id="username" placeholder="Enter user name"
+                                                name="username" autocomplete="off" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="firstname">Name Campaign:</label>
+                                            <input type="text" class="form-control" id="name" placeholder="Enter name campaign"
+                                                name="name" autocomplete="off" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Url Original:</label>
+                                            <input type="text" class="form-control" id="oldUrl" placeholder="Enter UrlOriginal"
+                                                name="oldUrl" autocomplete="off" />
+                                        </div>
+                                        <div>
+                                            <!-- date picker -->
+                                            <label>Start time:</label>
+                                            <input type="text" id="start" name='start' class="form-control col-md-10 datepicker"
+                                                id="datepicker" ng-required="true" placeholder="MM/DD/YYYY">
+                                            <br> <br> <br>
+                                            <label>End time:</label>
+                                            <input type="text" id="end" name='end' class="form-control col-md-10 datepicker"
+                                                id="datepicker2" ng-required="true" placeholder="MM/DD/YYYY">
+                                            <!-- end date picker -->
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="email">Name Groups Facebook:</label>
+                                            <ol id="idOl">
+                                                <li>
+                                                    <input type="text" class="form-control faceGroup" placeholder="Enter name face group"
+                                                        name="faceGroup" autocomplete="off" />
+                                                </li>
+                                            </ol>
+                                        </div>
                                         <div class="col-md-12">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="firstname">User Name:</label>
-                                                    <input type="text" class="form-control" id="username" placeholder="Enter user name"
-                                                        name="username" autocomplete="off" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="firstname">Name Campaign:</label>
-                                                    <input type="text" class="form-control" id="name" placeholder="Enter name campaign"
-                                                        name="name" autocomplete="off" />
-                                                </div>
-                                                <div class="form-group">
-                                                    <label>Url Original:</label>
-                                                    <input type="text" class="form-control" id="oldUrl" placeholder="Enter UrlOriginal"
-                                                        name="oldUrl" autocomplete="off" />
-                                                </div>
-                                                <div>
-                                                    <!-- date picker -->
-                                                    <label>Start time:</label>
-                                                    <input type="text" id="start" name='start' class="form-control col-md-10 datepicker"
-                                                        id="datepicker" ng-required="true" placeholder="MM/DD/YYYY">
-                                                    <br> <br> <br>
-                                                    <label>End time:</label>
-                                                    <input type="text" id="end" name='end' class="form-control col-md-10 datepicker"
-                                                        id="datepicker2" ng-required="true" placeholder="MM/DD/YYYY">
-                                                    <!-- end date picker -->
-                                                </div>
+                                            <div class="col-md-7"></div>
+                                            <div class="col-md-2">
+                                                <button class="btn btn-primary" id="btn1">Undo</button>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label for="email">Name Groups Facebook:</label>
-                                                    <ol id="idOl">
-                                                        <li>
-                                                            <input type="text" class="form-control faceGroup"
-                                                                placeholder="Enter name face group" name="faceGroup"
-                                                                autocomplete="off" />
-                                                        </li>
-                                                    </ol>
-                                                </div>
-                                                <div class="col-md-12">
-                                                    <div class="col-md-7"></div>
-                                                    <div class="col-md-2">
-                                                        <button class="btn btn-primary" id="btn1">Undo</button>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <button class="btn btn-primary" id="btn2">
-                                                            Append group
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-12" style="padding-top:30px; padding-bottom:20px">
-                                                <div class="col-md-3"></div>
-                                                <div class="col-md-6">
-                                                    <button type="submit" class="btn btn-primary btn-md btn-block" id="submit">Submit</button>
-                                                </div>
-                                                <div class="col-md-3"></div>
+                                            <div class="col-md-3">
+                                                <button class="btn btn-primary" id="btn2">
+                                                    Append group
+                                                </button>
                                             </div>
                                         </div>
-                                    </form>
+                                    </div>
+                                    <div class="col-md-12" style="padding-top:30px; padding-bottom:20px">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-6">
+                                            <button type="submit" class="btn btn-primary btn-md btn-block" id="submit">Submit</button>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                    </div>
                                 </div>
-                                <!-- /.form-box -->
-                            </div>
+                            </form>
                         </div>
-                        <!-- **********************************88 -->
-                        <!-- /.box-body -->
+                        <!-- /.form-box -->
                     </div>
+
+                    <!-- **********************************88 -->
+                    <!-- /.box-body -->
+
                     <!-- /.box -->
                 </div>
                 <!-- /.col -->
