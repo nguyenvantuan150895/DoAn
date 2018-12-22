@@ -30,7 +30,7 @@ $(function () {
 	//btnok (upgrade)
 	$("#btnok").click(() => {
 		let domain = $("#idDomain").val(); domain = domain.trim();
-		console.log("lengthDomain:", domain.length);
+		// console.log("lengthDomain:", domain.length);
 		if (domain.length != 0) {
 			$("#labelNotice").show();
 			$("#idUnderstand").show();

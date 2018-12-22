@@ -32,11 +32,12 @@ var transporter = nodemailer.createTransport({
   '<span style = "color: #f3840b"><b>' +domain+'</b></span> <br>' +
   '<label for="">Ip Server:</label>' +
   '<span style = "color: #f3840b"><b>'+ip+'</b></span>' +
-  '<p style = "color: blue"> <b>Info account admin:</b></p>' +
+  '<p> <b>Visit the '+domain+'/admin/login link and login with the admin account provided below:</b></p>' +
   '<label for="">Account:</label>' +
   '<span style ="color: #f3840b;"> <b>'+admin+'</b> </span> <br>' +
   '<label for="">Password:</label> ' +
-  '<span style = "color: #f3840b"><b>'+password+'</b></span>'
+  '<span style = "color: #f3840b"><b>'+password+'</b></span> <br> <br>' +
+  '<p>Thank you for using our service. Any questions please feel free to respond via this email. Thank you!</p>'
 
   
   var mailOptions = {

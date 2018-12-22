@@ -1,6 +1,24 @@
 
 
 
+let randomArray = (arr) => {
+    let result = arr[Math.floor(Math.random() * arr.length)];
+    return result;
+}
+
+let randomString = () => {
+    let arr = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',
+    'S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m',
+    'n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9'];
+    let str = "";
+    for (let i = 0; i < 7; i++) {
+        str = str + randomArray(arr);
+    }
+    return str;
+}
+let url = createShortLink();
+console.log("url:", url);
+
 /*  Return number of days between d0 and d1.
 **  Returns positive if d0 < d1, otherwise negative.
 **
@@ -13,32 +31,32 @@
 **
 */
 
-let daysDifference = (d0, d1) => {
-    var diff = new Date(+d1).setHours(12) - new Date(+d0).setHours(12);
-    return Math.round(diff / 8.64e7);
-}
+// let daysDifference = (d0, d1) => {
+//     var diff = new Date(+d1).setHours(12) - new Date(+d0).setHours(12);
+//     return Math.round(diff / 8.64e7);
+// }
 
-// Simple formatter
-let formatDate = (date) => {
-    return [date.getFullYear(), ('0' + (date.getMonth() + 1)).slice(-2), ('0' + date.getDate()).slice(-2)].join('-');
-}
+// // Simple formatter
+// let formatDate = (date) => {
+//     return [date.getFullYear(), ('0' + (date.getMonth() + 1)).slice(-2), ('0' + date.getDate()).slice(-2)].join('-');
+// }
 
-// Examples
-let checkOneYear = (ys, ms, ds, ye, me, de) => {
-    // let arrDate = [new Date(ys, ms, ds), new Date(ye, me, de)]
-    let start = new Date(ys, ms, ds);
-    let end =  new Date(ye, me, de);
-    let distance = daysDifference(start, end);
-    if( (Number(ys)+1) == Number(ye) && ms == me && ds == de){
-        if(Number(distance) == 366 || Number(distance) == 365) return true;
-        else return false;
-    }
-    else if(Number(distance) > 365 ) return false;
-    else return true;
-}
+// // Examples
+// let checkOneYear = (ys, ms, ds, ye, me, de) => {
+//     // let arrDate = [new Date(ys, ms, ds), new Date(ye, me, de)]
+//     let start = new Date(ys, ms, ds);
+//     let end =  new Date(ye, me, de);
+//     let distance = daysDifference(start, end);
+//     if( (Number(ys)+1) == Number(ye) && ms == me && ds == de){
+//         if(Number(distance) == 366 || Number(distance) == 365) return true;
+//         else return false;
+//     }
+//     else if(Number(distance) > 365 ) return false;
+//     else return true;
+// }
 
-let a = checkOneYear('2002', '1', '28', '2003', '1', '29');
-console.log(a);
+// let a = checkOneYear('2002', '1', '28', '2003', '1', '29');
+// console.log(a);
 
 
 

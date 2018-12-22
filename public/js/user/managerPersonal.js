@@ -9,7 +9,7 @@ $(function () {
             title: 'Create & Customer link',
             html:
                 '<p style ="font-weight:bold; margin-bottom: 0px; padding-top:10px; margin-left:-230px">Url Original</p>' +
-                '<input id="oldUrl" class="swal2-input" placeholder = "Enter Url nedd to shorten" style = "font-weight: bold; color: #3c8dbc" >' +
+                '<input id="oldUrl" class="swal2-input" placeholder = "Enter Url need to shorten" style = "font-weight: bold; color: #3c8dbc" >' +
                 '<p style ="font-weight:bold; margin-bottom: 0px; padding-top:10px; margin-left:-230px">Url Shorten</p>' +
                 '<input id="newUrl" class="swal2-input" style = "font-weight: bold; color: #3c8dbc" value=' + domain + '>' +
                 '<p style = "display: none; color: red" id="idErr" >Url shorten invalid!</p>',

@@ -1,47 +1,34 @@
 const Shorten = require('../../c_models/shortenModel');
+const User = require('../../c_models/userModel');
+const Url = require('../../c_models/urlModel');
+const Campaign = require('../../c_models/campaignModel');
 const fs = require('fs');
 
-//Algorithm convert base10 to base62
-let convertBase62 = (number) => {
-    let digits = [];
-    let num = Number(number);
-    while ( num > 0 ) {
-        digits.push(num%62);
-        num = parseInt(num/62);
-    }
-    return digits.reverse();
-}
-// mapping a->z,A->Z,0->9 with 0->61
-let mapping = (arr) => {
-    let url ="";
-    for ( i = 0; i < arr.length; i++){
-        if( Number(arr[i]) >=0 &&  Number(arr[i]) <= 25 ){
-            url =  url +  String.fromCharCode( Number(arr[i]) + 97 );
-        }
-        if( Number(arr[i]) >= 26 &&  Number(arr[i]) <= 51 ) {
-            url = url +  String.fromCharCode( Number(arr[i]) + 39 );
-        }
-        if( Number(arr[i]) >= 52 &&  Number(arr[i]) <= 61){
-            url = url + (Number(arr[i]) - 52);
-        }
-    }
-    return url;
-}
 
+
+let randomArray = (arr) => {
+    let result = arr[Math.floor(Math.random() * arr.length)];
+    return result;
+}
+let randomString = () => {
+    let arr = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R',
+    'S','T','U','V','W','X','Y','Z','a','b','c','d','e','f','g','h','i','j','k','l','m',
+    'n','o','p','q','r','s','t','u','v','w','x','y','z','0','1','2','3','4','5','6','7','8','9'];
+    let str = "";
+    for (let i = 0; i < 7; i++) {
+        str = str + randomArray(arr);
+    }
+    return str;
+}
 // Create short Url
 let createShortUrl = (domain1) => {
     let domain = fs.readFileSync('domain.txt', 'utf8');
     domain = domain.trim();
-    // console.log("DOMAIN read:", domain);
-    //let domain = "localhost:3000/";
+    let url = randomString();
     domain = domain + '/';
-    let random = Math.floor(100000000000 +  Math.random() * 900000000000); //12 numbers
-    let base62 = convertBase62(random);
-    let url = mapping(base62);
     let newUrl = domain + url;
     return newUrl; 
 }
-
 let checkExistForFb = async (arr) => {
             //console.log("mang nhan duoc:", arr);
     try{
@@ -165,3 +152,64 @@ module.exports = {
     removeCampaignNull,
     getArrShortUrl,
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//Algorithm convert base10 to base62
+// let convertBase62 = (number) => {
+//     let digits = [];
+//     let num = Number(number);
+//     while ( num > 0 ) {
+//         digits.push(num%62);
+//         num = parseInt(num/62);
+//     }
+//     return digits.reverse();
+// }
+// // mapping a->z,A->Z,0->9 with 0->61
+// let mapping = (arr) => {
+//     let url ="";
+//     for ( i = 0; i < arr.length; i++){
+//         if( Number(arr[i]) >=0 &&  Number(arr[i]) <= 25 ){
+//             url =  url +  String.fromCharCode( Number(arr[i]) + 97 );
+//         }
+//         if( Number(arr[i]) >= 26 &&  Number(arr[i]) <= 51 ) {
+//             url = url +  String.fromCharCode( Number(arr[i]) + 39 );
+//         }
+//         if( Number(arr[i]) >= 52 &&  Number(arr[i]) <= 61){
+//             url = url + (Number(arr[i]) - 52);
+//         }
+//     }
+//     return url;
+// }
+// let createShortUrl = (domain1) => {
+//     let domain = fs.readFileSync('domain.txt', 'utf8');
+//     domain = domain.trim();
+//     // console.log("DOMAIN read:", domain);
+//     //let domain = "localhost:3000/";
+//     domain = domain + '/';
+//     let random = Math.floor(100000000000 +  Math.random() * 900000000000); //12 numbers
+//     let base62 = convertBase62(random);
+//     let url = mapping(base62);
+//     let newUrl = domain + url;
+//     return newUrl; 
+// }

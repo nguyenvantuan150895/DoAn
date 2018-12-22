@@ -7,8 +7,8 @@ $(document).ready(function () {
   function ajaxPost() {
     // PREPARE FORM DATA
     var formData = {
-      account: $("#idAccount").val(),
-      password: $("#idPassword").val()
+      account: $("#idAccount").val().trim(),
+      password: $("#idPassword").val().trim()
     }
     // DO POST
     $.post('/admin/login', formData, function (response) {
