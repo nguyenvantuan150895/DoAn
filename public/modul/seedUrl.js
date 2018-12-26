@@ -141,7 +141,53 @@ let uniqueArr = (arr) => {
     }
     return ob_group;
 }
-
+// support admin delete user
+let adminDeleteUser = async (id_user) => {
+    let arrCamp = await Campaign.getAllCampaignByIDUser(id_user);
+    let id_urls = getAllIdUrlFromCampaign(arrCamp);
+    let id_shortens = await getAllIdShortenFromIdUrl(id_urls);
+    // console.log("id_urls:", id_urls);
+    // console.log("id_shortens:", id_shortens);
+    let rs1 = await deleteArrShorten(id_shortens);
+    let rs2 = await deleteArrUrl(id_urls);
+    let rs3 = await deleteArrCamp(arrCamp);
+    let rs4 = await User.delete(id_user);
+}
+//get all id url from campaign
+let getAllIdUrlFromCampaign = (arrCamp) => {
+    let arrUrl = [];
+    for(let i = 0; i < arrCamp.length; i++) {
+        arrUrl = arrUrl.concat(arrCamp[i].id_urls);
+    }
+    return arrUrl;
+}
+//get all id shorten from idurl
+let getAllIdShortenFromIdUrl = async (arrIdUrl) => {
+    let arrShorten = [];
+    for (let i = 0; i < arrIdUrl.length ; i ++) {
+        let obUrl = await Url.getObUrlById(arrIdUrl[i]);
+        arrShorten = arrShorten.concat(obUrl.short_urls);
+    }
+    return arrShorten;
+}
+// delete arrShorten
+let deleteArrShorten = async (id_shortens) => {
+    for(let i = 0; i < id_shortens.length; i++) {
+        let rs = await Shorten.delete(id_shortens[i]);
+    }
+}
+// delete arrUrl
+let deleteArrUrl = async (id_urls) => {
+    for(let i = 0; i < id_urls.length; i++) {
+        let rs = await Url.delete(id_urls[i]);
+    }
+}
+// delete arrCamp
+let deleteArrCamp = async (arrCamp) => {
+    for(let i = 0; i < arrCamp.length; i++) {
+        let rs = await Campaign.deleteCamp(arrCamp[i].id);
+    }
+}
 module.exports = {
     createShortUrl,
     checkExistForFb,
@@ -151,6 +197,7 @@ module.exports = {
     converArrShort,
     removeCampaignNull,
     getArrShortUrl,
+    adminDeleteUser
 }
 
 

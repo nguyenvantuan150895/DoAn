@@ -251,7 +251,7 @@ exports.updateUser_post = async (req, res) => {
 exports.deleteUser = async (req, res) => {
     id = req.params.id;
     try {
-        let result = await User.delete(id);
+        let result = await seedUrl.adminDeleteUser(id);
         let path = '/admin/manager/user/' + page_current.toString();
         res.redirect(path);
     } catch (e) {

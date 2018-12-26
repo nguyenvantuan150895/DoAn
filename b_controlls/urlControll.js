@@ -47,38 +47,38 @@ exports.redirectUrlOrigin = async (req, res) => {
     let urlShort = req.get('host') + req.originalUrl;
     let arr = urlShort.split('?');
     urlShort = arr[0];
-    console.log("urlShort:", urlShort);
+    // console.log("urlShort:", urlShort);
     try {
         const agent = useragent.parse(req.headers['user-agent']);
 
         // get device
         let device = req.device.type; // desktop/phone/tablet
         if (device != 'desktop' && device != 'phone' && device != 'tablet') device = 'other';
-        console.log("device:", device);
+        // console.log("device:", device);
         //get ip
         let ip = req.clientIp;
-        console.log("Ip:", ip);
+        // console.log("Ip:", ip);
         //get location
         let geo = geoip.lookup(ip);// geo = JSON.stringify(geo);
         let location = accessModul.location(geo);
-        console.log("Location:", location);
+        // console.log("Location:", location);
         //get timeClick
         let time_click = accessModul.date();
-        console.log("Time click:", time_click);
+        // console.log("Time click:", time_click);
         // get browser
         let browser = accessModul.getBrowser(agent.family);
-        console.log("Browser:", browser);
+        // console.log("Browser:", browser);
         //get OS
         let os = accessModul.getOs(agent.toString());
         if (os == "Other") {
             if (device == 'phone' || device == "tablet" || device == "other") os = "Otherphone";
             else if (device == "desktop") os = "Otherdesktop";
         }
-        console.log("OS:", os);
+        // console.log("OS:", os);
         //get idShorten
         let ob_shorten = await shortenModel.getId(urlShort);
         let id_shorten = ob_shorten.id;
-        console.log("id_shorten:", id_shorten);
+        // console.log("id_shorten:", id_shorten);
         //Save accesslog
         let ob_access = { ip: ip, time_click: time_click, location: location, device: device, id_shorten: id_shorten, browser: browser, os: os }
         if (location != 'Nước Ngoài') {
@@ -88,7 +88,7 @@ exports.redirectUrlOrigin = async (req, res) => {
         else {
             urlOrigin = await getUrlOriginFb(urlShort);
         }
-        console.log("urlOrigin:", urlOrigin);
+        // console.log("urlOrigin:", urlOrigin);
         res.redirect(urlOrigin);
 
     } catch (e) {
