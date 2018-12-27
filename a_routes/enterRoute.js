@@ -25,6 +25,10 @@ router.post('/editEnter',enterControll.editEnter_post);
 router.get('/calendar',enterControll.calendar);
 
 
+router.get('/apiCalendar', enterControll.getCalendar);
+router.post('/apiCalendar', enterControll.addEventCalendar);
+
+
 
 
 //export

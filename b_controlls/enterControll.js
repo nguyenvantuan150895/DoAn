@@ -2,6 +2,7 @@ const User = require('../c_models/userModel');
 const Url = require('../c_models/urlModel');
 const Shorten = require('../c_models/shortenModel');
 const Campaign = require('../c_models/campaignModel');
+const Calendar = require('../c_models/calendarModel');
 const seedUrl = require('../public/modul/seedUrl');
 const CampaignModul = require('../public/modul/campaignModul');
 const ExportModul = require('../public/modul/exportModul');
@@ -504,8 +505,35 @@ exports.calendar = async (req, res) => {
         console.log(e + "--tuan:calendar in enter");
     }
 }
+// api get all event calendar
+exports.getCalendar = async (req, res) => {
+    try {
+        let arrCalen = await Calendar.getAllRecord(req.session.user);
+        res.json(arrCalen);
+    } catch (e) {
+        console.log(e + "--tuan:getCalendar in enter");
+    }
+}
+//api add new event in calendar
+exports.addEventCalendar = async (req, res) => {
+    try {
+        
+        req.body.username = req.session.user;
+        let rs = await Calendar.addEvent(req.body);
+        let arrCalen = await Calendar.getAllRecord(req.session.user);
+        res.json(arrCalen);
+    } catch (e) {
+        console.log(e + "--tuan:getCalendar in enter");
+    }
+}
 
-/////////////
+
+
+
+
+
+
+///////////// Suport function
 let getDomain = () => {
     let domain = fs.readFileSync('domain.txt', 'utf8');
     domain = domain.trim();
