@@ -5,8 +5,8 @@ $(function(){
         if (!timeoutId) {
             timeoutId = window.setTimeout(function() {
                 timeoutId = null;
-                $("#nut1").animate({'width': '200px'}, 1000);
-           }, 300);
+                $("#nut1").animate({'width': '200px'}, 800);
+           }, 400);
         }
     },
     function () {
@@ -15,7 +15,7 @@ $(function(){
             timeoutId = null;
         }
         else {
-            $(this).animate({'width': '33px'}, 1000);
+            $(this).animate({'width': '33px'}, 500);
         }
     });
     // nut 2
@@ -23,8 +23,8 @@ $(function(){
         if (!timeoutId) {
             timeoutId = window.setTimeout(function() {
                 timeoutId = null;
-                $("#nut2").animate({'width': '200px'}, 1000);
-           }, 300);
+                $("#nut2").animate({'width': '200px'}, 800);
+           }, 400);
         }
     },
     function () {
@@ -33,7 +33,7 @@ $(function(){
             timeoutId = null;
         }
         else {
-            $(this).animate({'width': '33px'}, 1000);
+            $(this).animate({'width': '33px'}, 500);
         }
     });
     // nut 3
@@ -41,8 +41,8 @@ $(function(){
         if (!timeoutId) {
             timeoutId = window.setTimeout(function() {
                 timeoutId = null;
-                $("#nut3").animate({'width': '200px'}, 1000);
-           }, 300);
+                $("#nut3").animate({'width': '200px'}, 800);
+           }, 400);
         }
     },
     function () {
@@ -51,7 +51,7 @@ $(function(){
             timeoutId = null;
         }
         else {
-            $(this).animate({'width': '33px'}, 1000);
+            $(this).animate({'width': '33px'}, 500);
         }
     });
     // nut 4
@@ -59,8 +59,8 @@ $(function(){
         if (!timeoutId) {
             timeoutId = window.setTimeout(function() {
                 timeoutId = null;
-                $("#nut4").animate({'width': '200px'}, 1000);
-           }, 300);
+                $("#nut4").animate({'width': '200px'}, 800);
+           }, 400);
         }
     },
     function () {
@@ -69,7 +69,7 @@ $(function(){
             timeoutId = null;
         }
         else {
-            $(this).animate({'width': '33px'}, 1000);
+            $(this).animate({'width': '33px'}, 500);
         }
     });
     //nut 5
@@ -77,8 +77,8 @@ $(function(){
         if (!timeoutId) {
             timeoutId = window.setTimeout(function() {
                 timeoutId = null;
-                $("#nut5").animate({'width': '200px'}, 1000);
-           }, 300);
+                $("#nut5").animate({'width': '200px'}, 800);
+           }, 400);
         }
     },
     function () {
@@ -87,7 +87,7 @@ $(function(){
             timeoutId = null;
         }
         else {
-            $(this).animate({'width': '33px'}, 1000);
+            $(this).animate({'width': '33px'}, 500);
         }
     });
     //nut 6
@@ -95,8 +95,8 @@ $(function(){
         if (!timeoutId) {
             timeoutId = window.setTimeout(function() {
                 timeoutId = null;
-                $("#nut6").animate({'width': '200px'}, 1000);
-           }, 300);
+                $("#nut6").animate({'width': '200px'}, 800);
+           }, 400);
         }
     },
     function () {
@@ -105,7 +105,7 @@ $(function(){
             timeoutId = null;
         }
         else {
-            $(this).animate({'width': '33px'}, 1000);
+            $(this).animate({'width': '33px'}, 500);
         }
     });
     //nut 7
@@ -113,8 +113,8 @@ $(function(){
         if (!timeoutId) {
             timeoutId = window.setTimeout(function() {
                 timeoutId = null;
-                $("#nut7").animate({'width': '200px'}, 1000);
-           }, 300);
+                $("#nut7").animate({'width': '200px'}, 800);
+           }, 400);
         }
     },
     function () {
@@ -123,7 +123,7 @@ $(function(){
             timeoutId = null;
         }
         else {
-            $(this).animate({'width': '33px'}, 1000);
+            $(this).animate({'width': '33px'}, 500);
         }
     });
 
@@ -132,8 +132,8 @@ $(function(){
         if (!timeoutId) {
             timeoutId = window.setTimeout(function() {
                 timeoutId = null;
-                $("#nut8").animate({'width': '200px'}, 1000);
-           }, 300);
+                $("#nut8").animate({'width': '200px'}, 800);
+           }, 400);
         }
     },
     function () {
@@ -142,7 +142,26 @@ $(function(){
             timeoutId = null;
         }
         else {
-            $(this).animate({'width': '33px'}, 1000);
+            $(this).animate({'width': '33px'}, 500);
+        }
+    });
+
+    //nut 9
+    $("#nut9").hover(function() {
+        if (!timeoutId) {
+            timeoutId = window.setTimeout(function() {
+                timeoutId = null;
+                $("#nut9").animate({'width': '200px'}, 800);
+           }, 400);
+        }
+    },
+    function () {
+        if (timeoutId) {
+            window.clearTimeout(timeoutId);
+            timeoutId = null;
+        }
+        else {
+            $(this).animate({'width': '33px'}, 500);
         }
     });
 })

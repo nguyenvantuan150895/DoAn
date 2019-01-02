@@ -327,6 +327,77 @@ $(function () {
         let result = arr[Math.floor(Math.random() * arr.length)];
         return result;
     }
+    // detail day
+    let detailDay = (labelMonth, arrF, arrE, arrS, arrO) => {
+        let label = [];
+        for(let i = 0; i < labelMonth.length; i++ ) {
+            let obj = {};
+            obj.label = labelMonth[i];
+            label.push(obj);
+        }
+        console.log("label:", label);
+        let dataF = convertDetailDay(arrF);
+        let dataE = convertDetailDay(arrE);
+        let dataS = convertDetailDay(arrS);
+        let dataO = convertDetailDay(arrO);
+        $(".detailDay").empty();
+        $(".detailDay").append(' <div id="detailDay"></div> ');
+        const dataSource = {
+            "chart": {
+                "caption": "",
+                "subcaption": "",
+                "yaxisname": "",
+                "numvisibleplot": "12",
+                "labeldisplay": "auto",
+                // "showvalues": "1",
+                "theme": "fusion"
+            },
+            "categories": [
+                {
+                    // lable time_date
+                    "category": label
+                }
+            ],
+            "dataset": [
+                {
+                    "seriesname": "Facebook",
+                    "data": dataF
+                },
+                {
+                    "seriesname": "Email",
+                    "data": dataE
+                },
+                {
+                    "seriesname": "Sms",
+                    "data": dataS
+                },
+                {
+                    "seriesname": "Other",
+                    "data": dataO
+                }
+            ]
+        };
+
+        FusionCharts.ready(function () {
+            var myChart = new FusionCharts({
+                type: "scrollcolumn2d",
+                renderAt: "detailDay",
+                width: "100%",
+                height: "300",
+                dataFormat: "json",
+                dataSource
+            }).render();
+        });
+    }
+    let convertDetailDay = (arr) => {
+        let arr1 = [];
+        for(let i = 0; i < arr.length; i ++) {
+            let obj = {};
+            obj.value = arr[i];
+            arr1.push(obj);
+        }
+        return arr1;
+    }
 
     // set Chart
     detailCampaign(customer, obCamp);
@@ -338,6 +409,7 @@ $(function () {
     osDesktop(customer.osDesktop);
     osPhone(customer.osPhone);
     mylocation(customer.objLocation);
+    detailDay(customer.labelMonth, customer.arrF, customer.arrE, customer.arrS, customer.arrO);
 })// end function ready
 
 

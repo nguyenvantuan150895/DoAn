@@ -69,12 +69,6 @@
     <script src="/bower_components/fullcalendar/dist/fullcalendar.min.js"></script>
     <!-- Page specific script -->
 
-
-
-
-
-
-
     <style>
         #sticky {
       text-align: center;
@@ -386,9 +380,7 @@
             <!-- dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd -->
             <!-- Content Header (Page header) -->
             <section class="content-header">
-
             </section>
-
             <!-- Main content -->
             <section class="content">
                 <div class="row">
@@ -672,18 +664,15 @@
     <!-- page script -->
     <script>
         $(function () {
-
             /* initialize the external events
              -----------------------------------------------------------------*/
             function init_events(ele) {
                 ele.each(function () {
-
                     // create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
                     // it doesn't need to have a start or end
                     var eventObject = {
                         title: $.trim($(this).text()) // use the element's text as the event title
                     }
-
                     // store the Event Object in the DOM element so we can get to it later
                     $(this).data('eventObject', eventObject)
 
